@@ -1,104 +1,108 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Map</title>
+<title>Slicedlime fan server map</title>
 <meta name='viewport' content='width=device-width,initial-scale=1, maximum-scale=1.0, user-scalable=no' />
 <script>
 
 window.addEventListener('load', init);
 
-
-
 var maxmapsize=20000;
 var ctx=null;
 
-var C_WIDTH=0;
-var C_HEIGHT=0;
+var C_WIDTH=C_HEIGHT=0;
+
 var image;
 
-var zoom=0.15;
-var clickX="";
-var clickY="";
+var clickX=clickY="";
 
-var decX=0;
-var decY=0;
+var decX=decY=0;
+var drawdecX=drawdecY=0;
+var clickedX=clickedY="";
 
-var drawdecX=0;
-var drawdecY=0;
-
-var clickedX="";
-var clickedY="";
+var SelClaim=null;
 
 var moving=false;
 
+var density=window.devicePixelRatio;
+
+drawdecY=700/density;
+decY=700/density;
+var zoom=0.15*density;
+
+function isMobile() {
+   try{ document.createEvent("TouchEvent"); return true; }
+   catch(e){ return false; }
+}
 
 function init()
 {
 var c=document.getElementById("canvas");
 
+c.addEventListener("wheel", changezoom);
+c.addEventListener("mouseup", Mapmouseup);
+c.addEventListener("mouseout", Mapmouseup);
+c.addEventListener("mousedown", Mapmousedown);
+c.addEventListener("mousemove", Mapmousemove);
 
-document.getElementById("canvas").addEventListener("wheel", changezoom);
-document.getElementById("canvas").addEventListener("mouseup", Mapmouseup);
-document.getElementById("canvas").addEventListener("mousedown", Mapmousedown);
-document.getElementById("canvas").addEventListener("mousemove", Mapmousemove);
+c.addEventListener("touchmove", Mapmousemove, false);
+c.addEventListener("touchstart", Mapmousedown, false);
+c.addEventListener("touchend", Mapmouseup, false);
 
-
-document.getElementById("canvas").addEventListener("touchmove", Mapmousemove, false);
-document.getElementById("canvas").addEventListener("touchstart", Mapmousedown, false);
-document.getElementById("canvas").addEventListener("touchend", Mapmouseup, false);
-
-C_WIDTH=c.clientWidth;
-C_HEIGHT=c.clientHeight;
+C_WIDTH=c.clientWidth*density;
+C_HEIGHT=c.clientHeight*density;
 
 c.width  = C_WIDTH;
 c.height = C_HEIGHT;
-c.style.width  = C_WIDTH+'px';
-c.style.height = C_HEIGHT+'px';
+c.style.width  = C_WIDTH/density+'px';
+c.style.height = C_HEIGHT/density+'px';
 
 ctx=c.getContext("2d");
-ctx.font = "10px Arial";
+ctx.font = (density*10)+"px Arial";
 
 image = new Image();
 
 draw();
 
-image.src="http://www.slicedlime.tv/dl/s3_biome_map.png";image.onload = function(){
-    draw();
-}
-
+image.src = "s3_biome_map.png";
+image.onload = function(){draw();}
 }
 
 //----------------------------------------------------------------------------------------
 function Mapmousedown(event)
 {
-if(event.type=="mousedown")
-{
-	clickX=event.clientX;
-	clickY=event.clientY;
-}
-if(event.type=="touchstart")
-{
-	clickX=event.touches[0].clientX;
-	clickY=event.touches[0].clientY;
-}
-
+	if(event.type=="mousedown")
+	{
+		clickX=event.clientX;
+		clickY=event.clientY;
+	}
+	if(event.type=="touchstart")
+	{
+		clickX=event.touches[0].clientX;
+		clickY=event.touches[0].clientY;
+	}
 }
 //----------------------------------------------------------------------------------------
 function Mapmouseup(event)
 {
-console.log(event);
+	if(event.type=="mouseup")
+	{
+		CX=event.clientX;
+		CY=event.clientY;
+	}
+	if(event.type=="mouseout")
+	{
+		CX=event.clientX;
+		CY=event.clientY;
+	}
+	if(event.type=="touchend")
+	{
+		CX=event.changedTouches[0].clientX;
+		CY=event.changedTouches[0].clientY;
+	}
 
-if(event.type=="mouseup")
-{
-	CX=event.clientX;
-	CY=event.clientY;
-}
-if(event.type=="touchend")
-{
-	CX=event.changedTouches[0].clientX;
-	CY=event.changedTouches[0].clientY;
-}
-
+	if(clickX!="" && clickY!="")
+	{
 	if(clickX!=CX || clickY!=CY)
 	{
 		drawdecX=decX-(clickX-CX)/zoom;
@@ -107,237 +111,281 @@ if(event.type=="touchend")
 		decY=drawdecY;
 		draw();
 	}
-	clickX="";
-	clickY="";
+	
 	
 	if(!moving)
 	{
-	clickedX=reversecalculateX(CX);
-	clickedY=reversecalculateY(CY);
-	draw();
+		clickedX=reversecalculateX(CX*density);
+		clickedY=reversecalculateY(CY*density);
+		draw();
+	}
 	}
 	
+	clickX="";
+	clickY="";
 	moving=false;
 }
 
 //----------------------------------------------------------------------------------------
 function Mapmousemove(event)
 {
-var CX,CY;
-
-if(event.type=="mousemove")
-{
-	CX=event.clientX;
-	CY=event.clientY;
-}
-if(event.type=="touchmove")
-{
-	CX=event.touches[0].clientX;
-	CY=event.touches[0].clientY;
-}
-
-console.log(clickX+" "+CX);
-
-
-if(clickX!="")
-{
-moving=true;
-drawdecX=decX-(clickX-CX)/zoom;
-drawdecY=decY-(clickY-CY)/zoom;
-draw();
-}
-
-
+	var CX,CY;
+	if(event.type=="mousemove")
+	{
+		CX=event.clientX;
+		CY=event.clientY;
+	}
+	if(event.type=="touchmove")
+	{
+		CX=event.touches[0].clientX;
+		CY=event.touches[0].clientY;
+	}
+	if(clickX!="")
+	{
+		moving=true;
+		drawdecX=decX-(clickX-CX)/zoom;
+		drawdecY=decY-(clickY-CY)/zoom;
+		draw(false);
+	}
 }
 
 //----------------------------------------------------------------------------------------
 function changezoom(event)
 {
-	if(event.deltaY<0) {zoom*=1.1;} else {zoom/=1.1;}
-	draw();
+	if(event.deltaY<0) {zoomin(1);} else {zoomout(1);}
 }
+
+function zoomin(num)  {zoom*=Math.pow(1.1,num);draw();}
+function zoomout(num)  {zoom/=Math.pow(1.1,num);draw();}
 
 //----------------------------------------------------------------------------------------
-function calculateX(val){return Math.floor((val+drawdecX)*zoom+C_WIDTH/2)-0.5;}
-function reversecalculateX(val){return Math.round((val-C_WIDTH/2)/zoom-drawdecX);}
-function calculateY(val){return Math.floor((val+drawdecY)*zoom+C_HEIGHT/2)-0.5;}
-function reversecalculateY(val){return Math.round((val-C_HEIGHT/2)/zoom-drawdecY);}
+function calculateX(val){return Math.floor((val+drawdecX*density)*zoom+C_WIDTH/2)-0.5;}
+function reversecalculateX(val){return Math.round((val-C_WIDTH/2)/zoom-drawdecX*density);}
+function calculateY(val){return Math.floor((val+drawdecY*density)*zoom+C_HEIGHT/2)-0.5;}
+function reversecalculateY(val){return Math.round((val-C_HEIGHT/2)/zoom-drawdecY*density);}
 
-
-function drawClaim(X,Z,X2,Z2,TEXT)
+function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
 {
-	var W=Math.abs(X-X2);
-	var H=Math.abs(Z-Z2);
-	ctx.strokeStyle="black";
-	ctx.fillStyle="rgb(255,255,255,0.3)";
-	ctx.beginPath();
-	ctx.rect(calculateX(X), calculateY(Z), Math.floor(W*zoom), Math.floor(H*zoom));
-	ctx.fill();
-	ctx.stroke();
-	
-	ctx.strokeStyle="black";
-	ctx.fillStyle="rgb(255,255,255,0.7)";
-	ctx.beginPath();
-	ctx.rect(calculateX(X)+0.5-(ctx.measureText(TEXT).width+10)/2+ Math.floor(W*zoom/2), calculateY(Z)-12+0.5-1, ctx.measureText(TEXT).width+10,12);
-	ctx.fill();
-	ctx.strokeStyle="black";ctx.fillStyle="rgb(0,0,0)";
-	ctx.fillText(TEXT, calculateX(X)-ctx.measureText(TEXT).width/2+ Math.floor(W*zoom/2), calculateY(Z)-4);
+	if(arguments.length == 1 || arguments.length == 2)
+	{
+		if(Z==undefined) Z=" number not added here";
+		regex = /([-0-9]+)\ *([-0-9]+)\ *([-0-9]+)\ *([-0-9]+)\ *(.*)/;
+		found = X.match(regex);
+		if(found!=null)
+		{
+			drawClaim(parseInt(found[1]),parseInt(found[2]),parseInt(found[3]),parseInt(found[4]),found[5],Z);
+		}
+		else
+		{
+			console.log("invalid input");
+		}
+	}
+	else if(arguments.length == 6)
+	{
+
+		if(X>X2){var temp = X;  X = X2;  X2 = X;}
+		if(Z>Z2){var temp = Z; Z = Z2;  Z2 = Z;}
+
+		var activeClaim=false;
+		if(clickedX!="" && clickedX>X && clickedX<X2 && clickedY>Z && clickedY<Z2)  activeClaim=true;
+		
+		if(activeClaim && SelClaim=="") {SelClaim=[X,Z,X2,Z2,TEXT,CLAIMNUMBER]; return;}
+		
+		var W=Math.abs(X-X2);
+		var H=Math.abs(Z-Z2);
+		//rectangle
+		
+		if(activeClaim)
+		{ctx.strokeStyle="rgb(255, 193, 7)";ctx.fillStyle="rgb(255,255,255,0.3)";}
+		else
+		{ctx.strokeStyle="black";ctx.fillStyle="rgb(255,255,255,0.3)";}
+		
+		ctx.beginPath();
+		ctx.rect(calculateX(X), calculateY(Z), Math.floor(W*zoom), Math.floor(H*zoom));
+		ctx.fill();
+		ctx.stroke();
+		//text zone
+		
+		if(activeClaim)
+		{
+			TEXT+=" [ Claim "+CLAIMNUMBER+" ] "+Math.abs(X-X2)*Math.abs(Z-Z2)+"m\u00B2";
+			drawtext(calculateX(X)+ Math.floor(W*zoom/2),calculateY(Z),TEXT,"CENTER","TOP","rgb(0,0,0)","rgb(255, 193, 7)");
+		}
+		else
+		{
+			drawtext(calculateX(X)+ Math.floor(W*zoom/2),calculateY(Z),TEXT,"CENTER","TOP","rgb(0,0,0)","rgb(255,255,255,0.7)");		
+		}
+		
+		if(activeClaim)
+		{
+			if(zoom>0.25)
+			{
+			drawtext(calculateX(X),calculateY(Z),"X:"+X+" Z:"+Z,"RIGHT","BOTTOM","rgb(0,0,0)","rgb(255,255,255,0.5)");
+			drawtext(calculateX(X2),calculateY(Z2),"X:"+X2+" Z:"+Z2,"LEFT","TOP","rgb(0,0,0)","rgb(255,255,255,0.5)");
+			}
+		}
+	}
 }
 
-
-
-function draw()
+function drawtext(X,Z,TEXT,Hpos,Vpos,fore,back)
 {
+	var Wtext=ctx.measureText(TEXT).width+10*density;
+	var Hdec=Vdec=0;
 
+	if(Hpos=="CENTER") Hdec-=Wtext/2;
+	if(Hpos=="RIGHT") Hdec-=Wtext;
+
+	if(Vpos=="BOTTOM") Vdec+=12*density;
+	if(Vpos=="MIDDLE") Vdec+=6*density;
+
+	ctx.fillStyle=back;
+
+	ctx.beginPath();
+	ctx.rect(X+Hdec+0.5, Z-12*density-1*density+0.5+Vdec, Wtext,12*density);
+	ctx.fill();
+
+	ctx.fillStyle=fore;
+	ctx.fillText(TEXT, X+Hdec+0.5+5*density, Z-3*density+0.5+Vdec);
+}
+
+function draw(drawoverlay)
+{
+//cleat canvas
 ctx.clearRect(0, 0, C_WIDTH, C_HEIGHT);
 
+if(drawoverlay==undefined) drawoverlay=true;
+
 //background image
+if(document.getElementById("overlay").checked && (drawoverlay==true || !isMobile()))
+{
 ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072))
-
-
-               
-//other gray lines               
-ctx.strokeStyle="rgba(125,125,125,1)";
-ctx.fillStyle="rgba(125,125,125,1)";
-
+}
+//axes and grid             
 for( var a=Math.round(-1*maxmapsize/1000);a<=Math.round(1*maxmapsize/1000);a++)
 {
-
-               ctx.beginPath();
-               ctx.moveTo(calculateX(a*1000),calculateY(maxmapsize*-1));
-               ctx.lineTo(calculateX(a*1000),calculateY(maxmapsize));
-               ctx.stroke();
-               
-               ctx.beginPath();
-               ctx.moveTo(calculateX(maxmapsize*-1),calculateY(a*1000));
-               ctx.lineTo(calculateX(maxmapsize),calculateY(a*1000));
-               ctx.stroke();
-
+	if(a==0)
+		{ctx.strokeStyle="rgba(80,80,80,1)";}
+	else
+		{ctx.strokeStyle="rgba(125,125,125,1)";}
+	ctx.beginPath();
+	ctx.moveTo(calculateX(a*1000),calculateY(maxmapsize*-1));
+	ctx.lineTo(calculateX(a*1000),calculateY(maxmapsize));
+	ctx.stroke();
+	
+	ctx.beginPath();
+	ctx.moveTo(calculateX(maxmapsize*-1),calculateY(a*1000));
+	ctx.lineTo(calculateX(maxmapsize),calculateY(a*1000));
+	ctx.stroke();
 }
 
-//0 axis
-ctx.strokeStyle="rgba(80,80,80,1)";
-ctx.beginPath();
-ctx.moveTo(calculateX(0),calculateY(maxmapsize*-1));
-ctx.lineTo(calculateX(0),calculateY(maxmapsize));
-ctx.stroke();
-
-
-ctx.beginPath();
-ctx.moveTo(calculateX(maxmapsize*-1),calculateY(0));
-ctx.lineTo(calculateX(maxmapsize),calculateY(0));
-ctx.stroke();
-
-
-//-------------------------------------------- CLAIMS --------------------------------------------
-drawClaim(653, -896,929, -560,"Spawn Island");
-drawClaim(1070, -1920,1465, -1627,"Shopping District");
-drawClaim(603, -2390,771, -2204,"slicedlime's base");
-drawClaim(-2313, -2607,-2179, -2534,"CaptainCool02's claim");
-drawClaim(245, -798,352, -707,"lifeofchrome's base");
-drawClaim(1775, -1595,1974, -1366,"Temple of Logiis");
-drawClaim(1070, -1305,1142, -1251,"vegguid's base");
-drawClaim(-3631, 3940,-3431, 4140,"Swifter_1243's claim");
-drawClaim(501, -3395,596, -3243,"JaxBtw's claim");
-drawClaim(1300, -2016,1337, -1947,"LegoFanMan06's bunker");
-drawClaim(2251, -7060,2320, -6974,"Jax's Township");
-drawClaim(1431, -1266,1557, -1124,"Cyan Castle");
-drawClaim(2505, -3558,2613, -3413,"Bine's Base");
-drawClaim(64, -1012,190, -887,"Alduino_'s base");
-drawClaim(1466, -2000,1545, -1749,"CoolerLand");
-drawClaim(1347, -2000,1465, -1921,"CoolerLand");
-drawClaim(1313, -1519,1347, -1474,"LegoFanMan06's ship");
-drawClaim(-96, -144,31, -33,"Isla Chromatica");
-drawClaim(150, -2600,550, -2200,"The Portal Zone");
-drawClaim(1024, -992,1247, -817,"Utapau");
-drawClaim(-480, 832,-193, 1119,"SeaCorp's Region");
-drawClaim(-2792, 1879,-2761, 1912,"Robobrine's Slime Farm");
-drawClaim(-475, -877,-95, -440,"Mountain 9-1");
-drawClaim(812, -1305,834, -1181,"ItsMeThatGuy's Cove");
-drawClaim(-11250, 35750,-10750, 36260,"Ugly's Base");
-drawClaim(-565, 6357,-436, 6504,"ximure's Base");
-drawClaim(1328, -112,1439, 15,"karasfish's claim");
-drawClaim(9140, -1485,9257, -1384,"Freddiestrays Main Base");
-drawClaim(993, 706,1256, 947,"CHEESE™ Public Use Facility");
-drawClaim(-6559, -8431,-6481, -8321,"Senmori's claim");
-drawClaim(-650, -300,-500, -200,"poor land");
-drawClaim(4333, -1163,4500, -996,"Apple Enterprise");
-drawClaim(1838, -2084,1885, -2019,"Stetofire's Beach Lookout");
-drawClaim(750, -3050,830, -2950,"Lime's Black Hole");
-drawClaim(9024, -1376,9087, -1313,"Freddiestrays Guardian/XP Farm");
-drawClaim(9306, -1490,9347, -1469,"Freddiestrays Bee/Honey Factory");
-drawClaim(4276, 1798,4371, 1886,"Here lives a Spock");
-drawClaim(-4220, 13395,-3961, 13783,"The Mushland Empire");
-drawClaim(1843, -782,1947, -673,"Hazard's Living Space");
-drawClaim(3290, -2110,3400, -1945,"Cookieteers' Pre-Base");
-drawClaim(-1926, 1145,-1584, 1599,"Jazztopia");
-drawClaim(-1584, 1071,-1017, 1776,"Jazztopia");
-drawClaim(872, -378,958, -287,"ThomasToSpace's Tiny House");
-drawClaim(2085, -4284,2227, -4158,"STR4NGE's place");
-drawClaim(1724, -34,1911, 115,"Nicroxio's base");
-drawClaim(5946, -3933,6007, -3872,"Cookieteers' Ice Farm");
-drawClaim(4074, -25,4155, 55,"PotVon's Base");
-drawClaim(5352, -4338,5802, -3785,"Cookieteers' base");
-drawClaim(3727, -3619,3788, -3599,"Cookieteers' HDWGH Station");
-drawClaim(2802, -3261,2847, -3226,"Cookieteers' Witch Farm");
-drawClaim(32173, -1155,32833, -726,"Emily's Tree House");
-drawClaim(2359, 1860,2550, 2070,"Wout's base");
-drawClaim(-3600, 560,-3480, 790,"Bunny's Base");
-drawClaim(6712, -4095,6747, -4048,"Cookieteers' Flower Farm");
-drawClaim(1334, 1425,1564, 1609,"Scottisheep's Base");
-drawClaim(8694, -9692,8733, -9652,"Nicroxio's outpost");
-drawClaim(0, 100,150, 250,"Will's Undersea Headquarters");
-drawClaim(760, 826,940, 991,"ManicRobot's Lonely Island");
-drawClaim(-5162, -10262,-5012, -10193,"Llian's blooming coast");
-drawClaim(994, 2735,1068, 2815,"Will the Nitwit´s Fishinghole");
-drawClaim(1472, 2624,1599, 2751,"Twitch Prime");
-drawClaim(5050, -400,5200, -250,"invisible island");
-drawClaim(1086, -8279,1320, -8105,"Ozzy's Mushroom Island");
-drawClaim(958, -2573,1409, -2234,"Galaxy_2Alex's Claim");
-drawClaim(6061, -3462,6221, -3328,"ShinyRai's Home");
-drawClaim(6097, -3274,6101, -3268,"ShinyRai's AFK Raft");
-drawClaim(5985, -3294,6044, -3160,"ShinyRai's farm Island");
-drawClaim(-11685, 5659,-10590, 6642,"Mining mesa");
-drawClaim(-7081, -4196,-2313, -1118,"Mining desert");
-drawClaim(-2313, -3112,-2218, -2836,"Mining desert");
-drawClaim(-10545, 5834,-10375, 6030,"Bry");
-drawClaim(-300, -3300,0, -3000,"DElyMyth's claim");
-drawClaim(-2099, -1450,-1980, -1225,"silentrob's base");
-drawClaim(-3, -3,3, 3,"0;0 (Shulker Catching) Platform");
-drawClaim(5184, -6080,5567, -5697,"Cookieteers' Map Art Area");
-drawClaim(11413, -3465,11998, -3033,"MmeCromatique");
-drawClaim(-1473, -1772,-1256, -1640,"Octojen's Island");
-drawClaim(-2100, -100,-1700, 200,"RikanioLand");
-drawClaim(-766, 4773,-550, 4978,"RilhonsUndergroundBase");
-drawClaim(-4263, 3897,-4007, 4153,"FobBob's claim");
-drawClaim(48, 784,303, 975,"IsleOfRuins");
-drawClaim(2540, 550,2750, 975,"FaeWorld");
-drawClaim(5255, 2536,5355, 2636,"Java's Fortress");
-drawClaim(700, 1350,1050, 1700,"Yumca's Atoll");
-drawClaim(227, -1899,561, -1690,"FaRo's base");
-drawClaim(695, 2983,954, 3242,"FaRo's public witch farm");
-drawClaim(-8970, -400,-8760, -190,"LumaLand");
-drawClaim(1502, -981,1546, -934,"[<simsimmat>]");
-drawClaim(1030, -50,1150, 100,"KoEg82's claim");
-
-
-//-------------------------------------------- Cliqued Location --------------------------------------------
+//-------------------------------------------- Clicked Location --------------------------------------------
 if(clickedX!="")
 {
-ctx.fillStyle="rgb(112, 158, 40)";
-	ctx.fillText("X:"+clickedX+" Z:"+clickedY, calculateX(clickedX), calculateY(clickedY));
-}
 
-
-
-
+	drawtext(calculateX(clickedX),calculateY(clickedY),"X:"+clickedX+" Z:"+clickedY,"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");
 
 }
+SelClaim="";
+//-------------------------------------------- CLAIMS --------------------------------------------
+drawClaim(653,-896,929,-560,"Spawn Island",0);
+drawClaim(1070,-1920,1465,-1627,"Shopping District",1);
+drawClaim(603,-2390,771,-2204,"slicedlime's base",3);
+drawClaim(-2313,-2607,-2179,-2534,"CaptainCool02's claim",4);
+drawClaim(245,-798,352,-707,"lifeofchrome's base",5);
+drawClaim(1775,-1595,1974,-1366,"Temple of Logiis",6);
+drawClaim(1070,-1305,1142,-1251,"vegguid's base",8);
+drawClaim(-3631,3940,-3431,4140,"Swifter_1243's claim",10);
+drawClaim(501,-3395,596,-3243,"JaxBtw's claim",13);
+drawClaim(1300,-2016,1337,-1947,"LegoFanMan06's bunker",16);
+drawClaim(2251,-7060,2320,-6974,"Jax's Township",17);
+drawClaim(1431,-1266,1557,-1124,"Cyan Castle",19);
+drawClaim(2505,-3558,2613,-3413,"Bine's Base",20);
+drawClaim(64,-1012,190,-887,"Alduino_'s base",21);
+drawClaim(1466,-2000,1545,-1749,"CoolerLand",22);
+drawClaim(1347,-2000,1465,-1921,"CoolerLand",23);
+drawClaim(1313,-1519,1347,-1474,"LegoFanMan06's ship",24);
+drawClaim(-96,-144,31,-33,"Isla Chromatica",25);
+drawClaim(150,-2600,550,-2200,"The Portal Zone",28);
+drawClaim(1024,-992,1247,-817,"Utapau",32);
+drawClaim(-480,832,-193,1119,"SeaCorp's Region",33);
+drawClaim(-2792,1879,-2761,1912,"Robobrine's Slime Farm",35);
+drawClaim(-475,-877,-95,-440,"Mountain 9-1",37);
+drawClaim(812,-1305,834,-1181,"ItsMeThatGuy's Cove",38);
+drawClaim(-11250,35750,-10750,36260,"Ugly's Base",41);
+drawClaim(-565,6357,-436,6504,"ximure's Base",42);
+drawClaim(1328,-112,1439,15,"karasfish's claim",44);
+drawClaim(9140,-1485,9257,-1384,"Freddiestrays Main Base",46);
+drawClaim(993,706,1256,947,"CHEESE™ Public Use Facility",48);
+drawClaim(-6559,-8431,-6481,-8321,"Senmori's claim",50);
+drawClaim(-650,-300,-500,-200,"poor land",54);
+drawClaim(4333,-1163,4500,-996,"Apple Enterprise",55);
+drawClaim(1838,-2084,1885,-2019,"Stetofire's Beach Lookout",56);
+drawClaim(750,-3050,830,-2950,"Lime's Black Hole",58);
+drawClaim(9024,-1376,9087,-1313,"Freddiestrays Guardian/XP Farm",59);
+drawClaim(9306,-1490,9347,-1469,"Freddiestrays Bee/Honey Factory",61);
+drawClaim(4276,1798,4371,1886,"Here lives a Spock",64);
+drawClaim(-4220,13395,-3961,13783,"The Mushland Empire",65);
+drawClaim(1843,-782,1947,-673,"Hazard's Living Space",66);
+drawClaim(3290,-2110,3400,-1945,"Cookieteers' Pre-Base",67);
+drawClaim(-1926,1145,-1584,1599,"Jazztopia",70);
+drawClaim(-1584,1071,-1017,1776,"Jazztopia",71);
+drawClaim(872,-378,958,-287,"ThomasToSpace's Tiny House",73);
+drawClaim(2085,-4284,2227,-4158,"STR4NGE's place",75);
+drawClaim(1724,-34,1911,115,"Nicroxio's base",77);
+drawClaim(5946,-3933,6007,-3872,"Cookieteers' Ice Farm",78);
+drawClaim(4074,-25,4155,55,"PotVon's Base",80);
+drawClaim(5352,-4338,5802,-3785,"Cookieteers' base",83);
+drawClaim(3727,-3619,3788,-3599,"Cookieteers' HDWGH Station",84);
+drawClaim(2802,-3261,2847,-3226,"Cookieteers' Witch Farm",85);
+drawClaim(32173,-1155,32833,-726,"Emily's Tree House",86);
+drawClaim(2359,1860,2550,2070,"Wout's base",87);
+drawClaim(-3600,560,-3480,790,"Bunny's Base",88);
+drawClaim(6712,-4095,6747,-4048,"Cookieteers' Flower Farm",91);
+drawClaim(1334,1425,1564,1609,"Scottisheep's Base",92);
+drawClaim(8694,-9692,8733,-9652,"Nicroxio's outpost",93);
+drawClaim(0,100,150,250,"Will's Undersea Headquarters",94);
+drawClaim(760,826,940,991,"ManicRobot's Lonely Island",96);
+drawClaim(-5162,-10262,-5012,-10193,"Llian's blooming coast",98);
+drawClaim(994,2735,1068,2815,"Will the Nitwit´s Fishinghole",100);
+drawClaim(1472,2624,1599,2751,"Twitch Prime",101);
+drawClaim(5050,-400,5200,-250,"invisible island",102);
+drawClaim(1086,-8279,1320,-8105,"Ozzy's Mushroom Island",104);
+drawClaim(958,-2573,1409,-2234,"Galaxy_2Alex's Claim",107);
+drawClaim(6061,-3462,6221,-3328,"ShinyRai's Home",111);
+drawClaim(6097,-3274,6101,-3268,"ShinyRai's AFK Raft",112);
+drawClaim(5985,-3294,6044,-3160,"ShinyRai's farm Island",113);
+drawClaim(-11685,5659,-10590,6642,"Mining mesa",114);
+drawClaim(-7081,-4196,-2313,-1118,"Mining desert",115);
+drawClaim(-2313,-3112,-2218,-2836,"Mining desert",116);
+drawClaim(-10545,5834,-10375,6030,"Bry",118);
+drawClaim(-300,-3300,0,-3000,"DElyMyth's claim",119);
+drawClaim(-2099,-1450,-1980,-1225,"silentrob's base",120);
+drawClaim(-3,-3,3,3,"0;0 (Shulker Catching) Platform",121);
+drawClaim(5184,-6080,5567,-5697,"Cookieteers' Map Art Area",123);
+drawClaim(11413,-3465,11998,-3033,"MmeCromatique",124);
+drawClaim(-1473,-1772,-1256,-1640,"Octojen's Island",126);
+drawClaim(-2100,-100,-1700,200,"RikanioLand",127);
+drawClaim(-766,4773,-550,4978,"RilhonsUndergroundBase",129);
+drawClaim(-4263,3897,-4007,4153,"FobBob's claim",131);
+drawClaim(48,784,303,975,"IsleOfRuins",132);
+drawClaim(2540,550,2750,975,"FaeWorld",133);
+drawClaim(5255,2536,5355,2636,"Java's Fortress",135);
+drawClaim(700,1350,1050,1700,"Yumca's Atoll",136);
+drawClaim(227,-1899,561,-1690,"FaRo's base",137);
+drawClaim(695,2983,954,3242,"FaRo's public witch farm",142);
+drawClaim(-8970,-400,-8760,-190,"LumaLand",149);
+drawClaim(1502,-981,1546,-934,"[<simsimmat>]",151);
+drawClaim(1030,-50,1150,100,"KoEg82's claim",152);
+//drawClaim("@limebot claim 227 -1899 561 -1690 FaRo's base");
+//drawClaim("@limebot claim 227 -1899 561 -1690 FaRo's base",137);
 
 
+//------
+if(SelClaim!=null)
+drawClaim(SelClaim[0],SelClaim[1],SelClaim[2],SelClaim[3],SelClaim[4],SelClaim[5]);
 
 
-
+}
 </script>
 <style>
 #canvas
@@ -348,10 +396,45 @@ left:0px;
 width:100%;
 height:100%;
 background-color:white;
+cursor:pointer;
 }
+
+html
+{
+font-size:10px;
+user-select: none;
+}
+
+#zoom{position:absolute; right:10px;top:10px;}
+
+#zoom div
+{
+background-color:#90a4ae;
+line-height:40px;
+width:40px;
+text-align:center;
+font-weigh:900;
+cursor:pointer;
+}
+
+#overlaylabel
+{
+position:absolute; left:10px;bottom:10px;background-color:#90a4ae;line-height:40px;
+padding-left:5px;
+padding-right:5px;
+cursor:pointer;
+}
+
+#overlaylabel .pos {display:none;}
+
+input:checked+#overlaylabel .pos {display:inline;}
+input:checked+#overlaylabel .neg {display:none;}
+
 </style>
 </head>
 <body>
-<canvas id='canvas'></canvas>
+<canvas id='canvas'></canvas><div ><input type='checkbox' checked=true id='overlay' onchange='draw();' style=''><label for='overlay' id='overlaylabel'>Biomes overlay: <span class='pos' >Visible</span><span class='neg'>Hidden</span></label></div>
+<div id='zoom' ><div onclick='zoomin(6);'>+</div><div onclick='zoomout(6);'>-</div></div>
 </body>
 </html> 
+

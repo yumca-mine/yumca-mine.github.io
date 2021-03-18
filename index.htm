@@ -266,7 +266,10 @@ if(drawoverlay==undefined) drawoverlay=true;
 //background image
 if(document.getElementById("overlay").checked && (drawoverlay==true || !isMobile()))
 {
-ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072))
+    try {
+        ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072))
+    } // Don't ask me why, but this try-catch block fixes everything on safari. 
+    catch (err) {console.error(err)}
 }
 //axes and grid             
 for( var a=Math.round(-1*maxmapsize/1000);a<=Math.round(1*maxmapsize/1000);a++)

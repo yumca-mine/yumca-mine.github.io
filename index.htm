@@ -6,8 +6,10 @@
 <script>
 
 window.addEventListener('load', init);
+window.addEventListener('resize', resize);
 
 var maxmapsize=200000;
+var fontsize=12;
 var ctx=null;
 
 var C_WIDTH=C_HEIGHT=0;
@@ -35,39 +37,56 @@ function isMobile() {
    catch(e){ return false; }
 }
 
-function init()
+
+function resize()
 {
-var c=document.getElementById("canvas");
-
-c.addEventListener("wheel", changezoom);
-c.addEventListener("mouseup", Mapmouseup);
-c.addEventListener("mouseout", Mapmouseup);
-c.addEventListener("mousedown", Mapmousedown);
-c.addEventListener("mousemove", Mapmousemove);
-
-c.addEventListener("touchmove", Mapmousemove, false);
-c.addEventListener("touchstart", Mapmousedown, false);
-c.addEventListener("touchend", Mapmouseup, false);
-
-C_WIDTH=c.clientWidth*density;
-C_HEIGHT=c.clientHeight*density;
-
-c.width  = C_WIDTH;
-c.height = C_HEIGHT;
-c.style.width  = C_WIDTH/density+'px';
-c.style.height = C_HEIGHT/density+'px';
-
-ctx=c.getContext("2d");
-ctx.font = (density*10)+"px Arial";
-
-image = new Image();
-
+initSize();
 draw();
-
-image.src = "s3_biome_map.png";
-image.onload = function(){draw();}
 }
 
+
+function initSize()
+{
+	var c=document.getElementById("canvas");
+	C_WIDTH=c.clientWidth*density;
+	C_HEIGHT=c.clientHeight*density;
+	c.width  = C_WIDTH;
+	c.height = C_HEIGHT;
+}
+
+function init()
+{
+	var c=document.getElementById("canvas");
+
+	document.addEventListener("keydown", OnKeyDown);
+	c.addEventListener("wheel", changezoom);
+	c.addEventListener("mouseup", Mapmouseup);
+	c.addEventListener("mouseout", Mapmouseup);
+	c.addEventListener("mousedown", Mapmousedown);
+	c.addEventListener("mousemove", Mapmousemove);
+
+	c.addEventListener("touchmove", Mapmousemove, false);
+	c.addEventListener("touchstart", Mapmousedown, false);
+	c.addEventListener("touchend", Mapmouseup, false);
+
+	initSize();
+
+	ctx=c.getContext("2d");
+	ctx.font = (density*fontsize)+"px Arial";
+
+	image = new Image();
+
+	draw();
+
+	image.src = "s3_biome_map.png";
+	image.onload = function(){draw();}
+}
+//----------------------------------------------------------------------------------------
+function OnKeyDown(event)
+{
+
+if(event.keyCode==27) {clickedX="";clickedY="";draw();}
+}
 //----------------------------------------------------------------------------------------
 function Mapmousedown(event)
 {
@@ -240,16 +259,18 @@ function drawtext(X,Z,TEXT,Hpos,Vpos,fore,back)
 	var Wtext=Math.round(ctx.measureText(TEXT).width+10*density);
 	var Hdec=Vdec=0;
 
+	var Htext=fontsize+2;
+
 	if(Hpos=="CENTER") Hdec-=Math.round(Wtext/2);
 	if(Hpos=="RIGHT") Hdec-=Wtext;
 
-	if(Vpos=="BOTTOM") Vdec+=12*density;
-	if(Vpos=="MIDDLE") Vdec+=6*density;
+	if(Vpos=="BOTTOM") Vdec+=Htext*density;
+	if(Vpos=="MIDDLE") Vdec+=Htext/2*density;
 
 	ctx.fillStyle=back;
 
 	ctx.beginPath();
-	ctx.rect(X+Hdec+0.5, Z-12*density-1*density+0.5+Vdec, Wtext,12*density);
+	ctx.rect(X+Hdec+0.5, Z-Htext*density-1*density+0.5+Vdec, Wtext,Htext*density);
 	ctx.fill();
 
 	ctx.fillStyle=fore;
@@ -401,7 +422,7 @@ drawClaim(SelClaim[0],SelClaim[1],SelClaim[2],SelClaim[3],SelClaim[4],SelClaim[5
 position:absolute;
 top:0px;
 left:0px;
-width:100%;
+width:100vw;
 height:100%;
 background-color:grey;
 cursor:pointer;

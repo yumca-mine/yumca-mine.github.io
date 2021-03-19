@@ -80,6 +80,7 @@ function init()
 
 	image.src = "s3_biome_map.png";
 	image.onload = function(){draw();}
+
 }
 //----------------------------------------------------------------------------------------
 function OnKeyDown(event)
@@ -287,7 +288,9 @@ if(drawoverlay==undefined) drawoverlay=true;
 //background image
 if(document.getElementById("overlay").checked && (drawoverlay==true || !isMobile()))
 {
-ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072))
+    try {
+        ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072));    } // Don't ask me why, but this try-catch block fixes everything on safari. 
+    catch (err) {console.error(err)}
 }
 //axes and grid             
 for( var a=Math.round(-1*maxmapsize/1000);a<=Math.round(1*maxmapsize/1000);a++)
@@ -416,51 +419,7 @@ drawClaim(SelClaim[0],SelClaim[1],SelClaim[2],SelClaim[3],SelClaim[4],SelClaim[5
 
 }
 </script>
-<style>
-#canvas
-{
-position:absolute;
-top:0px;
-left:0px;
-width:100vw;
-height:100%;
-background-color:grey;
-cursor:pointer;
-}
-
-html
-{
-font-size:10px;
-user-select: none;
-}
-
-#zoom{position:absolute; right:10px;top:10px;box-shadow:0px 0px 10px 2px rgba(0,0,0,0.5);}
-
-#zoom div
-{
-background-color:white;
-line-height:40px;
-width:40px;
-text-align:center;
-font-weigh:900;
-cursor:pointer;
-}
-
-#overlaylabel
-{
-position:absolute; left:10px;bottom:10px;background-color:white;line-height:40px;
-padding-left:5px;
-padding-right:5px;
-cursor:pointer;
-box-shadow:0px 0px 10px 2px rgba(0,0,0,0.5);
-}
-
-#overlaylabel .pos {display:none;}
-
-input:checked+#overlaylabel .pos {display:inline;}
-input:checked+#overlaylabel .neg {display:none;}
-
-</style>
+<LINK rel="stylesheet" type="text/css" href="style.css" title="style" media="all">
 </head>
 <body>
 <canvas id='canvas'></canvas><div ><input type='checkbox' checked=true id='overlay' onchange='draw();' style=''><label for='overlay' id='overlaylabel'>Biomes overlay: <span class='pos' >Visible</span><span class='neg'>Hidden</span></label></div>

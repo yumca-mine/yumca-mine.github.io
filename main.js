@@ -1,4 +1,3 @@
-
 window.addEventListener('load', init);
 window.addEventListener('resize', resize);
 
@@ -32,11 +31,7 @@ function isMobile() {
 }
 
 
-function resize()
-{
-initSize();
-draw();
-}
+function resize()	{initSize();draw();}
 
 
 function initSize()
@@ -79,8 +74,7 @@ function init()
 //----------------------------------------------------------------------------------------
 function OnKeyDown(event)
 {
-
-if(event.keyCode==27) {clickedX="";clickedY="";draw();}
+	if(event.keyCode==27) {clickedX="";clickedY="";draw();}
 }
 //----------------------------------------------------------------------------------------
 function Mapmousedown(event)
@@ -164,19 +158,15 @@ function Mapmousemove(event)
 }
 
 //----------------------------------------------------------------------------------------
-function changezoom(event)
-{
-	if(event.deltaY<0) {zoomin(1);} else {zoomout(1);}
-}
-
-function zoomin(num)  {zoom*=Math.pow(1.1,num);draw();}
-function zoomout(num)  {zoom/=Math.pow(1.1,num);draw();}
+function changezoom(event)	{if(event.deltaY<0) {zoomin(1);} else {zoomout(1);}}
+function zoomin(num)		{zoom*=Math.pow(1.1,num);draw();}
+function zoomout(num)		{zoom/=Math.pow(1.1,num);draw();}
 
 //----------------------------------------------------------------------------------------
-function calculateX(val){return Math.floor((val+drawdecX*density)*zoom+C_WIDTH/2)-0.5;}
-function reversecalculateX(val){return Math.round((val-C_WIDTH/2)/zoom-drawdecX*density);}
-function calculateY(val){return Math.floor((val+drawdecY*density)*zoom+C_HEIGHT/2)-0.5;}
-function reversecalculateY(val){return Math.round((val-C_HEIGHT/2)/zoom-drawdecY*density);}
+function calculateX(val)		{return Math.floor((val+drawdecX*density)*zoom+C_WIDTH/2)-0.5;}
+function reversecalculateX(val)	{return Math.round((val-C_WIDTH/2)/zoom-drawdecX*density);}
+function calculateY(val)		{return Math.floor((val+drawdecY*density)*zoom+C_HEIGHT/2)-0.5;}
+function reversecalculateY(val)	{return Math.round((val-C_HEIGHT/2)/zoom-drawdecY*density);}
 
 function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
 {
@@ -196,21 +186,23 @@ function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
 	}
 	else if(arguments.length == 6)
 	{
-
+		//swap coordinates if required
 		if(X>X2){var temp = X;  X = X2;  X2 = X;}
 		if(Z>Z2){var temp = Z; Z = Z2;  Z2 = Z;}
 
+		//if it's the selected claim, we don't draw it, we save the info in SelClaim so we can render it last (over the other one)
 		var activeClaim=false;
-		if(clickedX!="" && clickedX>X && clickedX<X2 && clickedY>Z && clickedY<Z2)  activeClaim=true;
+		if(clickedX!="" && clickedX>X && clickedX<X2 && clickedY>Z && clickedY<Z2)
+		{
+			activeClaim=true;
+			if(SelClaim=="") {SelClaim=[X,Z,X2,Z2,TEXT,CLAIMNUMBER]; return;
+		}
 		
-		if(activeClaim && SelClaim=="") {SelClaim=[X,Z,X2,Z2,TEXT,CLAIMNUMBER]; return;}
-		
+		// calculating width and height
 		var W=Math.abs(X-X2);
 		var H=Math.abs(Z-Z2);
-		//rectangle
 		
-		//var backinact="rgb(183, 28, 28)";
-		
+		// setting up the colors
 		var textcolor="rgb(0,0,0)";
 		
 		var activeborder="rgb(255, 193, 7)";
@@ -221,35 +213,37 @@ function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
 		var textbackcoord="rgb(255,255,255,0.5)";
 		var textbackClaim="rgb(255,255,255,0.7)";
 		
+		
 		if(activeClaim)
 		{ctx.strokeStyle=activeborder;ctx.fillStyle=claimfill;}
 		else
 		{ctx.strokeStyle=inactiveborder;ctx.fillStyle=claimfill;}
 		
+		//the main rectangle of the claim
 		ctx.beginPath();
 		ctx.rect(calculateX(X), calculateY(Z), Math.floor(W*zoom), Math.floor(H*zoom));
 		ctx.fill();
 		ctx.stroke();
-		//text zone
 		
+		//text(s) of the claim		
 		if(activeClaim)
 		{
 			TEXT+=" [ Claim "+CLAIMNUMBER+" ] "+Math.abs(X-X2)*Math.abs(Z-Z2)+"m\u00B2";
-			drawtext(calculateX(X)+ Math.floor(W*zoom/2),calculateY(Z),TEXT,"CENTER","TOP",textcolor,activeborder);
+			drawtext(calculateX(X)+ Math.floor(W*zoom/2),calculateY(Z),TEXT,"CENTER","TOP",textcolor,activeborder); //complete title of the claim
 			if(zoom>0.25)
 			{
-			drawtext(calculateX(X),calculateY(Z),"X:"+X+" Z:"+Z,"RIGHT","BOTTOM",textcolor,textbackcoord);
-			drawtext(calculateX(X2),calculateY(Z2),"X:"+X2+" Z:"+Z2,"LEFT","TOP",textcolor,textbackcoord);
+			drawtext(calculateX(X),calculateY(Z),"X:"+X+" Z:"+Z,"RIGHT","BOTTOM",textcolor,textbackcoord); //top left coords
+			drawtext(calculateX(X2),calculateY(Z2),"X:"+X2+" Z:"+Z2,"LEFT","TOP",textcolor,textbackcoord); // bottom right coords
 			}
 		}
 		else
 		{
-			drawtext(calculateX(X)+ Math.floor(W*zoom/2),calculateY(Z),TEXT,"CENTER","TOP",textcolor,textbackClaim);		
+			drawtext(calculateX(X)+ Math.floor(W*zoom/2),calculateY(Z),TEXT,"CENTER","TOP",textcolor,textbackClaim); //short title	
 		}
 	}
 }
 
-function drawtext(X,Z,TEXT,Hpos,Vpos,fore,back)
+function drawtext(X,Z,TEXT,Hpos,Vpos,fore,back) //display text over a rectangle
 {
 	var Wtext=Math.round(ctx.measureText(TEXT).width+10*density);
 	var Hdec=Vdec=0;
@@ -272,12 +266,12 @@ function drawtext(X,Z,TEXT,Hpos,Vpos,fore,back)
 	ctx.fillText(TEXT, X+Hdec+0.5+5*density, Z-3*density+0.5+Vdec);
 }
 
-function draw(drawoverlay)
+function draw(drawoverlay) //main drawing function
 {
 //cleat canvas
 ctx.clearRect(0, 0, C_WIDTH, C_HEIGHT);
 
-if(drawoverlay==undefined) drawoverlay=true;
+if(drawoverlay==undefined) drawoverlay=true; //optional parameter (if false, the overlay is never drawn) enhance perfs on mobile while panning
 
 //background image
 if(document.getElementById("overlay").checked && (drawoverlay==true || !isMobile()))
@@ -304,22 +298,13 @@ for( var a=Math.round(-1*maxmapsize/1000);a<=Math.round(1*maxmapsize/1000);a++)
 	ctx.stroke();
 }
 
-//-------------------------------------------- Clicked Location --------------------------------------------
-if(clickedX!="")
-{
+//-------------------------------------------- Clicked Coordinates --------------------------------------------
+if(clickedX!="")	{	drawtext(calculateX(clickedX),calculateY(clickedY),"X:"+clickedX+" Z:"+clickedY,"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");}
 
-	drawtext(calculateX(clickedX),calculateY(clickedY),"X:"+clickedX+" Z:"+clickedY,"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");
+
+//-------------------------------------------- CLAIMS --------------------------------------------
+SelClaim="";
+DrawClaimData();
+if(SelClaim!=null) drawClaim(SelClaim[0],SelClaim[1],SelClaim[2],SelClaim[3],SelClaim[4],SelClaim[5]); //calling once again draclaim to draw the selected one if it exists
 
 }
-SelClaim="";
-//-------------------------------------------- CLAIMS --------------------------------------------
-
-DrawClaimData();
-
-
-//------
-if(SelClaim!=null)
-drawClaim(SelClaim[0],SelClaim[1],SelClaim[2],SelClaim[3],SelClaim[4],SelClaim[5]);
-
-
-} 

@@ -1,7 +1,7 @@
 window.addEventListener('load', init);
 window.addEventListener('resize', resize);
 
-var maxmapsize=200000;
+var maxmapsize=2000000;
 var fontsize=12;
 var ctx=null;
 
@@ -319,6 +319,10 @@ for( var a=Math.round(-1*maxmapsize/step);a<=Math.round(1*maxmapsize/step);a++)
 	
 	if(calculateY(a*step)>0 && calculateY(a*step)<C_HEIGHT)
 	{
+		if(a==0)
+			{ctx.strokeStyle="rgba(80,80,80,1)";}
+		else
+			{ctx.strokeStyle="rgba(255,255,255,0.3)";}
 		ctx.beginPath();
 		ctx.moveTo(calculateX(maxmapsize*-1),calculateY(a*step));
 		ctx.lineTo(calculateX(maxmapsize),calculateY(a*step));

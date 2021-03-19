@@ -289,7 +289,8 @@ if(drawoverlay==undefined) drawoverlay=true;
 if(document.getElementById("overlay").checked && (drawoverlay==true || !isMobile()))
 {
     try {
-        ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072));    } // Don't ask me why, but this try-catch block fixes everything on safari. 
+        ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072));
+    } // Don't ask me why, but this try-catch block fixes everything on safari. 
     catch (err) {console.error(err)}
 }
 //axes and grid             

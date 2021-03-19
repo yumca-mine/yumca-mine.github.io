@@ -195,7 +195,7 @@ function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
 		if(clickedX!="" && clickedX>X && clickedX<X2 && clickedY>Z && clickedY<Z2)
 		{
 			activeClaim=true;
-			if(SelClaim=="") {SelClaim=[X,Z,X2,Z2,TEXT,CLAIMNUMBER]; return;
+			if(SelClaim=="") {SelClaim=[X,Z,X2,Z2,TEXT,CLAIMNUMBER]; return;}
 		}
 		
 		// calculating width and height

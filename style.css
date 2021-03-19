@@ -15,6 +15,11 @@ font-size:10px;
 user-select: none;
 }
 
+/* should disable chrome refreshing the page when sliding finger towards the bottom of the screen*/
+body {
+  overscroll-behavior: contain;
+}
+
 #zoom{position:absolute; right:10px;top:10px;box-shadow:0px 0px 10px 2px rgba(0,0,0,0.5);}
 
 #zoom div

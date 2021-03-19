@@ -13,6 +13,7 @@ html
 {
 font-size:10px;
 user-select: none;
+font-family:arial;
 }
 
 /* should disable chrome refreshing the page when sliding finger towards the bottom of the screen*/

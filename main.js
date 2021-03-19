@@ -280,23 +280,62 @@ if(document.getElementById("overlay").checked && (drawoverlay==true || !isMobile
         ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072));    } // Don't ask me why, but this try-catch block fixes everything on safari. 
     catch (err) {console.error(err)}
 }
-//axes and grid             
-for( var a=Math.round(-1*maxmapsize/1000);a<=Math.round(1*maxmapsize/1000);a++)
+//axes and grid  
+
+var step=100;
+if(zoom<2*density) step=200;
+if(zoom<1*density) step=500;
+if(zoom<0.40*density) step=1000;
+if(zoom<0.10*density) step=2000;
+if(zoom<0.05*density) step=5000;
+if(zoom<0.025*density) step=10000;
+if(zoom<0.0125*density) step=50000;
+for( var a=Math.round(-1*maxmapsize/step);a<=Math.round(1*maxmapsize/step);a++)
 {
-	if(a==0)
-		{ctx.strokeStyle="rgba(80,80,80,1)";}
-	else
-		{ctx.strokeStyle="rgba(255,255,255,0.3)";}
-	ctx.beginPath();
-	ctx.moveTo(calculateX(a*1000),calculateY(maxmapsize*-1));
-	ctx.lineTo(calculateX(a*1000),calculateY(maxmapsize));
-	ctx.stroke();
+	if(calculateX(a*step)>0 && calculateX(a*step)<C_WIDTH)
+	{
+		if(a==0)
+			{ctx.strokeStyle="rgba(80,80,80,1)";}
+		else
+			{ctx.strokeStyle="rgba(255,255,255,0.3)";}
+		ctx.beginPath();
+		ctx.moveTo(calculateX(a*step),calculateY(maxmapsize*-1));
+		ctx.lineTo(calculateX(a*step),calculateY(maxmapsize));
+		ctx.stroke();
+		
+		
+		ctx.fillStyle="rgba(80,80,80,1)";
+		if(calculateY(0)>0 && calculateY(0)<C_HEIGHT-fontsize)
+		{
+			ctx.fillText(((a*step)/1000)+"km", calculateX(a*step), calculateY(0)+fontsize);		
+		}
+		else if(calculateY(0)>C_HEIGHT-fontsize)
+		{
+			ctx.fillText(((a*step)/1000)+"km", calculateX(a*step), C_HEIGHT);
+		}
+		else
+			ctx.fillText(((a*step)/1000)+"km", calculateX(a*step), fontsize);
+	}
 	
-	ctx.beginPath();
-	ctx.moveTo(calculateX(maxmapsize*-1),calculateY(a*1000));
-	ctx.lineTo(calculateX(maxmapsize),calculateY(a*1000));
-	ctx.stroke();
+	if(calculateY(a*step)>0 && calculateY(a*step)<C_HEIGHT)
+	{
+		ctx.beginPath();
+		ctx.moveTo(calculateX(maxmapsize*-1),calculateY(a*step));
+		ctx.lineTo(calculateX(maxmapsize),calculateY(a*step));
+		ctx.stroke();
+		if(calculateX(0)>0 && calculateX(0)<C_WIDTH-fontsize)
+		{
+			ctx.fillText(((a*step)/1000)+"km", calculateX(0), calculateY(a*step));		
+		}
+		else if(calculateX(0)>C_WIDTH-fontsize)
+		{
+			ctx.fillText(((a*step)/1000)+"km", C_WIDTH-50, calculateY(a*step));
+		}
+		else
+			ctx.fillText(((a*step)/1000)+"km", 0, calculateY(a*step));
+	}
 }
+
 
 //-------------------------------------------- Clicked Coordinates --------------------------------------------
 if(clickedX!="")	{	drawtext(calculateX(clickedX),calculateY(clickedY),"X:"+clickedX+" Z:"+clickedY,"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");}

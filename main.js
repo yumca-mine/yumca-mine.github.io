@@ -64,11 +64,14 @@ function init()
 	ctx.font = (density*fontsize)+"px Arial";
 
 	image = new Image();
+	image2 = new Image();
 
 	draw();
 
 	image.src = "s3_biome_map.png";
 	image.onload = function(){draw();}
+	image2.src = "yumca.png";
+	image2.onload = function(){draw();}
 
 }
 //----------------------------------------------------------------------------------------
@@ -279,8 +282,11 @@ if(drawoverlay==undefined) drawoverlay=true; //optional parameter (if false, the
 //background image
 if(document.getElementById("overlay").checked && (drawoverlay==true || !isMobile()))
 {
-    try {
-        ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072));    } // Don't ask me why, but this try-catch block fixes everything on safari. 
+    try {// Don't ask me why, but this try-catch block fixes everything on safari. 
+        ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072));
+        ctx.drawImage(image2, calculateX(448), calculateY(832+9*128),calculateX(448+9*128)-calculateX(448), calculateY(832-9*128)-calculateY(832));
+		
+	} 
     catch (err) {console.error(err)}
 }
 //axes and grid  

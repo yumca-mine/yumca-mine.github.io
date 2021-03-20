@@ -13,7 +13,7 @@ var clickX=clickY="";
 
 var decX=decY=0;
 var drawdecX=drawdecY=0;
-var clickedX=clickedY="";
+var ClickedList=[];
 
 var SelClaim=null;
 
@@ -74,7 +74,7 @@ function init()
 //----------------------------------------------------------------------------------------
 function OnKeyDown(event)
 {
-	if(event.keyCode==27) {clickedX="";clickedY="";draw();}
+	if(event.keyCode==27) {emptyClickedList();draw();}
 }
 //----------------------------------------------------------------------------------------
 function Mapmousedown(event)
@@ -123,8 +123,7 @@ function Mapmouseup(event)
 	
 	if(!moving)
 	{
-		clickedX=reversecalculateX(CX*density);
-		clickedY=reversecalculateY(CY*density);
+		ClickedList.push([reversecalculateX(CX*density),reversecalculateY(CY*density)]);
 		draw();
 	}
 	}
@@ -161,6 +160,10 @@ function Mapmousemove(event)
 function changezoom(event)	{if(event.deltaY<0) {zoomin(1);} else {zoomout(1);}}
 function zoomin(num)		{zoom*=Math.pow(1.1,num);draw();}
 function zoomout(num)		{zoom/=Math.pow(1.1,num);draw();}
+function emptyClickedList()	{ClickedList=[];}
+
+//----------------------------------------------------------------------------------------
+function distance(X1,X2,Z1,Z2) {return Math.sqrt(Math.pow(X1-X2,2)+Math.pow(Z1-Z2,2));}
 
 //----------------------------------------------------------------------------------------
 function calculateX(val)		{return Math.floor((val+drawdecX*density)*zoom+C_WIDTH/2)-0.5;}
@@ -192,7 +195,7 @@ function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
 
 		//if it's the selected claim, we don't draw it, we save the info in SelClaim so we can render it last (over the other one)
 		var activeClaim=false;
-		if(clickedX!="" && clickedX>X && clickedX<X2 && clickedY>Z && clickedY<Z2)
+		if(ClickedList.length>0 && ClickedList[ClickedList.length-1][0]>X && ClickedList[ClickedList.length-1][0]<X2 && ClickedList[ClickedList.length-1][1]>Z && ClickedList[ClickedList.length-1][1]<Z2)
 		{
 			activeClaim=true;
 			if(SelClaim=="") {SelClaim=[X,Z,X2,Z2,TEXT,CLAIMNUMBER]; return;}
@@ -342,7 +345,44 @@ for( var a=Math.round(-1*maxmapsize/step);a<=Math.round(1*maxmapsize/step);a++)
 
 
 //-------------------------------------------- Clicked Coordinates --------------------------------------------
-if(clickedX!="")	{	drawtext(calculateX(clickedX),calculateY(clickedY),"X:"+clickedX+" Z:"+clickedY,"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");}
+if(ClickedList.length>0)	{
+	
+if(document.getElementById("distances").checked)
+{
+	drawtext(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");
+}
+else
+{
+	var totdist=0;
+	for (let i = 0; i < ClickedList.length; i++) {
+		
+	if(i < ClickedList.length-1)
+	{
+			ctx.lineWidth = 3;
+			ctx.strokeStyle="rgb(100, 181, 246)";
+			ctx.beginPath();
+			ctx.moveTo(calculateX(ClickedList[i][0]),calculateY(ClickedList[i][1]));
+			ctx.lineTo(calculateX(ClickedList[i+1][0]),calculateY(ClickedList[i+1][1]));
+			ctx.stroke();
+			ctx.lineWidth = 1;
+			var dist=distance(ClickedList[i][0],ClickedList[i+1][0],ClickedList[i][1],ClickedList[i+1][1]);
+			totdist+=dist;
+			drawtext((calculateX(ClickedList[i][0])+calculateX(ClickedList[i+1][0]))/2,(calculateY(ClickedList[i][1])+calculateY(ClickedList[i+1][1]))/2,Math.round(dist)+"m","CENTER","MIDDLE","rgb(255,255,255)","rgb(100, 181, 246)");
+	}
+
+	if(i == ClickedList.length-1 && i!=0)
+	{
+	drawtext(calculateX(ClickedList[i][0]),calculateY(ClickedList[i][1]),Math.round(totdist)+"m","CENTER","BOTTOM","rgb(255,255,255)","rgb(100, 181, 246)");
+		
+	}
+		
+	drawtext(calculateX(ClickedList[i][0]),calculateY(ClickedList[i][1]),"X:"+ClickedList[i][0]+" Z:"+ClickedList[i][1],"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");
+	}
+}
+
+
+}
+
 
 
 //-------------------------------------------- CLAIMS --------------------------------------------

@@ -9,7 +9,9 @@
 <script type='text/javascript' src='ClaimsData.js'></script>
 </head>
 <body>
-<canvas id='canvas'></canvas><div><input type='checkbox' checked=true id='overlay' onchange='draw();' style=''><label for='overlay' id='overlaylabel'>Biomes overlay: <span class='pos' >Visible</span><span class='neg'>Hidden</span></label></div>
+<canvas id='canvas'></canvas>
+<div class='menu'>
+<input type='checkbox' checked=true id='overlay' onchange='draw();' style=''><label for='overlay' class='doublestate'>Biomes overlay: <span class='pos' >Visible</span><span class='neg'>Hidden</span></label><input type='checkbox' checked=true id='distances' onchange='emptyClickedList();draw();' style=''><label for='distances' class='doublestate'>Clicking: <span class='pos' >Point</span><span class='neg'>Distances</span></label></div>
 <div id='zoom' ><div onclick='zoomin(6);'>+</div><div onclick='zoomout(6);'>-</div></div>
 </body>
 </html> 

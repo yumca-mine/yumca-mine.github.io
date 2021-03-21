@@ -34,6 +34,26 @@ function isMobile() {
 function resize()	{initSize();draw();}
 
 
+function writeCookie(cookieName,cookieValue)
+{
+	daysToExpire=100;
+	var date = new Date();
+	date.setTime(date.getTime()+(daysToExpire*24*60*60*1000));
+	document.cookie = cookieName + "=" + cookieValue + "; expires=" + date.toGMTString()+";SameSite=Strict";
+}
+function readCookie(cookieName)
+{
+	var name = cookieName + "=";
+	var allCookieArray = document.cookie.split(';');
+	for(var i=0; i<allCookieArray.length; i++)
+	{
+	var temp = allCookieArray[i].trim();
+	if (temp.indexOf(name)==0)
+	return temp.substring(name.length,temp.length);
+	}
+	return null;
+}
+
 function initSize()
 {
 	var c=document.getElementById("canvas");
@@ -58,10 +78,15 @@ function init()
 	c.addEventListener("touchstart", Mapmousedown, false);
 	c.addEventListener("touchend", Mapmouseup, false);
 
+	if(readCookie("C_fontsize")!=null) if(readCookie("C_fontsize")=="true") document.getElementById("fontsize").checked=true; else document.getElementById("fontsize").checked=false;
+	if(readCookie("C_overlay0")!=null) if(readCookie("C_overlay0")=="true") document.getElementById("overlay0").checked=true; else document.getElementById("overlay0").checked=false;
+	if(readCookie("C_overlay")!=null) if(readCookie("C_overlay")=="true") document.getElementById("overlay").checked=true; else document.getElementById("overlay").checked=false;
+	if(readCookie("C_clicktype")!=null) if(readCookie("C_clicktype")=="true") document.getElementById("distances").checked=true; else document.getElementById("distances").checked=false;
+
 	initSize();
 
 	ctx=c.getContext("2d");
-	ctx.font = (density*fontsize)+"px Arial";
+	
 
 	image = new Image();
 	image2 = new Image();
@@ -274,17 +299,21 @@ function drawtext(X,Z,TEXT,Hpos,Vpos,fore,back) //display text over a rectangle
 
 function draw(drawoverlay) //main drawing function
 {
+if(document.getElementById("fontsize").checked) fontsize=16; else fontsize=12;
+
+ctx.font = (density*fontsize)+"px Arial";	
+	
 //cleat canvas
 ctx.clearRect(0, 0, C_WIDTH, C_HEIGHT);
 
 if(drawoverlay==undefined) drawoverlay=true; //optional parameter (if false, the overlay is never drawn) enhance perfs on mobile while panning
 
 //background image
-if(document.getElementById("overlay").checked && (drawoverlay==true || !isMobile()))
+if(drawoverlay==true || !isMobile())
 {
     try {// Don't ask me why, but this try-catch block fixes everything on safari. 
-        ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072));
-        ctx.drawImage(image2, calculateX(448), calculateY(832+9*128),calculateX(448+9*128)-calculateX(448), calculateY(832-9*128)-calculateY(832));
+        if(document.getElementById("overlay").checked) ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072));
+        if(document.getElementById("overlay0").checked) ctx.drawImage(image2, calculateX(448), calculateY(832+9*128),calculateX(448+9*128)-calculateX(448), calculateY(832-9*128)-calculateY(832));
 		
 	} 
     catch (err) {console.error(err)}

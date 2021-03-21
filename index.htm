@@ -10,8 +10,13 @@
 </head>
 <body>
 <canvas id='canvas'></canvas>
+<div id='menu'>
+<input type='checkbox' id='menucheck'><label for='menucheck' class='item'><span class='pos' style='background-image:url(close.svg);background-repeat:no-repeat;background-position:center center;width:50px;' >&nbsp;</span><span class='neg' style='background-image:url(menu.svg);background-repeat:no-repeat;background-position:center center;width:50px;' >&nbsp;</span></label>
+<input type='checkbox' id='fontsize' onchange='writeCookie(&apos;C_fontsize&apos;,this.checked);draw();' style=''><label for='fontsize' class='item'>Font: <span class='pos' >Big</span><span class='neg'>Normal</span></label>
+<input type='checkbox' id='overlay0' onchange='writeCookie(&apos;C_overlay0&apos;,this.checked);draw();' style=''><label for='overlay0' class='item'>Yumca overlay: <span class='pos' >Visible</span><span class='neg'>Hidden</span></label>
+</div>
 <div class='menu'>
-<input type='checkbox' checked=true id='overlay' onchange='draw();' style=''><label for='overlay' class='doublestate'>Biomes overlay: <span class='pos' >Visible</span><span class='neg'>Hidden</span></label><input type='checkbox' checked=true id='distances' onchange='emptyClickedList();draw();' style=''><label for='distances' class='doublestate'>Clicking: <span class='pos' >Point</span><span class='neg'>Distances</span></label></div>
+<input type='checkbox' checked=true id='overlay' onchange='writeCookie(&apos;C_overlay&apos;,this.checked);draw();' style=''><label for='overlay' class='doublestate'>Biomes overlay: <span class='pos' >Visible</span><span class='neg'>Hidden</span></label><input type='checkbox' checked=true id='distances' onchange='emptyClickedList();writeCookie(&apos;C_clicktype&apos;,this.checked);draw();' style=''><label for='distances' class='doublestate'>Clicking: <span class='pos' >Point</span><span class='neg'>Distances</span></label></div>
 <div id='zoom' ><div onclick='zoomin(6);'>+</div><div onclick='zoomout(6);'>-</div></div>
 </body>
 </html> 

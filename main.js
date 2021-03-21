@@ -343,16 +343,16 @@ for( var a=Math.round(-1*maxmapsize/step);a<=Math.round(1*maxmapsize/step);a++)
 		
 		
 		ctx.fillStyle="rgba(80,80,80,1)";
-		if(calculateY(0)>0 && calculateY(0)<C_HEIGHT-fontsize)
+		if(calculateY(0)>0 && calculateY(0)<C_HEIGHT-fontsize*density)
 		{
-			ctx.fillText(((a*step)/1000)+"km", calculateX(a*step), calculateY(0)+fontsize);		
+			ctx.fillText(((a*step)/1000)+"km", calculateX(a*step), calculateY(0)+fontsize*density);		
 		}
-		else if(calculateY(0)>C_HEIGHT-fontsize)
+		else if(calculateY(0)>C_HEIGHT-fontsize*density)
 		{
 			ctx.fillText(((a*step)/1000)+"km", calculateX(a*step), C_HEIGHT);
 		}
 		else
-			ctx.fillText(((a*step)/1000)+"km", calculateX(a*step), fontsize);
+			ctx.fillText(((a*step)/1000)+"km", calculateX(a*step), fontsize*density);
 	}
 	
 	if(calculateY(a*step)>0 && calculateY(a*step)<C_HEIGHT)
@@ -365,11 +365,13 @@ for( var a=Math.round(-1*maxmapsize/step);a<=Math.round(1*maxmapsize/step);a++)
 		ctx.moveTo(calculateX(maxmapsize*-1),calculateY(a*step));
 		ctx.lineTo(calculateX(maxmapsize),calculateY(a*step));
 		ctx.stroke();
-		if(calculateX(0)>0 && calculateX(0)<C_WIDTH-fontsize)
+		
+		ctx.fillStyle="rgba(80,80,80,1)";
+		if(calculateX(0)>0 && calculateX(0)<C_WIDTH-fontsize*density)
 		{
 			ctx.fillText(((a*step)/1000)+"km", calculateX(0), calculateY(a*step));		
 		}
-		else if(calculateX(0)>C_WIDTH-fontsize)
+		else if(calculateX(0)>C_WIDTH-fontsize*density)
 		{
 			ctx.fillText(((a*step)/1000)+"km", C_WIDTH-50, calculateY(a*step));
 		}

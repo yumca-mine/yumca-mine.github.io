@@ -14,10 +14,13 @@
 <div id='menu'>
 <input type='checkbox' id='menucheck'><label for='menucheck' class='item'><span class='pos' style='background-image:url(close.svg);background-repeat:no-repeat;background-position:center center;width:40px;' >&nbsp;</span><span class='neg' style='background-image:url(menu.svg);background-repeat:no-repeat;background-position:center center;width:40px;' >&nbsp;</span></label>
 <input type='checkbox' id='fontsize' onchange='writeCookie(&apos;C_fontsize&apos;,this.checked);draw();' style=''><label for='fontsize' class='item'>Font: <span class='pos' >Big</span><span class='neg'>Normal</span></label>
-<input type='checkbox' id='overlay0' onchange='writeCookie(&apos;C_overlay0&apos;,this.checked);draw();' style=''><label for='overlay0' class='item'>Yumca overlay: <span class='pos' >Visible</span><span class='neg'>Hidden</span></label>
+<input type='checkbox' checked id='claims' onchange='writeCookie(&apos;C_claims&apos;,this.checked);draw();' style=''><label for='claims' class='item'>Claims: <span class='pos' >Visible</span><span class='neg'>Hidden</span></label>
+<input type='checkbox' checked id='overlay' onchange='writeCookie(&apos;C_overlay&apos;,this.checked);draw();' style=''><label for='overlay' class='item'>Biomes layer: <span class='pos' >Visible</span><span class='neg'>Hidden</span></label>
+<input type='checkbox' checked id='octomap' onchange='writeCookie(&apos;C_octomap&apos;,this.checked);draw();' style=''><label for='octomap' class='item'>Octojen's big ingame map: <span class='pos' >Visible</span><span class='neg'>Hidden</span></label>
+<input type='checkbox' id='overlay0' onchange='writeCookie(&apos;C_overlay0&apos;,this.checked);draw();' style=''><label for='overlay0' class='item'>Yumca's Atoll layer: <span class='pos' >Visible</span><span class='neg'>Hidden</span></label>
 </div>
 <div class='menu'>
-<input type='checkbox' checked=true id='overlay' onchange='writeCookie(&apos;C_overlay&apos;,this.checked);draw();' style=''><label for='overlay' class='doublestate'>Biomes overlay: <span class='pos' >Visible</span><span class='neg'>Hidden</span></label><input type='checkbox' checked=true id='distances' onchange='emptyClickedList();writeCookie(&apos;C_clicktype&apos;,this.checked);draw();' style=''><label for='distances' class='doublestate'>Clicking: <span class='pos' >Point</span><span class='neg'>Distances</span></label></div>
+<input type='checkbox' checked=true id='distances' onchange='emptyClickedList();writeCookie(&apos;C_clicktype&apos;,this.checked);draw();' style=''><label for='distances' class='doublestate'>Clicking: <span class='pos' >Point</span><span class='neg'>Distances</span></label></div>
 <div id='zoom' ><div onclick='zoomin(6);'>+</div><div onclick='zoomout(6);'>-</div></div>
 </body>
 </html> 

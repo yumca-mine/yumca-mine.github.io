@@ -25,6 +25,25 @@ drawdecY=700/density;
 decY=700/density;
 var zoom=0.15*density;
 
+var octomap=[];
+
+function getOctomapTile(X,Z)
+{
+	if(X<-3 || X>3) return null;
+	if(Z<-3 || Z>3) return null;
+	
+	
+	if(octomap[X]==null) octomap[X]=[];
+	if(octomap[X][Z]==null)
+	{
+		octomap[X][Z]=new Image();
+		octomap[X][Z].src = "octomap/map"+X+","+Z+".png";
+		octomap[X][Z].onerror="console.log('fail');";
+		octomap[X][Z].onload = function(){draw();}
+	}
+	if(octomap[X][Z].width!=1044) return null;
+	return octomap[X][Z];
+}
 function isMobile() {
    try{ document.createEvent("TouchEvent"); return true; }
    catch(e){ return false; }
@@ -313,12 +332,48 @@ if(drawoverlay==true || !isMobile())
 {
     try {// Don't ask me why, but this try-catch block fixes everything on safari. 
         if(document.getElementById("overlay").checked) ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072));
-        if(document.getElementById("overlay0").checked) ctx.drawImage(image2, calculateX(448), calculateY(832+9*128),calculateX(448+9*128)-calculateX(448), calculateY(832-9*128)-calculateY(832));
-		
 	} 
     catch (err) {console.error(err)}
 }
-//axes and grid  
+//axes and grid
+
+if(document.getElementById("octomap").checked)
+{
+	for(var X=-10;X<=10;X++)
+	{
+		for(var Z=-10;Z<=10;Z++)
+		{
+			if(Math.floor(calculateX((X+1)*2048-64))>0 && Math.floor(calculateX((X)*2048-64))<C_WIDTH && 
+				Math.floor(calculateY((Z+1)*2048-64))>0 && Math.floor(calculateY((Z)*2048-64))<C_HEIGHT
+			)
+			{
+				try
+				{
+					var im=getOctomapTile(X,Z+1);					
+					if(im!=null)
+					{
+						ctx.drawImage(getOctomapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048))- Math.floor(calculateX(X*2048))+1,  Math.floor(calculateY((Z+1)*2048))- Math.floor(calculateY(Z*2048)))+1;
+					}
+				}
+				catch (err) {console.error(err,X,Z)}
+			}
+			
+			
+			
+		}
+	
+	} 
+}
+
+if(drawoverlay==true || !isMobile())
+{
+    try {// Don't ask me why, but this try-catch block fixes everything on safari. 
+
+        if(document.getElementById("overlay0").checked) ctx.drawImage(image2, calculateX(448), calculateY(832+9*128),calculateX(448+9*128)-calculateX(448), calculateY(832-9*128)-calculateY(832));
+	} 
+    catch (err) {console.error(err)}
+}
+
 
 var step=100;
 if(zoom<2*density) step=200;
@@ -424,7 +479,7 @@ else
 
 //-------------------------------------------- CLAIMS --------------------------------------------
 SelClaim="";
-DrawClaimData();
+if(document.getElementById("claims").checked) DrawClaimData();
 if(SelClaim!=null) drawClaim(SelClaim[0],SelClaim[1],SelClaim[2],SelClaim[3],SelClaim[4],SelClaim[5]); //calling once again draclaim to draw the selected one if it exists
 
 }

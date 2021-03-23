@@ -29,8 +29,8 @@ var octomap=[];
 
 function getOctomapTile(X,Z)
 {
-	if(X<-3 || X>3) return null;
-	if(Z<-3 || Z>3) return null;
+	if(X<-5 || X>3) return null;
+	if(Z<-2 || Z>4) return null;
 	if(octomap[X]==null) octomap[X]=[];
 	if(octomap[X][Z]==null)
 	{

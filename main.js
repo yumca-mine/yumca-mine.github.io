@@ -29,16 +29,13 @@ var octomap=[];
 
 function getOctomapTile(X,Z)
 {
-	if(X<-3 || X>3) return null;
-	if(Z<-3 || Z>3) return null;
-	
-	
+	if(X<=-3 || X>=3) return null;
+	if(Z<=-3 || Z>=3) return null;
 	if(octomap[X]==null) octomap[X]=[];
 	if(octomap[X][Z]==null)
 	{
 		octomap[X][Z]=new Image();
 		octomap[X][Z].src = "octomap/map"+X+","+Z+".png";
-		octomap[X][Z].onerror="console.log('fail');";
 		octomap[X][Z].onload = function(){draw();}
 	}
 	if(octomap[X][Z].width!=1044) return null;
@@ -327,7 +324,7 @@ ctx.clearRect(0, 0, C_WIDTH, C_HEIGHT);
 
 if(drawoverlay==undefined) drawoverlay=true; //optional parameter (if false, the overlay is never drawn) enhance perfs on mobile while panning
 
-//background image
+//background layers
 if(drawoverlay==true || !isMobile())
 {
     try {// Don't ask me why, but this try-catch block fixes everything on safari. 
@@ -335,7 +332,6 @@ if(drawoverlay==true || !isMobile())
 	} 
     catch (err) {console.error(err)}
 }
-//axes and grid
 
 if(document.getElementById("octomap").checked)
 {
@@ -357,11 +353,7 @@ if(document.getElementById("octomap").checked)
 				}
 				catch (err) {console.error(err,X,Z)}
 			}
-			
-			
-			
 		}
-	
 	} 
 }
 
@@ -375,6 +367,7 @@ if(drawoverlay==true || !isMobile())
 }
 
 
+//axes and grid
 var step=100;
 if(zoom<2*density) step=200;
 if(zoom<1*density) step=500;

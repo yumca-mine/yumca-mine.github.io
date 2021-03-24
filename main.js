@@ -4,6 +4,7 @@ window.addEventListener('resize', resize);
 var maxmapsize=2000000;
 var fontsize=12;
 var ctx=null;
+var showmapid=false;
 
 var C_WIDTH=C_HEIGHT=0;
 
@@ -28,21 +29,39 @@ decY=700/density;
 var zoom=0.15*density;
 
 var octomap=[];
+var octolist=[];
+var fullzoom=[];
+var fulllist=[];
 
 function getOctomapTile(X,Z)
 {
-	if(X<-5 || X>3) return null;
-	if(Z<-2 || Z>4) return null;
+	if(octolist.indexOf(X+","+Z)==-1)  return null;
 	if(octomap[X]==null) octomap[X]=[];
 	if(octomap[X][Z]==null)
 	{
 		octomap[X][Z]=new Image();
 		octomap[X][Z].src = "octomap/map"+X+","+Z+".png";
 		octomap[X][Z].onload = function(){draw();}
+		return null;
 	}
-	if(octomap[X][Z].width!=1044) return null;
 	return octomap[X][Z];
 }
+
+function getFullzoomTile(X,Z)
+{
+	if(fulllist.indexOf(X+","+Z)==-1)  return null;
+	if(fullzoom[X]==null) fullzoom[X]=[];
+	if(fullzoom[X][Z]==null)
+	{
+		fullzoom[X][Z]=new Image();
+		fullzoom[X][Z].src = "fullzoom/map"+X+","+Z+".png";
+		fullzoom[X][Z].onload = function(){draw();}
+		return null;
+	}
+	return fullzoom[X][Z];
+}
+
+
 function isMobile() {
    try{ document.createEvent("TouchEvent"); return true; }
    catch(e){ return false; }
@@ -102,6 +121,12 @@ function init()
 	if(readCookie("C_clicktype")!=null) if(readCookie("C_clicktype")=="true") document.getElementById("distances").checked=true; else document.getElementById("distances").checked=false;
 	if(readCookie("C_claims")!=null) if(readCookie("C_claims")=="true") document.getElementById("claims").checked=true; else document.getElementById("claims").checked=false;
 	if(readCookie("C_octomap")!=null) if(readCookie("C_octomap")=="true") document.getElementById("octomap").checked=true; else document.getElementById("distances").checked=false;
+	
+	if(fulllist.length==0) {
+		document.getElementById("overlay0").nextSibling.style.lineHeight="0px";
+		document.getElementById("overlay0").nextSibling.style.pointerEvents="none";
+		document.getElementById("overlay0").nextSibling.style.opacity="0";
+	}
 
 	initSize();
 
@@ -109,14 +134,10 @@ function init()
 	
 
 	image = new Image();
-	image2 = new Image();
-
 	draw();
 
 	image.src = "s3_biome_map.png";
 	image.onload = function(){draw();}
-	image2.src = "yumca.png";
-	image2.onload = function(){draw();}
 
 }
 //----------------------------------------------------------------------------------------
@@ -331,45 +352,64 @@ if(drawoverlay==undefined) drawoverlay=true; //optional parameter (if false, the
 //background layers
 if(drawoverlay==true || !isMobile())
 {
-    try {// Don't ask me why, but this try-catch block fixes everything on safari. 
-        if(document.getElementById("overlay").checked) ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072));
-	} 
-    catch (err) {console.error(err)}
-}
-
-if(document.getElementById("octomap").checked)
-{
-	tilecount=0;
-	for(var X=-10;X<=10;X++)
+	if(document.getElementById("octomap").checked)
 	{
-		for(var Z=-10;Z<=10;Z++)
+		tilecount=0;
+		for(var X=-10;X<=10;X++)
 		{
-			if(Math.floor(calculateX((X+1)*2048-64))>0 && Math.floor(calculateX((X)*2048-64))<C_WIDTH && 
-				Math.floor(calculateY((Z+1)*2048-64))>0 && Math.floor(calculateY((Z)*2048-64))<C_HEIGHT
-			)
+			for(var Z=-10;Z<=10;Z++)
 			{
-				try
+				if(Math.floor(calculateX((X+1)*2048-64))>0 && Math.floor(calculateX((X)*2048-64))<C_WIDTH && 
+					Math.floor(calculateY((Z+1)*2048-64))>0 && Math.floor(calculateY((Z)*2048-64))<C_HEIGHT
+				)
 				{
-					var im=getOctomapTile(X,Z+1);					
-					if(im!=null)
+					try
 					{
-						ctx.drawImage(getOctomapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048))- Math.floor(calculateX(X*2048))+1,  Math.floor(calculateY((Z+1)*2048))- Math.floor(calculateY(Z*2048))+1);
-						tilecount++;
+						var im=getOctomapTile(X,Z+1);					
+						if(im!=null)
+						{
+							ctx.drawImage(getOctomapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048))- Math.floor(calculateX(X*2048))+1,  Math.floor(calculateY((Z+1)*2048))- Math.floor(calculateY(Z*2048))+1);
+							tilecount++;
+						}
 					}
+					catch (err) {console.error(err,X,Z)}
 				}
-				catch (err) {console.error(err,X,Z)}
 			}
-		}
-	} 
-}
+		} 
+	}
+	
+	if(document.getElementById("overlay0").checked)
+	{
+		tilecount=0;
+		for(var X=-10;X<=10;X++)
+		{
+			for(var Z=-10;Z<=10;Z++)
+			{
+				if(Math.floor(calculateX((X+1)*2048-64))>0 && Math.floor(calculateX((X)*2048-64))<C_WIDTH && 
+					Math.floor(calculateY((Z+1)*2048-64))>0 && Math.floor(calculateY((Z)*2048-64))<C_HEIGHT
+				)
+				{
+					try
+					{
+						var im=getFullzoomTile(X,Z);					
+						if(im!=null)
+						{
+							ctx.drawImage(getFullzoomTile(X,Z), Math.floor(calculateX(X*128-64)),  Math.floor(calculateY(Z*128-64)), Math.floor(calculateX((X+1)*128))- Math.floor(calculateX(X*128))+1,  Math.floor(calculateY((Z+1)*128))- Math.floor(calculateY(Z*128))+1);
+							tilecount++;
+						}
+					}
+					catch (err) {console.error(err,X,Z)}
+				}
+			}
+		} 
+	}
 
-if(drawoverlay==true || !isMobile())
-{
-    try {// Don't ask me why, but this try-catch block fixes everything on safari. 
-
-        if(document.getElementById("overlay0").checked) ctx.drawImage(image2, calculateX(448), calculateY(832+9*128),calculateX(448+9*128)-calculateX(448), calculateY(832-9*128)-calculateY(832));
+	try {
+		if(document.getElementById("overlay").checked)
+			ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072));
 	} 
-    catch (err) {console.error(err)}
+	catch (err) {console.error(err)}
+
 }
 
 
@@ -441,6 +481,13 @@ if(ClickedList.length>0)	{
 if(document.getElementById("distances").checked)
 {
 	drawtext(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");
+	
+	if(showmapid!== false)
+	{
+	console.log("octomap/map"+Math.floor((ClickedList[ClickedList.length-1][0]+64)/2048)+","+Math.floor((ClickedList[ClickedList.length-1][1]+64)/2018+1)+".png");
+	
+	console.log("fullzoom/map"+Math.floor((ClickedList[ClickedList.length-1][0]+64)/128)+","+Math.floor((ClickedList[ClickedList.length-1][1]+64)/128)+".png");
+	}
 }
 else
 {

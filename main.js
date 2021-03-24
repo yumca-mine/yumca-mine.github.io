@@ -21,6 +21,8 @@ var moving=false;
 
 var density=window.devicePixelRatio;
 
+var tilecount=0;
+
 drawdecY=700/density;
 decY=700/density;
 var zoom=0.15*density;
@@ -98,6 +100,8 @@ function init()
 	if(readCookie("C_overlay0")!=null) if(readCookie("C_overlay0")=="true") document.getElementById("overlay0").checked=true; else document.getElementById("overlay0").checked=false;
 	if(readCookie("C_overlay")!=null) if(readCookie("C_overlay")=="true") document.getElementById("overlay").checked=true; else document.getElementById("overlay").checked=false;
 	if(readCookie("C_clicktype")!=null) if(readCookie("C_clicktype")=="true") document.getElementById("distances").checked=true; else document.getElementById("distances").checked=false;
+	if(readCookie("C_claims")!=null) if(readCookie("C_claims")=="true") document.getElementById("claims").checked=true; else document.getElementById("claims").checked=false;
+	if(readCookie("C_octomap")!=null) if(readCookie("C_octomap")=="true") document.getElementById("octomap").checked=true; else document.getElementById("distances").checked=false;
 
 	initSize();
 
@@ -335,6 +339,7 @@ if(drawoverlay==true || !isMobile())
 
 if(document.getElementById("octomap").checked)
 {
+	tilecount=0;
 	for(var X=-10;X<=10;X++)
 	{
 		for(var Z=-10;Z<=10;Z++)
@@ -348,7 +353,8 @@ if(document.getElementById("octomap").checked)
 					var im=getOctomapTile(X,Z+1);					
 					if(im!=null)
 					{
-						ctx.drawImage(getOctomapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048))- Math.floor(calculateX(X*2048))+1,  Math.floor(calculateY((Z+1)*2048))- Math.floor(calculateY(Z*2048)))+1;
+						ctx.drawImage(getOctomapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048))- Math.floor(calculateX(X*2048))+1,  Math.floor(calculateY((Z+1)*2048))- Math.floor(calculateY(Z*2048))+1);
+						tilecount++;
 					}
 				}
 				catch (err) {console.error(err,X,Z)}

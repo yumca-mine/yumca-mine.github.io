@@ -27,3 +27,8 @@ octolist.push("-4,0");
 octolist.push("-4,1");
 octolist.push("-5,0");
 octolist.push("-5,1");
+octolist.push("-5,2");
+octolist.push("-5,3");
+octolist.push("-6,3");
+octolist.push("-6,4");
+octolist.push("-6,5");

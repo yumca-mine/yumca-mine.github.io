@@ -1,0 +1,16 @@
+fulllist.push("2,-18");
+fulllist.push("2,-19");
+fulllist.push("3,-18");
+fulllist.push("3,-19");
+fulllist.push("4,-18");
+fulllist.push("4,-19");
+fulllist.push("5,-5");
+fulllist.push("5,-6");
+fulllist.push("6,-4");
+fulllist.push("6,-5");
+fulllist.push("6,-6");
+fulllist.push("6,-7");
+fulllist.push("7,-4");
+fulllist.push("7,-5");
+fulllist.push("7,-6");
+fulllist.push("7,-7");

@@ -381,12 +381,12 @@ if(drawoverlay==true || !isMobile())
 	if(document.getElementById("overlay0").checked)
 	{
 		tilecount=0;
-		for(var X=-10;X<=10;X++)
+		for(var X=-20;X<=20;X++)
 		{
-			for(var Z=-10;Z<=10;Z++)
+			for(var Z=-20;Z<=20;Z++)
 			{
-				if(Math.floor(calculateX((X+1)*2048-64))>0 && Math.floor(calculateX((X)*2048-64))<C_WIDTH && 
-					Math.floor(calculateY((Z+1)*2048-64))>0 && Math.floor(calculateY((Z)*2048-64))<C_HEIGHT
+				if(Math.floor(calculateX((X+1)*128-64))>0 && Math.floor(calculateX((X)*128-64))<C_WIDTH && 
+					Math.floor(calculateY((Z+1)*128-64))>0 && Math.floor(calculateY((Z)*128-64))<C_HEIGHT
 				)
 				{
 					try
@@ -478,6 +478,19 @@ for( var a=Math.round(-1*maxmapsize/step);a<=Math.round(1*maxmapsize/step);a++)
 //-------------------------------------------- Clicked Coordinates --------------------------------------------
 if(ClickedList.length>0)	{
 	
+//x-mod(x,16)-160 to x-mod(x,16)+176
+/*	
+var LX=	Math.round(calculateX(Math.floor(ClickedList[ClickedList.length-1][0]/16)*16-160));
+var RX=	Math.round(calculateX(Math.floor(ClickedList[ClickedList.length-1][0]/16)*16+176));
+var TY= Math.round(calculateY(Math.floor(ClickedList[ClickedList.length-1][1]/16)*16-160));
+var BY=	Math.round(calculateY(Math.floor(ClickedList[ClickedList.length-1][1]/16)*16+176));
+ctx.strokeStyle="rgba(255,255,255,1)";
+ctx.fillStyle="rgba(80,80,80,0.3)";
+ctx.beginPath();
+ctx.rect(LX-0.5,TY-0.5, RX-LX, BY-TY);
+ctx.fill();
+ctx.stroke();
+*/	
 if(document.getElementById("distances").checked)
 {
 	drawtext(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");

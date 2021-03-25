@@ -100,6 +100,19 @@ function initSize()
 	c.height = C_HEIGHT;
 }
 
+function buttonvalueupdate(but)
+{	
+	var x = but.nextSibling.getElementsByClassName("optionspossible");
+	for (var i = 0; i < x.length; i++) {
+	x[i].style.display = "none";
+	} 
+
+	var x = but.nextSibling.getElementsByClassName("V"+but.value);
+	for (var i = 0; i < x.length; i++) {
+	x[i].style.display = "inline";
+	} 
+}
+
 function init()
 {
 	var c=document.getElementById("canvas");
@@ -118,9 +131,11 @@ function init()
 	if(readCookie("C_fontsize")!=null) if(readCookie("C_fontsize")=="true") document.getElementById("fontsize").checked=true; else document.getElementById("fontsize").checked=false;
 	if(readCookie("C_overlay0")!=null) if(readCookie("C_overlay0")=="true") document.getElementById("overlay0").checked=true; else document.getElementById("overlay0").checked=false;
 	if(readCookie("C_overlay")!=null) if(readCookie("C_overlay")=="true") document.getElementById("overlay").checked=true; else document.getElementById("overlay").checked=false;
-	if(readCookie("C_clicktype")!=null) if(readCookie("C_clicktype")=="true") document.getElementById("distances").checked=true; else document.getElementById("distances").checked=false;
 	if(readCookie("C_claims")!=null) if(readCookie("C_claims")=="true") document.getElementById("claims").checked=true; else document.getElementById("claims").checked=false;
 	if(readCookie("C_octomap")!=null) if(readCookie("C_octomap")=="true") document.getElementById("octomap").checked=true; else document.getElementById("distances").checked=false;
+	
+	if(readCookie("C_action")!=null) document.getElementById("action").value=readCookie("C_action"); else document.getElementById("action").value=0;
+	buttonvalueupdate(document.getElementById("action"));
 	
 	if(fulllist.length==0) {
 		document.getElementById("overlay0").nextSibling.style.lineHeight="0px";
@@ -478,20 +493,21 @@ for( var a=Math.round(-1*maxmapsize/step);a<=Math.round(1*maxmapsize/step);a++)
 //-------------------------------------------- Clicked Coordinates --------------------------------------------
 if(ClickedList.length>0)	{
 	
-//x-mod(x,16)-160 to x-mod(x,16)+176
-/*	
-var LX=	Math.round(calculateX(Math.floor(ClickedList[ClickedList.length-1][0]/16)*16-160));
-var RX=	Math.round(calculateX(Math.floor(ClickedList[ClickedList.length-1][0]/16)*16+176));
-var TY= Math.round(calculateY(Math.floor(ClickedList[ClickedList.length-1][1]/16)*16-160));
-var BY=	Math.round(calculateY(Math.floor(ClickedList[ClickedList.length-1][1]/16)*16+176));
-ctx.strokeStyle="rgba(255,255,255,1)";
-ctx.fillStyle="rgba(80,80,80,0.3)";
-ctx.beginPath();
-ctx.rect(LX-0.5,TY-0.5, RX-LX, BY-TY);
-ctx.fill();
-ctx.stroke();
-*/	
-if(document.getElementById("distances").checked)
+
+if(document.getElementById("action").value==2)
+{
+	var LX=	Math.round(calculateX(Math.floor(ClickedList[ClickedList.length-1][0]/16)*16-160));
+	var RX=	Math.round(calculateX(Math.floor(ClickedList[ClickedList.length-1][0]/16)*16+176));
+	var TY= Math.round(calculateY(Math.floor(ClickedList[ClickedList.length-1][1]/16)*16-160));
+	var BY=	Math.round(calculateY(Math.floor(ClickedList[ClickedList.length-1][1]/16)*16+176));
+	ctx.strokeStyle="rgba(255,255,255,1)";
+	ctx.fillStyle="rgba(80,80,80,0.3)";
+	ctx.beginPath();
+	ctx.rect(LX-0.5,TY-0.5, RX-LX, BY-TY);
+	ctx.fill();
+	ctx.stroke();
+}
+if(document.getElementById("action").value==0)
 {
 	drawtext(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");
 	
@@ -502,7 +518,7 @@ if(document.getElementById("distances").checked)
 	console.log("fullzoom/map"+Math.floor((ClickedList[ClickedList.length-1][0]+64)/128)+","+Math.floor((ClickedList[ClickedList.length-1][1]+64)/128)+".png");
 	}
 }
-else
+if(document.getElementById("action").value==1)
 {
 	var totdist=0;
 	for (let i = 0; i < ClickedList.length; i++) {

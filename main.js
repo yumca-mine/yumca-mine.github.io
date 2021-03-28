@@ -274,8 +274,8 @@ function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
 	else if(arguments.length == 6)
 	{
 		//swap coordinates if required
-		if(X>X2){var temp = X;  X = X2;  X2 = X;}
-		if(Z>Z2){var temp = Z; Z = Z2;  Z2 = Z;}
+		if(X>X2){var temp = X;  X = X2;  X2 = temp;}
+		if(Z>Z2){var temp = Z; Z = Z2;  Z2 = temp;}
 
 		//if it's the selected claim, we don't draw it, we save the info in SelClaim so we can render it last (over the other one)
 		var activeClaim=false;

@@ -91,7 +91,6 @@ drawClaim(700,1350,1050,1700,"Yumca's Atoll",136);
 drawClaim(227,-1899,561,-1690,"FaRo's base",137);
 drawClaim(695,2983,954,3242,"FaRo's public witch farm",142);
 drawClaim(-8970,-400,-8760,-190,"LumaLand",149);
-drawClaim(1502,-981,1546,-934,"[<simsimmat>]",151);
 drawClaim(1030,-50,1150,100,"KoEg82's claim",152);
 drawClaim("@limebot claim 1501 -983 1547 -934 Craters");
 

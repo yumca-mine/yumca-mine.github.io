@@ -396,7 +396,7 @@ if(drawoverlay==true || !isMobile())
 	if(document.getElementById("overlay0").checked)
 	{
 		tilecount=0;
-		for(var X=-50;X<=50;X++)
+		for(var X=-70;X<=70;X++)
 		{
 			for(var Z=-50;Z<=50;Z++)
 			{

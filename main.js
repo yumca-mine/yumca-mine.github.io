@@ -30,8 +30,10 @@ var zoom=0.15*density;
 
 var octomap=[];
 var octolist=[];
+var octolimits=[0,0,0,0];
 var fullzoom=[];
 var fulllist=[];
+var fulllimits=[0,0,0,0];
 
 function getOctomapTile(X,Z)
 {
@@ -143,6 +145,24 @@ function init()
 	}
 
 	initSize();
+	
+	octolist.forEach(minmaxOXZ);
+	function minmaxOXZ(value) {
+	s=value.split(',');
+	octolimits[0]=Math.min(octolimits[0],s[0]);
+	octolimits[1]=Math.max(octolimits[1],s[0]);
+	octolimits[2]=Math.min(octolimits[2],s[1]);
+	octolimits[3]=Math.max(octolimits[3],s[1]);
+	}
+	
+	fulllist.forEach(minmaxFXZ);
+	function minmaxFXZ(value) {
+	s=value.split(',');
+	fulllimits[0]=Math.min(fulllimits[0],s[0]);
+	fulllimits[1]=Math.max(fulllimits[1],s[0]);
+	fulllimits[2]=Math.min(fulllimits[2],s[1]);
+	fulllimits[3]=Math.max(fulllimits[3],s[1]);
+	}
 
 	var DX=getURLParameter("DX");
 	if(DX!=null) {drawdecX=DX;decX=DX;}
@@ -377,10 +397,10 @@ if(drawoverlay==true || !isMobile())
 {
 	if(document.getElementById("octomap").checked)
 	{
-		var minXformap=Math.floor((reversecalculateX(0)+64)/2048)-1;
-		var minZformap=Math.floor((reversecalculateY(0)+64)/2048)-1;
-		var maxXformap=Math.floor((reversecalculateX(C_WIDTH)+64)/2048)+1;
-		var maxZformap=Math.floor((reversecalculateY(C_HEIGHT)+64)/2048)+1;
+		var minXformap=Math.max(Math.floor((reversecalculateX(0)+64)/2048)-1,octolimits[0]);
+		var minZformap=Math.max(Math.floor((reversecalculateY(0)+64)/2048)-1,octolimits[2]);
+		var maxXformap=Math.min(Math.floor((reversecalculateX(C_WIDTH)+64)/2048)+1,octolimits[1]);
+		var maxZformap=Math.min(Math.floor((reversecalculateY(C_HEIGHT)+64)/2048)+1,octolimits[3]);
 		
 		tilecount=0;
 		for(var X=minXformap;X<=maxXformap;X++)
@@ -405,10 +425,10 @@ if(drawoverlay==true || !isMobile())
 	{
 		
 		
-		var minXformap=Math.floor((reversecalculateX(0)+64)/128)-1;
-		var minZformap=Math.floor((reversecalculateY(0)+64)/128)-1;
-		var maxXformap=Math.floor((reversecalculateX(C_WIDTH)+64)/128)+1;
-		var maxZformap=Math.floor((reversecalculateY(C_HEIGHT)+64)/128)+1;
+		var minXformap=Math.max(Math.floor((reversecalculateX(0)+64)/128)-1,fulllimits[0]);
+		var minZformap=Math.max(Math.floor((reversecalculateY(0)+64)/128)-1,fulllimits[2]);
+		var maxXformap=Math.min(Math.floor((reversecalculateX(C_WIDTH)+64)/128)+1,fulllimits[1]);
+		var maxZformap=Math.min(Math.floor((reversecalculateY(C_HEIGHT)+64)/128)+1,fulllimits[3]);
 				
 		tilecount=0;
 		for(var X=minXformap;X<=maxXformap;X++)

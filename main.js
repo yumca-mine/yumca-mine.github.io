@@ -369,52 +369,54 @@ if(drawoverlay==true || !isMobile())
 {
 	if(document.getElementById("octomap").checked)
 	{
+		var minXformap=Math.floor((reversecalculateX(0)+64)/2048)-1;
+		var minZformap=Math.floor((reversecalculateY(0)+64)/2048)-1;
+		var maxXformap=Math.floor((reversecalculateX(C_WIDTH)+64)/2048)+1;
+		var maxZformap=Math.floor((reversecalculateY(C_HEIGHT)+64)/2048)+1;
+		
 		tilecount=0;
-		for(var X=-10;X<=10;X++)
+		for(var X=minXformap;X<=maxXformap;X++)
 		{
-			for(var Z=-10;Z<=10;Z++)
+			for(var Z=minZformap;Z<=maxZformap;Z++)
 			{
-				if(Math.floor(calculateX((X+1)*2048-64))>0 && Math.floor(calculateX((X)*2048-64))<C_WIDTH && 
-					Math.floor(calculateY((Z+1)*2048-64))>0 && Math.floor(calculateY((Z)*2048-64))<C_HEIGHT
-				)
+				try
 				{
-					try
+					var im=getOctomapTile(X,Z+1);					
+					if(im!=null)
 					{
-						var im=getOctomapTile(X,Z+1);					
-						if(im!=null)
-						{
-							ctx.drawImage(getOctomapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048))- Math.floor(calculateX(X*2048))+1,  Math.floor(calculateY((Z+1)*2048))- Math.floor(calculateY(Z*2048))+1);
-							tilecount++;
-						}
+						ctx.drawImage(getOctomapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048))- Math.floor(calculateX(X*2048))+1,  Math.floor(calculateY((Z+1)*2048))- Math.floor(calculateY(Z*2048))+1);
+						tilecount++;
 					}
-					catch (err) {console.error(err,X,Z)}
 				}
+				catch (err) {console.error(err,X,Z)}
 			}
 		} 
 	}
 	
 	if(document.getElementById("overlay0").checked)
 	{
+		
+		
+		var minXformap=Math.floor((reversecalculateX(0)+64)/128)-1;
+		var minZformap=Math.floor((reversecalculateY(0)+64)/128)-1;
+		var maxXformap=Math.floor((reversecalculateX(C_WIDTH)+64)/128)+1;
+		var maxZformap=Math.floor((reversecalculateY(C_HEIGHT)+64)/128)+1;
+				
 		tilecount=0;
-		for(var X=-70;X<=70;X++)
+		for(var X=minXformap;X<=maxXformap;X++)
 		{
-			for(var Z=-50;Z<=50;Z++)
+			for(var Z=minZformap;Z<=maxZformap;Z++)
 			{
-				if(Math.floor(calculateX((X+1)*128-64))>0 && Math.floor(calculateX((X)*128-64))<C_WIDTH && 
-					Math.floor(calculateY((Z+1)*128-64))>0 && Math.floor(calculateY((Z)*128-64))<C_HEIGHT
-				)
+				try
 				{
-					try
+					var im=getFullzoomTile(X,Z);					
+					if(im!=null)
 					{
-						var im=getFullzoomTile(X,Z);					
-						if(im!=null)
-						{
-							ctx.drawImage(getFullzoomTile(X,Z), Math.floor(calculateX(X*128-64)),  Math.floor(calculateY(Z*128-64)), Math.floor(calculateX((X+1)*128))- Math.floor(calculateX(X*128))+1,  Math.floor(calculateY((Z+1)*128))- Math.floor(calculateY(Z*128))+1);
-							tilecount++;
-						}
+						ctx.drawImage(getFullzoomTile(X,Z), Math.floor(calculateX(X*128-64)),  Math.floor(calculateY(Z*128-64)), Math.floor(calculateX((X+1)*128))- Math.floor(calculateX(X*128))+1,  Math.floor(calculateY((Z+1)*128))- Math.floor(calculateY(Z*128))+1);
+						tilecount++;
 					}
-					catch (err) {console.error(err,X,Z)}
 				}
+				catch (err) {console.error(err,X,Z)}
 			}
 		} 
 	}

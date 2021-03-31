@@ -123,7 +123,6 @@ function init()
 	c.addEventListener("mouseout", Mapmouseup);
 	c.addEventListener("mousedown", Mapmousedown);
 	c.addEventListener("mousemove", Mapmousemove);
-
 	c.addEventListener("touchmove", Mapmousemove, false);
 	c.addEventListener("touchstart", Mapmousedown, false);
 	c.addEventListener("touchend", Mapmouseup, false);

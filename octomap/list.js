@@ -1,5 +1,7 @@
 octolist.push("0,0");
 octolist.push("0,-1");
+octolist.push("0,-3");
+octolist.push("0,-4");
 octolist.push("0,1");
 octolist.push("0,2");
 octolist.push("-1,0");

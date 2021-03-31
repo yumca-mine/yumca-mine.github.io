@@ -145,8 +145,14 @@ function init()
 
 	initSize();
 
+	var DX=getURLParameter("DX");
+	if(DX!=null) {drawdecX=DX;decX=DX;}
+	var DZ=getURLParameter("DZ");
+	if(DZ!=null) {drawdecY=DZ;decY=DZ;}
+	var Z=getURLParameter("Z");
+	if(Z!=null) zoom=Z;
+
 	ctx=c.getContext("2d");
-	
 
 	image = new Image();
 	draw();
@@ -248,8 +254,10 @@ function emptyClickedList()	{ClickedList=[];}
 
 //----------------------------------------------------------------------------------------
 function distance(X1,X2,Z1,Z2) {return Math.sqrt(Math.pow(X1-X2,2)+Math.pow(Z1-Z2,2));}
+function getURLParameter(name) {return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;}
 
 //----------------------------------------------------------------------------------------
+function permalink()			{return "?DX="+Math.round(drawdecX)+"&DZ="+Math.round(drawdecY)+"&Z="+zoom;}
 function calculateX(val)		{return Math.floor((val+drawdecX*density)*zoom+C_WIDTH/2)-0.5;}
 function reversecalculateX(val)	{return Math.round((val-C_WIDTH/2)/zoom-drawdecX*density);}
 function calculateY(val)		{return Math.floor((val+drawdecY*density)*zoom+C_HEIGHT/2)-0.5;}
@@ -355,6 +363,7 @@ function drawtext(X,Z,TEXT,Hpos,Vpos,fore,back) //display text over a rectangle
 
 function draw(drawoverlay) //main drawing function
 {
+document.getElementById('permalink').href=permalink();
 if(document.getElementById("fontsize").checked) fontsize=16; else fontsize=12;
 
 ctx.font = (density*fontsize)+"px Arial";	

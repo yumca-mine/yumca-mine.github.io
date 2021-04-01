@@ -151,8 +151,8 @@ function init()
 	s=value.split(',');
 	octolimits[0]=Math.min(octolimits[0],s[0]);
 	octolimits[1]=Math.max(octolimits[1],s[0]);
-	octolimits[2]=Math.min(octolimits[2],s[1]);
-	octolimits[3]=Math.max(octolimits[3],s[1]);
+	octolimits[2]=Math.min(octolimits[2],s[1]-1);
+	octolimits[3]=Math.max(octolimits[3],s[1]-1);
 	}
 	
 	fulllist.forEach(minmaxFXZ);

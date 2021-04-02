@@ -1,9 +1,4 @@
 function DrawClaimData() {
-
-//drawClaim("@limebot claim 227 -1899 561 -1690 FaRo's base");
-
-//drawClaim("@limebot claim 227 -1899 561 -1690 FaRo's base",137);
-
 drawClaim(653,-896,929,-560,"Spawn Island",0);
 drawClaim(1070,-1920,1465,-1627,"Shopping District",1);
 drawClaim(603,-2390,771,-2204,"slicedlime's base",3);
@@ -95,4 +90,5 @@ drawClaim(1030,-50,1150,100,"KoEg82's claim",152);
 drawClaim("@limebot claim 1501 -983 1547 -934 Craters",154);
 drawClaim("@limebot claim 1410 -8920 1713 -9233 Enofix Mountain",156);
 drawClaim("@limebot claim 2951 -1699 3201 -1419 LucaREz's aquarium",155);
+drawClaim("@limebot claim 2232 328 2333 462 Hyper-Mountain",157);
 }

@@ -91,4 +91,5 @@ drawClaim("@limebot claim 1501 -983 1547 -934 Craters",154);
 drawClaim("@limebot claim 1410 -8920 1713 -9233 Enofix Mountain",156);
 drawClaim("@limebot claim 2951 -1699 3201 -1419 LucaREz's aquarium",155);
 drawClaim("@limebot claim 2232 328 2333 462 Hyper-Mountain",157);
+drawClaim("@limebot claim -8200 -1700 -8600 -2000 Serenity Cove",158);
 }

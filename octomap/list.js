@@ -9,6 +9,7 @@ octolist.push("1,0");
 octolist.push("-1,-1");
 octolist.push("-1,1");
 octolist.push("1,-1");
+octolist.push("1,-2");
 octolist.push("1,1");
 octolist.push("-1,2");
 octolist.push("1,2");

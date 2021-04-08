@@ -18,6 +18,7 @@ octolist.push("2,0");
 octolist.push("-2,-1");
 octolist.push("-2,1");
 octolist.push("2,-1");
+octolist.push("2,-2");
 octolist.push("2,1");
 octolist.push("-2,2");
 octolist.push("-2,7");

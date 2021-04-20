@@ -462,6 +462,7 @@ if(drawoverlay==true || !isMobile())
 
 }
 
+ctx.font = "bold "+(density*fontsize)+"px Arial";	
 
 //axes and grid
 var step=100;
@@ -486,17 +487,28 @@ for( var a=Math.round(-1*maxmapsize/step);a<=Math.round(1*maxmapsize/step);a++)
 		ctx.stroke();
 		
 		
-		ctx.fillStyle="rgba(80,80,80,1)";
+		ctx.strokeStyle="rgba(255,255,255,1)";
+		ctx.fillStyle="rgba(40,40,40,1)";
+		ctx.lineWidth = 3;
 		if(calculateY(0)>0 && calculateY(0)<C_HEIGHT-fontsize*density)
 		{
-			ctx.fillText(((a*step)/1000)+"km", calculateX(a*step), calculateY(0)+fontsize*density);		
+			var POX=calculateX(a*step);
+			var POZ=calculateY(0)+fontsize*density;		
 		}
 		else if(calculateY(0)>C_HEIGHT-fontsize*density)
 		{
-			ctx.fillText(((a*step)/1000)+"km", calculateX(a*step), C_HEIGHT);
+			var POX=calculateX(a*step);
+			var POZ=C_HEIGHT;
 		}
 		else
-			ctx.fillText(((a*step)/1000)+"km", calculateX(a*step), fontsize*density);
+		{
+			var POX=calculateX(a*step);
+			var POZ=fontsize*density;
+		}
+		
+		ctx.strokeText(((a*step)/1000)+"km", POX,POZ);
+		ctx.fillText(((a*step)/1000)+"km", POX,POZ);
+		ctx.lineWidth = 1;
 	}
 	
 	if(calculateY(a*step)>0 && calculateY(a*step)<C_HEIGHT)
@@ -510,17 +522,28 @@ for( var a=Math.round(-1*maxmapsize/step);a<=Math.round(1*maxmapsize/step);a++)
 		ctx.lineTo(calculateX(maxmapsize),calculateY(a*step));
 		ctx.stroke();
 		
-		ctx.fillStyle="rgba(80,80,80,1)";
+		ctx.strokeStyle="rgba(255,255,255,1)";
+		ctx.fillStyle="rgba(40,40,40,1)";
+		ctx.lineWidth = 3;
 		if(calculateX(0)>0 && calculateX(0)<C_WIDTH-fontsize*density)
 		{
-			ctx.fillText(((a*step)/1000)+"km", calculateX(0), calculateY(a*step));		
+			var POX=calculateX(0);
+			var POZ=calculateY(a*step);		
 		}
 		else if(calculateX(0)>C_WIDTH-fontsize*density)
 		{
-			ctx.fillText(((a*step)/1000)+"km", C_WIDTH-50, calculateY(a*step));
+			var POX=C_WIDTH-50;
+			var POZ=calculateY(a*step);
 		}
 		else
-			ctx.fillText(((a*step)/1000)+"km", 0, calculateY(a*step));
+		{	
+			var POX=0;
+			var POZ=calculateY(a*step);
+		}
+		
+		ctx.strokeText(((a*step)/1000)+"km", POX,POZ);
+		ctx.fillText(((a*step)/1000)+"km", POX,POZ);
+		ctx.lineWidth = 1;
 	}
 }
 

@@ -523,7 +523,20 @@ for( var a=Math.round(-1*maxmapsize/step);a<=Math.round(1*maxmapsize/step);a++)
 //-------------------------------------------- Clicked Coordinates --------------------------------------------
 if(ClickedList.length>0)	{
 	
-
+if(document.getElementById("action").value==3)
+{
+	var LX=	Math.round(calculateX(ClickedList[ClickedList.length-1][0]-50));
+	var RX=	Math.round(calculateX(ClickedList[ClickedList.length-1][0]+50));
+	var TY= 	Math.round(calculateY(ClickedList[ClickedList.length-1][1]-50));
+	var BY=	Math.round(calculateY(ClickedList[ClickedList.length-1][1]+50));
+	ctx.strokeStyle="rgba(255,255,255,1)";
+	ctx.fillStyle="rgba(80,80,80,0.3)";
+	ctx.beginPath();
+	ctx.rect(LX-0.5,TY-0.5, RX-LX, BY-TY);
+	ctx.fill();
+	ctx.stroke();
+	drawtext(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");
+}
 if(document.getElementById("action").value==2)
 {
 	var LX=	Math.round(calculateX(Math.floor(ClickedList[ClickedList.length-1][0]/16)*16-160));
@@ -536,6 +549,7 @@ if(document.getElementById("action").value==2)
 	ctx.rect(LX-0.5,TY-0.5, RX-LX, BY-TY);
 	ctx.fill();
 	ctx.stroke();
+	drawtext(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");
 }
 if(document.getElementById("action").value==0)
 {

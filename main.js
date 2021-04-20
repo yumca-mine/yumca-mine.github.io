@@ -547,6 +547,7 @@ for( var a=Math.round(-1*maxmapsize/step);a<=Math.round(1*maxmapsize/step);a++)
 	}
 }
 
+ctx.font = ""+(density*fontsize)+"px Arial";	
 
 //-------------------------------------------- Clicked Coordinates --------------------------------------------
 if(ClickedList.length>0)	{

@@ -276,6 +276,10 @@ function distance(X1,X2,Z1,Z2) {return Math.sqrt(Math.pow(X1-X2,2)+Math.pow(Z1-Z
 function getURLParameter(name) {return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;}
 
 //----------------------------------------------------------------------------------------
+function selectcoordinates() {ClickedList.push([1*document.getElementById("Xcoordsel").value,1*document.getElementById("Zcoordsel").value]);draw();}
+function centermaponcoordinates() {drawdecX=-1*document.getElementById("Xcoordcenter").value;decX=drawdecX;drawdecY=-1*document.getElementById("Zcoordcenter").value;decY=drawdecY;draw();}
+function hidecoordinateswindow() {document.getElementById("coordinateswindow").style.display="none";}
+function showcoordinateswindow() {document.getElementById("coordinateswindow").style.display="block"; document.getElementById("Xcoordcenter").value=Math.round(drawdecX)*-1; document.getElementById("Zcoordcenter").value=Math.round(drawdecY)*-1; if(ClickedList.length>0) {document.getElementById("Xcoordsel").value=ClickedList[ClickedList.length-1][0];document.getElementById("Zcoordsel").value=ClickedList[ClickedList.length-1][1];}}
 function permalink()			{return "?DX="+Math.round(drawdecX)+"&DZ="+Math.round(drawdecY)+"&Z="+zoom;}
 function calculateX(val)		{return Math.floor((val+drawdecX*density)*zoom+C_WIDTH/2)-0.5;}
 function reversecalculateX(val)	{return Math.round((val-C_WIDTH/2)/zoom-drawdecX*density);}

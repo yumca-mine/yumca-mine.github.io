@@ -21,9 +21,18 @@
 <input type='checkbox' checked id='octomap' onchange='writeCookie(&apos;C_octomap&apos;,this.checked);draw();' style=''><label for='octomap' class='item'>Octojen's big ingame map layer</label>
 <input type='checkbox' id='overlay0' onchange='writeCookie(&apos;C_overlay0&apos;,this.checked);draw();' style=''><label for='overlay0' class='item'>Partial zoom-in ingame map layer</label>
 </div>
-<div class='menu2'><label class='mapbutton link'><a id='permalink' style='color:inherit;text-decoration:none;' href='#'>Permalink</a></label></div>
+<div class='menu2'><label class='mapbutton' onclick='showcoordinateswindow();' >Enter Coordinate</label><label class='mapbutton link'><a id='permalink' style='color:inherit;text-decoration:none;' href='#'>Permalink</a></label></div>
 <div class='menu'>
 <input type='text' id='action' onchange='' style=''><label onclick='this.previousSibling.value=(this.previousSibling.value*1+1)%4;buttonvalueupdate(this.previousSibling);emptyClickedList();writeCookie(&apos;C_action&apos;,this.previousSibling.value);draw();'  class='mapbutton'><span class='optionspossible V0' style='display:none;' >Click: Coordinates</span><span class='optionspossible V1'  style='display:none;'>Click: Distances</span><span  class='optionspossible V2' style='display:none;'>Click: Loaded chuncks</span><span  class='optionspossible V3' style='display:none;'>Click: Max Beacon Range</span></label></div>
 <div id='zoom' ><div onclick='zoomin(6);'>+</div><div onclick='zoomout(6);'>-</div></div>
+<div style='position:absolute;display:none;background-color:white;right:20px;padding:10px;bottom:80px;' id='coordinateswindow'  >
+X:<input type='text' size=5 name='Xcoordcenter' id='Xcoordcenter' value=''>&nbsp;
+Z:<input type='text' size=5 name='Zcoordcenter' id='Zcoordcenter' value=''>&nbsp;&nbsp;
+<input type='button' value='Center Map' onclick='centermaponcoordinates();hidecoordinateswindow();'>
+<br><br>
+X:<input type='text' size=5 name='Xcoordsel' id='Xcoordsel' value=''>&nbsp;
+Z:<input type='text' size=5 name='Zcoordsel' id='Zcoordsel' value=''>&nbsp;&nbsp;
+<input type='button' value='Select Coordinates' onclick='selectcoordinates();hidecoordinateswindow();'>
+</div>
 </body>
 </html> 

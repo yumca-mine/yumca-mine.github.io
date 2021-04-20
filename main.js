@@ -183,7 +183,7 @@ function init()
 //----------------------------------------------------------------------------------------
 function OnKeyDown(event)
 {
-	if(event.keyCode==27) {emptyClickedList();draw();}
+	if(event.keyCode==27) {emptyAllClickedList();draw();}
 }
 //----------------------------------------------------------------------------------------
 function Mapmousedown(event)
@@ -270,6 +270,7 @@ function changezoom(event)	{if(event.deltaY<0) {zoomin(1);} else {zoomout(1);}}
 function zoomin(num)		{zoom*=Math.pow(1.1,num);draw();}
 function zoomout(num)		{zoom/=Math.pow(1.1,num);draw();}
 function emptyClickedList()	{while(ClickedList.length>1) {ClickedList.shift();} /*ClickedList=[];*/}
+function emptyAllClickedList()	{ClickedList=[];}
 
 //----------------------------------------------------------------------------------------
 function distance(X1,X2,Z1,Z2) {return Math.sqrt(Math.pow(X1-X2,2)+Math.pow(Z1-Z2,2));}

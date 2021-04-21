@@ -94,4 +94,5 @@ drawClaim("@limebot claim 2232 328 2333 462 Hyper-Mountain",157);
 drawClaim("@limebot claim -8200 -1700 -8600 -2000 Serenity Cove",158);
 drawClaim("@limebot claim -4600 125 -4850 -125 Alpine's Home",159);
 drawClaim("@limebot claim -4375 675 -4625 925 Alpine's Farms",160);
+drawClaim("@limebot claim 2536 -2551 2572 -2526",161);
 }

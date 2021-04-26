@@ -97,4 +97,5 @@ drawClaim("@limebot claim -4375 675 -4625 925 Alpine's Farms",160);
 drawClaim("@limebot claim 2536 -2551 2572 -2526 Mendax's Rave Ravine",161);
 drawClaim("@limebot claim 2400 -600 2700 -300 Non Empty Land",162);
 drawClaim("@limebot claim 4800 2200 4850 2260 SPAntarctica",163);
+drawClaim("@limebot claim 6489 -4706 6922 -5090 Cookieteers' Raceway",164);
 }

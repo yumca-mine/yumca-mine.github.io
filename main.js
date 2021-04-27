@@ -43,7 +43,7 @@ function getOctomapTile(X,Z)
 	{
 		octomap[X][Z]=new Image();
 		octomap[X][Z].src = "octomap/map"+X+","+Z+".png";
-		octomap[X][Z].onload = function(){draw();}
+		octomap[X][Z].onload = function(){requestDraw();}
 		return null;
 	}
 	return octomap[X][Z];
@@ -57,7 +57,7 @@ function getFullzoomTile(X,Z)
 	{
 		fullzoom[X][Z]=new Image();
 		fullzoom[X][Z].src = "fullzoom/map"+X+","+Z+".png";
-		fullzoom[X][Z].onload = function(){draw();}
+		fullzoom[X][Z].onload = function(){requestDraw();}
 		return null;
 	}
 	return fullzoom[X][Z];
@@ -177,7 +177,6 @@ function init()
 	draw();
 
 	image.src = "s3_biome_map.png";
-	image.onload = function(){draw();}
 
 }
 //----------------------------------------------------------------------------------------
@@ -384,9 +383,18 @@ function drawtext(X,Z,TEXT,Hpos,Vpos,fore,back) //display text over a rectangle
 	ctx.fillStyle=fore;
 	ctx.fillText(TEXT, X+Hdec+0.5+5*density, Z-3*density+0.5+Vdec);
 }
+var drawtimeout=null;
+function requestDraw()
+{
+	if(drawtimeout==null)
+	{
+	drawtimeout=setTimeout(draw,50);
+	}
+}
 
 function draw(drawoverlay) //main drawing function
 {
+drawtimeout=null;
 document.getElementById('permalink').href=permalink();
 if(document.getElementById("fontsize").checked) fontsize=16; else fontsize=12;
 

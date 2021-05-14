@@ -100,5 +100,5 @@ drawClaim("@limebot claim 4800 2200 4850 2260 SPAntarctica",163);
 drawClaim("@limebot claim 6489 -4706 6922 -5090 Cookieteers' Raceway",164);
 drawClaim("@limebot claim 1956 4182 2058 4318 Darkiceflame42's claim",165);
 drawClaim("@limebot claim -711 1516 -360 1878 Southpaw1496's Industrial District",166);
-drawClaim("@limebot claim 1775 679 1817 726 GianSmile\´s base,167);
+drawClaim("@limebot claim 1775 679 1817 726 GianSmile´s base",167);
 }

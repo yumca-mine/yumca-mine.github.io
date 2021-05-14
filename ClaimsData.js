@@ -73,7 +73,7 @@ drawClaim(-10545,5834,-10375,6030,"Bry",118);
 drawClaim(-300,-3300,0,-3000,"DElyMyth's claim",119);
 drawClaim(-2099,-1450,-1980,-1225,"silentrob's base",120);
 drawClaim(-3,-3,3,3,"0;0 (Shulker Catching) Platform",121);
-drawClaim(5184,-6080,5567,-5697,"Cookieteers' Map Art Area",123);
+drawClaim("@limebot claim 5567 -5697 5056 -6208 Cookieteers' Map Art Area",168);
 drawClaim(11413,-3465,11998,-3033,"MmeCromatique",124);
 drawClaim(-1473,-1772,-1256,-1640,"Octojen's Island",126);
 drawClaim(-2100,-100,-1700,200,"RikanioLand",127);
@@ -100,5 +100,5 @@ drawClaim("@limebot claim 4800 2200 4850 2260 SPAntarctica",163);
 drawClaim("@limebot claim 6489 -4706 6922 -5090 Cookieteers' Raceway",164);
 drawClaim("@limebot claim 1956 4182 2058 4318 Darkiceflame42's claim",165);
 drawClaim("@limebot claim -711 1516 -360 1878 Southpaw1496's Industrial District",166);
-drawClaim("@limebot claim 1775 679 1817 726 GianSmile´s base",167);
+drawClaim("@limebot claim 1710 720 1835 664 GianSmile´s base",169);
 }

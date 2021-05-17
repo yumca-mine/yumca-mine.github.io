@@ -165,9 +165,9 @@ function init()
 	}
 
 	var DX=getURLParameter("DX");
-	if(DX!=null) {drawdecX=DX;decX=DX;}
+	if(DX!=null) {drawdecX=DX;decX=DX;updatecoordinates();}
 	var DZ=getURLParameter("DZ");
-	if(DZ!=null) {drawdecY=DZ;decY=DZ;}
+	if(DZ!=null) {drawdecY=DZ;decY=DZ;updatecoordinates();}
 	var Z=getURLParameter("Z");
 	if(Z!=null) zoom=Z;
 
@@ -225,6 +225,7 @@ function Mapmouseup(event)
 		drawdecY=decY-(clickY-CY)/zoom;
 		decX=drawdecX;
 		decY=drawdecY;
+		updatecoordinates();
 		draw();
 	}
 	
@@ -232,6 +233,7 @@ function Mapmouseup(event)
 	if(!moving)
 	{
 		ClickedList.push([reversecalculateX(CX*density),reversecalculateY(CY*density)]);
+		updatecoordinates();
 		draw();
 	}
 	}
@@ -260,6 +262,7 @@ function Mapmousemove(event)
 		moving=true;
 		drawdecX=decX-(clickX-CX)/zoom;
 		drawdecY=decY-(clickY-CY)/zoom;
+		updatecoordinates();
 		draw(false);
 	}
 }
@@ -268,18 +271,29 @@ function Mapmousemove(event)
 function changezoom(event)	{if(event.deltaY<0) {zoomin(1);} else {zoomout(1);}}
 function zoomin(num)		{zoom*=Math.pow(1.1,num);draw();}
 function zoomout(num)		{zoom/=Math.pow(1.1,num);draw();}
-function emptyClickedList()	{while(ClickedList.length>1) {ClickedList.shift();} /*ClickedList=[];*/}
-function emptyAllClickedList()	{ClickedList=[];}
+function emptyClickedList()	{while(ClickedList.length>1) {ClickedList.shift();updatecoordinates();} /*ClickedList=[];*/}
+function emptyAllClickedList()	{ClickedList=[];updatecoordinates();}
 
 //----------------------------------------------------------------------------------------
 function distance(X1,X2,Z1,Z2) {return Math.sqrt(Math.pow(X1-X2,2)+Math.pow(Z1-Z2,2));}
 function getURLParameter(name) {return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;}
 
 //----------------------------------------------------------------------------------------
-function selectcoordinates() {ClickedList.push([1*document.getElementById("Xcoordsel").value,1*document.getElementById("Zcoordsel").value]);draw();}
-function centermaponcoordinates() {drawdecX=-1*document.getElementById("Xcoordcenter").value;decX=drawdecX;drawdecY=-1*document.getElementById("Zcoordcenter").value;decY=drawdecY;draw();}
+function selectCO() {ClickedList.push([1*document.getElementById("Xcoordsel").value,1*document.getElementById("Zcoordsel").value]);updatecoordinates();draw();}
+function centerCO() {drawdecX=-1*document.getElementById("Xcoordcenter").value;decX=drawdecX;drawdecY=-1*document.getElementById("Zcoordcenter").value;decY=drawdecY;updatecoordinates();draw();}
+function selectcenter() {ClickedList.push([1*document.getElementById("Xcoordcenter").value,1*document.getElementById("Zcoordcenter").value]);drawdecX=-1*document.getElementById("Xcoordcenter").value;decX=drawdecX;drawdecY=-1*document.getElementById("Zcoordcenter").value;decY=drawdecY;updatecoordinates();draw();}
+
+function centerselect() {ClickedList.push([1*document.getElementById("Xcoordsel").value,1*document.getElementById("Zcoordsel").value]);drawdecX=-1*document.getElementById("Xcoordsel").value;decX=drawdecX;drawdecY=-1*document.getElementById("Zcoordsel").value;decY=drawdecY;updatecoordinates();draw();}
+
+function updatecoordinates()
+{
+	 document.getElementById("Xcoordcenter").value=Math.round(drawdecX)*-1; document.getElementById("Zcoordcenter").value=Math.round(drawdecY)*-1;
+	 if(ClickedList.length>0)
+		{document.getElementById("Xcoordsel").value=ClickedList[ClickedList.length-1][0];document.getElementById("Zcoordsel").value=ClickedList[ClickedList.length-1][1];}
+}
+
 function hidecoordinateswindow() {document.getElementById("coordinateswindow").style.display="none";}
-function showcoordinateswindow() {document.getElementById("coordinateswindow").style.display="block"; document.getElementById("Xcoordcenter").value=Math.round(drawdecX)*-1; document.getElementById("Zcoordcenter").value=Math.round(drawdecY)*-1; if(ClickedList.length>0) {document.getElementById("Xcoordsel").value=ClickedList[ClickedList.length-1][0];document.getElementById("Zcoordsel").value=ClickedList[ClickedList.length-1][1];}}
+function showcoordinateswindow() {document.getElementById("coordinateswindow").style.display="block";}
 function permalink()			{return "?DX="+Math.round(drawdecX)+"&DZ="+Math.round(drawdecY)+"&Z="+zoom;}
 function calculateX(val)		{return Math.floor((val+drawdecX*density)*zoom+C_WIDTH/2)-0.5;}
 function reversecalculateX(val)	{return Math.round((val-C_WIDTH/2)/zoom-drawdecX*density);}
@@ -486,12 +500,12 @@ for( var a=Math.round(-1*maxmapsize/step);a<=Math.round(1*maxmapsize/step);a++)
 	if(calculateX(a*step)>0 && calculateX(a*step)<C_WIDTH)
 	{
 		if(a==0)
-			{ctx.strokeStyle="rgba(80,80,80,1)";}
+			{ctx.strokeStyle="rgba(233, 30, 99, 1)";}
 		else
 			{ctx.strokeStyle="rgba(255,255,255,0.3)";}
 		ctx.beginPath();
-		ctx.moveTo(calculateX(a*step),calculateY(maxmapsize*-1));
-		ctx.lineTo(calculateX(a*step),calculateY(maxmapsize));
+		ctx.moveTo(Math.round(calculateX(a*step))-0.5,Math.round(calculateY(maxmapsize*-1))-0.5);
+		ctx.lineTo(Math.round(calculateX(a*step))-0.5,Math.round(calculateY(maxmapsize))-0.5);
 		ctx.stroke();
 		
 		
@@ -522,31 +536,31 @@ for( var a=Math.round(-1*maxmapsize/step);a<=Math.round(1*maxmapsize/step);a++)
 	if(calculateY(a*step)>0 && calculateY(a*step)<C_HEIGHT)
 	{
 		if(a==0)
-			{ctx.strokeStyle="rgba(80,80,80,1)";}
+			{ctx.strokeStyle="rgba(233, 30, 99, 1)";}
 		else
 			{ctx.strokeStyle="rgba(255,255,255,0.3)";}
 		ctx.beginPath();
-		ctx.moveTo(calculateX(maxmapsize*-1),calculateY(a*step));
-		ctx.lineTo(calculateX(maxmapsize),calculateY(a*step));
+		ctx.moveTo(Math.round(calculateX(maxmapsize*-1))-0.5,Math.round(calculateY(a*step))-0.5);
+		ctx.lineTo(Math.round(calculateX(maxmapsize))-0.5,Math.round(calculateY(a*step))-0.5);
 		ctx.stroke();
-		
+
 		ctx.strokeStyle="rgba(255,255,255,1)";
 		ctx.fillStyle="rgba(40,40,40,1)";
 		ctx.lineWidth = 3;
 		if(calculateX(0)>0 && calculateX(0)<C_WIDTH-fontsize*density)
 		{
 			var POX=calculateX(0);
-			var POZ=calculateY(a*step);		
+			var POZ=calculateY(a*step)+fontsize*density;		
 		}
 		else if(calculateX(0)>C_WIDTH-fontsize*density)
 		{
 			var POX=C_WIDTH-50;
-			var POZ=calculateY(a*step);
+			var POZ=calculateY(a*step)+fontsize*density;
 		}
 		else
 		{	
 			var POX=0;
-			var POZ=calculateY(a*step);
+			var POZ=calculateY(a*step)+fontsize*density;
 		}
 		
 		ctx.strokeText(((a*step)/1000)+"km", POX,POZ);
@@ -558,7 +572,10 @@ for( var a=Math.round(-1*maxmapsize/step);a<=Math.round(1*maxmapsize/step);a++)
 ctx.font = ""+(density*fontsize)+"px Arial";	
 
 //-------------------------------------------- Clicked Coordinates --------------------------------------------
+//rgba(213, 0, 249,1) //purple
+//rgba(112, 158, 40, 1) // green ?
 if(ClickedList.length>0)	{
+var selectioncolor="rgba(233, 30, 99, 1)";
 	
 if(document.getElementById("action").value==3)
 {
@@ -572,7 +589,7 @@ if(document.getElementById("action").value==3)
 	ctx.rect(LX-0.5,TY-0.5, RX-LX, BY-TY);
 	ctx.fill();
 	ctx.stroke();
-	drawtext(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");
+	drawSelectionLabel(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"rgb(255,255,255)",selectioncolor);
 }
 if(document.getElementById("action").value==2)
 {
@@ -586,11 +603,11 @@ if(document.getElementById("action").value==2)
 	ctx.rect(LX-0.5,TY-0.5, RX-LX, BY-TY);
 	ctx.fill();
 	ctx.stroke();
-	drawtext(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");
+	drawSelectionLabel(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"rgb(255,255,255)",selectioncolor);
 }
 if(document.getElementById("action").value==0)
 {
-	drawtext(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");
+	drawSelectionLabel(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"rgb(255,255,255)",selectioncolor);
 	
 	if(showmapid!== false)
 	{
@@ -624,7 +641,7 @@ if(document.getElementById("action").value==1)
 		
 	}
 		
-	drawtext(calculateX(ClickedList[i][0]),calculateY(ClickedList[i][1]),"X:"+ClickedList[i][0]+" Z:"+ClickedList[i][1],"CENTER","TOP","rgb(255,255,255)","rgba(112, 158, 40, 1)");
+	drawSelectionLabel(calculateX(ClickedList[i][0]),calculateY(ClickedList[i][1]),"X:"+ClickedList[i][0]+" Z:"+ClickedList[i][1],"rgb(255,255,255)",selectioncolor);
 	}
 }
 
@@ -638,4 +655,21 @@ SelClaim="";
 if(document.getElementById("claims").checked) DrawClaimData();
 if(SelClaim!=null) drawClaim(SelClaim[0],SelClaim[1],SelClaim[2],SelClaim[3],SelClaim[4],SelClaim[5]); //calling once again draclaim to draw the selected one if it exists
 
+}
+
+function drawSelectionLabel(X,Z,L,textcol,backcol)
+{
+var crosssize=5;
+			ctx.strokeStyle=backcol;
+			ctx.beginPath();
+			ctx.moveTo(X-crosssize,Z-crosssize);
+			ctx.lineTo(X+crosssize,Z+crosssize);
+			ctx.stroke();	
+			ctx.beginPath();
+			ctx.moveTo(X+crosssize,Z-crosssize);
+			ctx.lineTo(X-crosssize,Z+crosssize);
+			ctx.stroke();	
+
+	drawtext(X,Z-15,L,"CENTER","TOP",textcol,backcol);	
+	
 }

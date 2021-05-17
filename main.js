@@ -296,9 +296,9 @@ function hidecoordinateswindow() {document.getElementById("coordinateswindow").s
 function showcoordinateswindow() {document.getElementById("coordinateswindow").style.display="block";}
 function permalink()			{return "?DX="+Math.round(drawdecX)+"&DZ="+Math.round(drawdecY)+"&Z="+zoom;}
 function calculateX(val)		{return Math.floor((val+drawdecX*density)*zoom+C_WIDTH/2)-0.5;}
-function reversecalculateX(val)	{return Math.round((val-C_WIDTH/2)/zoom-drawdecX*density);}
+function reversecalculateX(val)	{return Math.floor((val-C_WIDTH/2)/zoom-drawdecX*density);}
 function calculateY(val)		{return Math.floor((val+drawdecY*density)*zoom+C_HEIGHT/2)-0.5;}
-function reversecalculateY(val)	{return Math.round((val-C_HEIGHT/2)/zoom-drawdecY*density);}
+function reversecalculateY(val)	{return Math.floor((val-C_HEIGHT/2)/zoom-drawdecY*density);}
 
 function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
 {
@@ -589,7 +589,7 @@ if(document.getElementById("action").value==3)
 	ctx.rect(LX-0.5,TY-0.5, RX-LX, BY-TY);
 	ctx.fill();
 	ctx.stroke();
-	drawSelectionLabel(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"rgb(255,255,255)",selectioncolor);
+	drawSelectionLabel(ClickedList[ClickedList.length-1][0],calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"rgb(255,255,255)",selectioncolor);
 }
 if(document.getElementById("action").value==2)
 {
@@ -603,11 +603,11 @@ if(document.getElementById("action").value==2)
 	ctx.rect(LX-0.5,TY-0.5, RX-LX, BY-TY);
 	ctx.fill();
 	ctx.stroke();
-	drawSelectionLabel(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"rgb(255,255,255)",selectioncolor);
+	drawSelectionLabel(ClickedList[ClickedList.length-1][0],ClickedList[ClickedList.length-1][1],"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"rgb(255,255,255)",selectioncolor);
 }
 if(document.getElementById("action").value==0)
 {
-	drawSelectionLabel(calculateX(ClickedList[ClickedList.length-1][0]),calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"rgb(255,255,255)",selectioncolor);
+	drawSelectionLabel(ClickedList[ClickedList.length-1][0],ClickedList[ClickedList.length-1][1],"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"rgb(255,255,255)",selectioncolor);
 	
 	if(showmapid!== false)
 	{
@@ -641,7 +641,7 @@ if(document.getElementById("action").value==1)
 		
 	}
 		
-	drawSelectionLabel(calculateX(ClickedList[i][0]),calculateY(ClickedList[i][1]),"X:"+ClickedList[i][0]+" Z:"+ClickedList[i][1],"rgb(255,255,255)",selectioncolor);
+	drawSelectionLabel(ClickedList[i][0],ClickedList[i][1],"X:"+ClickedList[i][0]+" Z:"+ClickedList[i][1],"rgb(255,255,255)",selectioncolor);
 	}
 }
 
@@ -657,19 +657,34 @@ if(SelClaim!=null) drawClaim(SelClaim[0],SelClaim[1],SelClaim[2],SelClaim[3],Sel
 
 }
 
-function drawSelectionLabel(X,Z,L,textcol,backcol)
+function drawSelectionLabel(Xb,Zb,L,textcol,backcol)
 {
 var crosssize=5;
-			ctx.strokeStyle=backcol;
-			ctx.beginPath();
-			ctx.moveTo(X-crosssize,Z-crosssize);
-			ctx.lineTo(X+crosssize,Z+crosssize);
-			ctx.stroke();	
-			ctx.beginPath();
-			ctx.moveTo(X+crosssize,Z-crosssize);
-			ctx.lineTo(X-crosssize,Z+crosssize);
-			ctx.stroke();	
+var X=Math.floor(calculateX(Xb));
+var Z=Math.floor(calculateY(Zb));
+var X2=Math.floor(calculateX(Xb+1));
+var Z2=Math.floor(calculateY(Zb+1));
+var Xc=Math.round((X+X2)/2);
+var Zc=Math.round((Z+Z2)/2);
 
-	drawtext(X,Z-15,L,"CENTER","TOP",textcol,backcol);	
-	
+	if((X2-X)>(crosssize*2))
+	{
+		ctx.fillStyle=backcol;
+		ctx.beginPath();
+		ctx.rect(X,Z, X2-X, Z2-Z);
+		ctx.fill();
+	}
+	else
+	{
+		ctx.strokeStyle=backcol;
+		ctx.beginPath();
+		ctx.moveTo(Xc-crosssize,Zc-crosssize);
+		ctx.lineTo(Xc+crosssize,Zc+crosssize);
+		ctx.stroke();	
+		ctx.beginPath();
+		ctx.moveTo(Xc+crosssize,Zc-crosssize);
+		ctx.lineTo(Xc-crosssize,Zc+crosssize);
+		ctx.stroke();
+	}
+	drawtext(Xc-0.5,Z-15.5,L,"CENTER","TOP",textcol,backcol);	
 }

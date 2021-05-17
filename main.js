@@ -324,15 +324,15 @@ function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
 
 		//if it's the selected claim, we don't draw it, we save the info in SelClaim so we can render it last (over the other one)
 		var activeClaim=false;
-		if(ClickedList.length>0 && ClickedList[ClickedList.length-1][0]>X && ClickedList[ClickedList.length-1][0]<X2 && ClickedList[ClickedList.length-1][1]>Z && ClickedList[ClickedList.length-1][1]<Z2)
+		if(ClickedList.length>0 && ClickedList[ClickedList.length-1][0]>=X && ClickedList[ClickedList.length-1][0]<=X2 && ClickedList[ClickedList.length-1][1]>=Z && ClickedList[ClickedList.length-1][1]<=Z2)
 		{
 			activeClaim=true;
 			if(SelClaim=="") {SelClaim=[X,Z,X2,Z2,TEXT,CLAIMNUMBER]; return;}
 		}
 		
 		// calculating width and height
-		var W=Math.abs(X-X2);
-		var H=Math.abs(Z-Z2);
+		var W=Math.abs(X-X2)+1;
+		var H=Math.abs(Z-Z2)+1;
 		
 		// setting up the colors
 		var textcolor="rgb(0,0,0)";

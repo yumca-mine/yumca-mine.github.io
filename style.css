@@ -18,6 +18,19 @@ user-select: none;
 font-family:arial;
 }
 
+.formtable input
+{
+height: 40px;
+box-sizing: border-box;
+padding:4px;
+border: 1px solid #b0b0b0;
+border-radius:2px;
+}
+.formtable input.button
+{
+background-color:#e0e0e0;
+}
+
 /* should disable chrome refreshing the page when sliding finger towards the bottom of the screen*/
 body {
   overscroll-behavior: none;

@@ -63,11 +63,11 @@ function getFullzoomTile(X,Z)
 	return fullzoom[X][Z];
 }
 
-
 function isMobile() {
    try{ document.createEvent("TouchEvent"); return true; }
    catch(e){ return false; }
 }
+var thisismobile=false;
 
 
 function resize()	{initSize();draw();}
@@ -117,6 +117,7 @@ function buttonvalueupdate(but)
 
 function init()
 {
+	thisismobile=isMobile();
 	var c=document.getElementById("canvas");
 
 	document.addEventListener("keydown", OnKeyDown);
@@ -228,6 +229,7 @@ function Mapmouseup(event)
 		decX=drawdecX;
 		decY=drawdecY;
 		updatecoordinates();
+		clearTimeout(drawtimeout);
 		draw();
 	}
 	
@@ -265,7 +267,10 @@ function Mapmousemove(event)
 		drawdecX=decX-(clickX-CX)/zoom;
 		drawdecY=decY-(clickY-CY)/zoom;
 		updatecoordinates();
-		draw(false);
+		if(!thisismobile)
+		draw();
+		else
+		requestTimedDraw(40);
 	}
 }
 
@@ -296,6 +301,7 @@ function updatecoordinates()
 
 function hidecoordinateswindow() {document.getElementById("coordinateswindow").style.display="none";}
 function showcoordinateswindow() {document.getElementById("coordinateswindow").style.display="block";}
+function togglecoordinateswindow() {if(document.getElementById("coordinateswindow").style.display!="block") document.getElementById("coordinateswindow").style.display="block"; else document.getElementById("coordinateswindow").style.display="none";}
 function permalink()			{return "?DX="+Math.round(drawdecX*density)+"&DZ="+Math.round(drawdecY*density)+"&Z="+zoom;}
 function calculateX(val)		{return Math.floor((val+drawdecX*density)*zoom+C_WIDTH/2)-0.5;}
 function reversecalculateX(val)	{return Math.floor((val-C_WIDTH/2)/zoom-drawdecX*density);}
@@ -407,6 +413,18 @@ function requestDraw()
 	drawtimeout=setTimeout(draw,50);
 	}
 }
+function requestTimedDraw(time)
+{
+	if(drawtimeout==null)
+	{
+	drawtimeout=setTimeout(drawnooverlay,time);
+	}
+}
+
+function drawnooverlay()
+{
+	draw(false);
+}
 
 function draw(drawoverlay) //main drawing function
 {
@@ -422,8 +440,6 @@ ctx.clearRect(0, 0, C_WIDTH, C_HEIGHT);
 if(drawoverlay==undefined) drawoverlay=true; //optional parameter (if false, the overlay is never drawn) enhance perfs on mobile while panning
 
 //background layers
-if(drawoverlay==true || !isMobile())
-{
 	if(document.getElementById("octomap").checked)
 	{
 		var minXformap=Math.max(Math.floor((reversecalculateX(0)+64)/2048)-1,octolimits[0]);
@@ -449,7 +465,9 @@ if(drawoverlay==true || !isMobile())
 			}
 		} 
 	}
-	
+
+if(drawoverlay==true || !thisismobile)
+{
 	if(document.getElementById("overlay0").checked)
 	{
 		
@@ -591,7 +609,7 @@ if(document.getElementById("action").value==3)
 	ctx.rect(LX-0.5,TY-0.5, RX-LX, BY-TY);
 	ctx.fill();
 	ctx.stroke();
-	drawSelectionLabel(ClickedList[ClickedList.length-1][0],calculateY(ClickedList[ClickedList.length-1][1]),"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"rgb(255,255,255)",selectioncolor);
+	drawSelectionLabel(ClickedList[ClickedList.length-1][0],ClickedList[ClickedList.length-1][1],"X:"+ClickedList[ClickedList.length-1][0]+" Z:"+ClickedList[ClickedList.length-1][1],"rgb(255,255,255)",selectioncolor);
 }
 if(document.getElementById("action").value==2)
 {

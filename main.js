@@ -360,7 +360,7 @@ function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
 		//text(s) of the claim		
 		if(activeClaim)
 		{
-			TEXT+=" [ Claim "+CLAIMNUMBER+" ] "+Math.abs(X-X2)*Math.abs(Z-Z2)+"m\u00B2";
+			TEXT+=" [ Claim "+CLAIMNUMBER+" ] "+(Math.abs(X-X2)+1)*(Math.abs(Z-Z2)+1)+"m\u00B2";
 			drawtext(calculateX(X)+ Math.floor(W*zoom/2),calculateY(Z),TEXT,"CENTER","TOP",textcolor,activeborder); //complete title of the claim
 			if(zoom>0.25)
 			{

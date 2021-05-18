@@ -353,7 +353,7 @@ function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
 		
 		//the main rectangle of the claim
 		ctx.beginPath();
-		ctx.rect(calculateX(X), calculateY(Z), Math.floor(W*zoom), Math.floor(H*zoom));
+		ctx.rect(Math.round(calculateX(X))-0.5, Math.round(calculateY(Z))-0.5, Math.round(calculateX(X2+1))-Math.round(calculateX(X)), Math.round(calculateY(Z2+1))-Math.round(calculateY(Z)));
 		ctx.fill();
 		ctx.stroke();
 		

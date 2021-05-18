@@ -165,9 +165,9 @@ function init()
 	}
 
 	var DX=getURLParameter("DX");
-	if(DX!=null) {drawdecX=DX;decX=DX;updatecoordinates();}
+	if(DX!=null) {drawdecX=DX/density;decX=DX/density;updatecoordinates();}
 	var DZ=getURLParameter("DZ");
-	if(DZ!=null) {drawdecY=DZ;decY=DZ;updatecoordinates();}
+	if(DZ!=null) {drawdecY=DZ/density;decY=DZ/density;updatecoordinates();}
 	var Z=getURLParameter("Z");
 	if(Z!=null) zoom=Z;
 
@@ -183,6 +183,8 @@ function init()
 function OnKeyDown(event)
 {
 	if(event.keyCode==27) {emptyAllClickedList();draw();}
+	if(event.keyCode==67) {centerselect();}//c
+	if(event.keyCode==83) {selectcenter();}//s
 }
 //----------------------------------------------------------------------------------------
 function Mapmousedown(event)
@@ -280,21 +282,21 @@ function getURLParameter(name) {return decodeURIComponent((new RegExp('[?|&]' + 
 
 //----------------------------------------------------------------------------------------
 function selectCO() {ClickedList.push([1*document.getElementById("Xcoordsel").value,1*document.getElementById("Zcoordsel").value]);updatecoordinates();draw();}
-function centerCO() {drawdecX=-1*document.getElementById("Xcoordcenter").value;decX=drawdecX;drawdecY=-1*document.getElementById("Zcoordcenter").value;decY=drawdecY;updatecoordinates();draw();}
-function selectcenter() {ClickedList.push([1*document.getElementById("Xcoordcenter").value,1*document.getElementById("Zcoordcenter").value]);drawdecX=-1*document.getElementById("Xcoordcenter").value;decX=drawdecX;drawdecY=-1*document.getElementById("Zcoordcenter").value;decY=drawdecY;updatecoordinates();draw();}
+function centerCO() {drawdecX=-1*document.getElementById("Xcoordcenter").value/density;decX=drawdecX;drawdecY=-1*document.getElementById("Zcoordcenter").value/density;decY=drawdecY;updatecoordinates();draw();}
+function selectcenter() {ClickedList.push([1*document.getElementById("Xcoordcenter").value,1*document.getElementById("Zcoordcenter").value]);drawdecX=-1*document.getElementById("Xcoordcenter").value/density;decX=drawdecX;drawdecY=-1*document.getElementById("Zcoordcenter").value/density;decY=drawdecY;updatecoordinates();draw();}
 
-function centerselect() {ClickedList.push([1*document.getElementById("Xcoordsel").value,1*document.getElementById("Zcoordsel").value]);drawdecX=-1*document.getElementById("Xcoordsel").value;decX=drawdecX;drawdecY=-1*document.getElementById("Zcoordsel").value;decY=drawdecY;updatecoordinates();draw();}
+function centerselect() {ClickedList.push([1*document.getElementById("Xcoordsel").value,1*document.getElementById("Zcoordsel").value]);drawdecX=-1*document.getElementById("Xcoordsel").value/density;decX=drawdecX;drawdecY=-1*document.getElementById("Zcoordsel").value/density;decY=drawdecY;updatecoordinates();draw();}
 
 function updatecoordinates()
 {
-	 document.getElementById("Xcoordcenter").value=Math.round(drawdecX)*-1; document.getElementById("Zcoordcenter").value=Math.round(drawdecY)*-1;
+	 document.getElementById("Xcoordcenter").value=Math.round(drawdecX*density)*-1; document.getElementById("Zcoordcenter").value=Math.round(drawdecY*density)*-1;
 	 if(ClickedList.length>0)
 		{document.getElementById("Xcoordsel").value=ClickedList[ClickedList.length-1][0];document.getElementById("Zcoordsel").value=ClickedList[ClickedList.length-1][1];}
 }
 
 function hidecoordinateswindow() {document.getElementById("coordinateswindow").style.display="none";}
 function showcoordinateswindow() {document.getElementById("coordinateswindow").style.display="block";}
-function permalink()			{return "?DX="+Math.round(drawdecX)+"&DZ="+Math.round(drawdecY)+"&Z="+zoom;}
+function permalink()			{return "?DX="+Math.round(drawdecX*density)+"&DZ="+Math.round(drawdecY*density)+"&Z="+zoom;}
 function calculateX(val)		{return Math.floor((val+drawdecX*density)*zoom+C_WIDTH/2)-0.5;}
 function reversecalculateX(val)	{return Math.floor((val-C_WIDTH/2)/zoom-drawdecX*density);}
 function calculateY(val)		{return Math.floor((val+drawdecY*density)*zoom+C_HEIGHT/2)-0.5;}

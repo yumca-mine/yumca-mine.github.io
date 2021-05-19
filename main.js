@@ -186,6 +186,13 @@ function OnKeyDown(event)
 	if(event.keyCode==27) {emptyAllClickedList();draw();}
 	if(event.keyCode==67) {centerselect();}//c
 	if(event.keyCode==83) {selectcenter();}//s
+	if(event.keyCode==106) {zoom=1;draw();}//*
+	if(event.keyCode==109) {zoomout(1);}//-
+	if(event.keyCode==107) {zoomin(1);}//+
+	if(event.keyCode==37) {pan(-1,0);}//left
+	if(event.keyCode==38) {pan(0,-1);}//up
+	if(event.keyCode==39) {pan(1,0);}//right
+	if(event.keyCode==40) {pan(0,1);}//bottom
 }
 //----------------------------------------------------------------------------------------
 function Mapmousedown(event)
@@ -275,6 +282,17 @@ function Mapmousemove(event)
 }
 
 //----------------------------------------------------------------------------------------
+
+function pan(X,Z)
+{
+		drawdecX=drawdecX-(X*200)/zoom;
+		drawdecY=drawdecY-(Z*200)/zoom;
+		decX=drawdecX;
+		decY=drawdecY;
+		updatecoordinates();
+		draw();	
+}
+
 function changezoom(event)	{if(event.deltaY<0) {zoomin(1);} else {zoomout(1);}}
 function zoomin(num)		{zoom*=Math.pow(1.1,num);draw();}
 function zoomout(num)		{zoom/=Math.pow(1.1,num);draw();}

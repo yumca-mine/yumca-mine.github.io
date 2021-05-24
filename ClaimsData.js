@@ -73,7 +73,7 @@ drawClaim(-10545,5834,-10375,6030,"Bry",118);
 drawClaim(-300,-3300,0,-3000,"DElyMyth's claim",119);
 drawClaim(-2099,-1450,-1980,-1225,"silentrob's base",120);
 drawClaim(-3,-3,3,3,"0;0 (Shulker Catching) Platform",121);
-drawClaim("@limebot claim 5567 -5697 5056 -6208 Cookieteers' Map Art Area",168);
+drawClaim("@limebot claim 5567 -6336 5056 -5697 Cookieteers' Map Art Area",172);
 drawClaim(11413,-3465,11998,-3033,"MmeCromatique",124);
 drawClaim(-1473,-1772,-1256,-1640,"Octojen's Island",126);
 drawClaim(-2100,-100,-1700,200,"RikanioLand",127);

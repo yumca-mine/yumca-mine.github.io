@@ -14,7 +14,7 @@ octolist.push("-1,-1");
 octolist.push("-1,1");
 octolist.push("1,-1");
 octolist.push("1,-2");
-actolist.push("1,-3");
+octolist.push("1,-3");
 octolist.push("1,1");
 octolist.push("-1,2");
 octolist.push("1,2");

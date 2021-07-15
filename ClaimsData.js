@@ -105,5 +105,5 @@ drawClaim("@limebot claim 4544 2112 4671 2239 Sunny Postcard",171);
 drawClaim("@limebot claim 5567 -6336 4928 -5697 Cookieteers' Map Art Area",173);
 drawClaim("@limebot claim -2860 1320 -2230 840 Lolimi's claim",174);
 drawClaim("@limebot claim -1165 -1170 -1250 -1070 Octojen's southern lookout",175);
-drawClaim("@limebot claim -10232 5881 -994 6118 reserved for future public amethyst farm",176);
+drawClaim("@limebot claim -10232 5881 -9994 6118 reserved for future public amethyst farm",176);
 }

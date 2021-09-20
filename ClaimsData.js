@@ -107,4 +107,5 @@ drawClaim("@limebot claim -2860 1320 -2230 840 Lolimi's claim",174);
 drawClaim("@limebot claim -1165 -1170 -1250 -1070 Octojen's southern lookout",175);
 drawClaim("@limebot claim -10232 5881 -9994 6118 reserved for future public amethyst farm",176);
 drawClaim("@limebot claim 3300 -100 3600 350 Undead Cove",177);
+drawClaim("@limebot claim 3700 -1080 3980 -850 The Deep",178);
 }

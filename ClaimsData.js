@@ -81,7 +81,7 @@ drawClaim(-4263,3897,-4007,4153,"FobBob's claim",131);
 drawClaim(48,784,303,975,"IsleOfRuins",132);
 drawClaim(2540,550,2750,975,"FaeWorld",133);
 drawClaim(5255,2536,5355,2636,"Java's Fortress",135);
-drawClaim(700,1350,1050,1700,"Yumca's Atoll",136);
+drawClaim(700,1350,1050,1750,"Yumca's Atoll",180);
 drawClaim(227,-1899,561,-1690,"FaRo's base",137);
 drawClaim(695,2983,954,3242,"FaRo's public witch farm",142);
 drawClaim(-8970,-400,-8760,-190,"LumaLand",149);

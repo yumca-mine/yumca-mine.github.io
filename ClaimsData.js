@@ -109,4 +109,5 @@ drawClaim("@limebot claim -10232 5881 -9994 6118 reserved for future public amet
 drawClaim("@limebot claim 3300 -100 3600 350 Undead Cove",177);
 drawClaim("@limebot claim 3700 -1080 3980 -850 The Deep",178);
 drawClaim("@limebot claim 6160 -1960 6555 -1725 Triagonal’s Flower Forest",179);
+drawClaim("@limebot claim 450 1600 550 1700 Octarine Sanctuary",181);
 }

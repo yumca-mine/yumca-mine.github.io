@@ -493,7 +493,6 @@ if(drawoverlay==undefined) drawoverlay=true; //optional parameter (if false, the
 		var minZformap=Math.max(Math.floor((reversecalculateY(0)+64)/2048)-1,octolimits[2]);
 		var maxXformap=Math.min(Math.floor((reversecalculateX(C_WIDTH)+64)/2048)+1,octolimits[1]);
 		var maxZformap=Math.min(Math.floor((reversecalculateY(C_HEIGHT)+64)/2048)+1,octolimits[3]);
-		
 		tilecount=0;
 		for(var X=minXformap;X<=maxXformap;X++)
 		{
@@ -520,7 +519,6 @@ if(drawoverlay==undefined) drawoverlay=true; //optional parameter (if false, the
 		var minZformap=Math.max(Math.floor((reversecalculateY(0)+64)/2048)-1,octo18limits[2]);
 		var maxXformap=Math.min(Math.floor((reversecalculateX(C_WIDTH)+64)/2048)+1,octo18limits[1]);
 		var maxZformap=Math.min(Math.floor((reversecalculateY(C_HEIGHT)+64)/2048)+1,octo18limits[3]);
-		
 		tilecount=0;
 		for(var X=minXformap;X<=maxXformap;X++)
 		{

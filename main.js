@@ -53,7 +53,7 @@ function getOctomapTile(X,Z)
 }
 
 
-function getOctomap18Tile(X,Z)
+function getOcto18mapTile(X,Z)
 {
 	if(octo18list.indexOf(X+","+Z)==-1)  return null;
 	if(octo18map[X]==null) octo18map[X]=[];

@@ -176,8 +176,8 @@ function init()
 	}
 	
 	
-	octo18list.forEach(minmaxOXZ);
-	function minmaxOXZ(value) {
+	octo18list.forEach(minmaxO18XZ);
+	function minmaxO18XZ(value) {
 	s=value.split(',');
 	octo18limits[0]=Math.min(octo18limits[0],s[0]);
 	octo18limits[1]=Math.max(octo18limits[1],s[0]);

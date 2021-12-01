@@ -31,6 +31,9 @@ var zoom=0.15*density;
 var octomap=[];
 var octolist=[];
 var octolimits=[0,0,0,0];
+var octo18map=[];
+var octo18list=[];
+var octo18limits=[0,0,0,0];
 var fullzoom=[];
 var fulllist=[];
 var fulllimits=[0,0,0,0];
@@ -47,6 +50,21 @@ function getOctomapTile(X,Z)
 		return null;
 	}
 	return octomap[X][Z];
+}
+
+
+function getOctomap18Tile(X,Z)
+{
+	if(octo18list.indexOf(X+","+Z)==-1)  return null;
+	if(octo18map[X]==null) octo18map[X]=[];
+	if(octo18map[X][Z]==null)
+	{
+		octo18map[X][Z]=new Image();
+		octo18map[X][Z].src = "octomap18/map"+X+","+Z+".png";
+		octo18map[X][Z].onload = function(){requestDraw();}
+		return null;
+	}
+	return octo18map[X][Z];
 }
 
 function getFullzoomTile(X,Z)
@@ -135,6 +153,7 @@ function init()
 	if(readCookie("C_overlay")!=null) if(readCookie("C_overlay")=="true") document.getElementById("overlay").checked=true; else document.getElementById("overlay").checked=false;
 	if(readCookie("C_claims")!=null) if(readCookie("C_claims")=="true") document.getElementById("claims").checked=true; else document.getElementById("claims").checked=false;
 	if(readCookie("C_octomap")!=null) if(readCookie("C_octomap")=="true") document.getElementById("octomap").checked=true; else document.getElementById("octomap").checked=false;
+	if(readCookie("C_octomap18")!=null) if(readCookie("C_octomap18")=="true") document.getElementById("octomap18").checked=true; else document.getElementById("octomap18").checked=false;
 	
 	if(readCookie("C_action")!=null) document.getElementById("action").value=readCookie("C_action"); else document.getElementById("action").value=0;
 	buttonvalueupdate(document.getElementById("action"));
@@ -154,6 +173,16 @@ function init()
 	octolimits[1]=Math.max(octolimits[1],s[0]);
 	octolimits[2]=Math.min(octolimits[2],s[1]-1);
 	octolimits[3]=Math.max(octolimits[3],s[1]-1);
+	}
+	
+	
+	octo18list.forEach(minmaxOXZ);
+	function minmaxOXZ(value) {
+	s=value.split(',');
+	octo18limits[0]=Math.min(octo18limits[0],s[0]);
+	octo18limits[1]=Math.max(octo18limits[1],s[0]);
+	octo18limits[2]=Math.min(octo18limits[2],s[1]-1);
+	octo18limits[3]=Math.max(octo18limits[3],s[1]-1);
 	}
 	
 	fulllist.forEach(minmaxFXZ);
@@ -476,6 +505,33 @@ if(drawoverlay==undefined) drawoverlay=true; //optional parameter (if false, the
 					if(im!=null)
 					{
 						ctx.drawImage(getOctomapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048))- Math.floor(calculateX(X*2048))+1,  Math.floor(calculateY((Z+1)*2048))- Math.floor(calculateY(Z*2048))+1);
+						tilecount++;
+					}
+				}
+				catch (err) {console.error(err,X,Z)}
+			}
+		} 
+	}
+	
+//background layers
+	if(document.getElementById("octomap18").checked)
+	{
+		var minXformap=Math.max(Math.floor((reversecalculateX(0)+64)/2048)-1,octo18limits[0]);
+		var minZformap=Math.max(Math.floor((reversecalculateY(0)+64)/2048)-1,octo18limits[2]);
+		var maxXformap=Math.min(Math.floor((reversecalculateX(C_WIDTH)+64)/2048)+1,octo18limits[1]);
+		var maxZformap=Math.min(Math.floor((reversecalculateY(C_HEIGHT)+64)/2048)+1,octo18limits[3]);
+		
+		tilecount=0;
+		for(var X=minXformap;X<=maxXformap;X++)
+		{
+			for(var Z=minZformap;Z<=maxZformap;Z++)
+			{
+				try
+				{
+					var im=getOcto18mapTile(X,Z+1);					
+					if(im!=null)
+					{
+						ctx.drawImage(getOcto18mapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048))- Math.floor(calculateX(X*2048))+1,  Math.floor(calculateY((Z+1)*2048))- Math.floor(calculateY(Z*2048))+1);
 						tilecount++;
 					}
 				}

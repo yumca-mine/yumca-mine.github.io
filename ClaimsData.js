@@ -111,4 +111,5 @@ drawClaim("@limebot claim 3630 -1150 3980 -850 The Deep",184);
 drawClaim("@limebot claim 6160 -1960 6555 -1725 Triagonal’s Flower Forest",179);
 drawClaim("@limebot claim 450 1500 550 1600 Octarine Sanctuary",182);
 drawClaim("@limebot claim -1127   -1982  -1370    -1773 octojen's claim",183);
+drawClaim("@limebot claim 5300 -1650 5500 -1920 Runtels Isle", 185);
 }

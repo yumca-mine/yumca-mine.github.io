@@ -7,11 +7,13 @@ var ctx=null;
 var showmapid=false;
 var showmapborder1_1=false;
 var showmapborder1_16=false;
+var search="";
 
 urlParams = new URLSearchParams(new URL(this.location.href).search);
 
 if(urlParams.has('showmapborder1_16')) showmapborder1_16=true;
 if(urlParams.has('showmapborder1_1')) showmapborder1_1=true;
+if(urlParams.has('q')) search=urlParams.get('q');
 
 var C_WIDTH=C_HEIGHT=0;
 
@@ -363,7 +365,13 @@ function calculateY(val)		{return Math.floor((val+drawdecY*density)*zoom+C_HEIGH
 function reversecalculateY(val)	{return Math.floor((val-C_HEIGHT/2)/zoom-drawdecY*density);}
 
 function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
-{
+{	
+	if(search!="" && TEXT!=undefined)
+	{
+	position = TEXT.toLowerCase().search(search.toLowerCase());
+	if(position==-1) return
+	}
+	
 	if(arguments.length == 1 || arguments.length == 2)
 	{
 		if(Z==undefined) Z=" number not added here";

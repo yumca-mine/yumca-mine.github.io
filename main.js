@@ -640,7 +640,8 @@ ctx.textAlign = 'center';
 		
 	}
 
-
+	
+ctx.textAlign = 'left';
 if(!showmapborder1_16 & !showmapborder1_1)
 {
 //axes and grid

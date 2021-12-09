@@ -8,6 +8,11 @@ var showmapid=false;
 var showmapborder1_1=false;
 var showmapborder1_16=false;
 
+urlParams = new URLSearchParams(new URL(this.location.href).search);
+
+if(urlParams.has('showmapborder1_16')) showmapborder1_16=true;
+if(urlParams.has('showmapborder1_1')) showmapborder1_1=true;
+
 var C_WIDTH=C_HEIGHT=0;
 
 var image;

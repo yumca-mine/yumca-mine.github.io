@@ -112,4 +112,7 @@ drawClaim("@limebot claim 6160 -1960 6555 -1725 Triagonal’s Flower Forest",179
 drawClaim("@limebot claim 450 1500 550 1600 Octarine Sanctuary",182);
 drawClaim("@limebot claim -1127   -1982  -1370    -1773 octojen's claim",183);
 drawClaim("@limebot claim 5300 -1650 5500 -1920 Runtels Isle", 185);
+drawClaim("@limebot claim 1700 3250 1800 3350 Yumca's Purple fuzzball", 186);
+drawClaim("@limebot claim 837 4976 933 5062 Wandering Trader Kidnapping Platform", 187);
+drawClaim("@limebot claim 1550 11800 1650 11900 Yumca's 1.17 Mining Base", 188);
 }

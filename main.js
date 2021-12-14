@@ -9,12 +9,6 @@ var showmapborder1_1=false;
 var showmapborder1_16=false;
 var search="";
 
-urlParams = new URLSearchParams(new URL(this.location.href).search);
-
-if(urlParams.has('showmapborder1_16')) showmapborder1_16=true;
-if(urlParams.has('showmapborder1_1')) showmapborder1_1=true;
-if(urlParams.has('q')) search=urlParams.get('q');
-
 var C_WIDTH=C_HEIGHT=0;
 
 var image;
@@ -157,12 +151,45 @@ function init()
 	c.addEventListener("touchstart", Mapmousedown, false);
 	c.addEventListener("touchend", Mapmouseup, false);
 
-	if(readCookie("C_fontsize")!=null) if(readCookie("C_fontsize")=="true") document.getElementById("fontsize").checked=true; else document.getElementById("fontsize").checked=false;
-	if(readCookie("C_overlay0")!=null) if(readCookie("C_overlay0")=="true") document.getElementById("overlay0").checked=true; else document.getElementById("overlay0").checked=false;
-	if(readCookie("C_overlay")!=null) if(readCookie("C_overlay")=="true") document.getElementById("overlay").checked=true; else document.getElementById("overlay").checked=false;
-	if(readCookie("C_claims")!=null) if(readCookie("C_claims")=="true") document.getElementById("claims").checked=true; else document.getElementById("claims").checked=false;
-	if(readCookie("C_octomap")!=null) if(readCookie("C_octomap")=="true") document.getElementById("octomap").checked=true; else document.getElementById("octomap").checked=false;
-	if(readCookie("C_octomap18")!=null) if(readCookie("C_octomap18")=="true") document.getElementById("octomap18").checked=true; else document.getElementById("octomap18").checked=false;
+	urlParams = new URLSearchParams(new URL(this.location.href).search);
+	
+	if(urlParams.has('DX')) {var DX=urlParams.get('DX');drawdecX=DX/density;decX=DX/density;updatecoordinates();}
+	if(urlParams.has('DZ')) {var DZ=urlParams.get('DZ');drawdecY=DZ/density;decY=DZ/density;updatecoordinates();}
+	if(urlParams.has('Z')) zoom=urlParams.get('Z');
+
+	if(urlParams.has('showmapborder1_16')) showmapborder1_16=true;
+	if(urlParams.has('showmapborder1_1')) showmapborder1_1=true;
+	if(urlParams.has('q')) search=urlParams.get('q');	
+	
+	var P_fontsize=false;
+	var P_overlay0=false;
+	var P_overlay=false;
+	var P_claims=true;
+	var P_octomap=true;
+	var P_octomap18=false;
+	
+	if(readCookie("C_fontsize")=="true") P_fontsize=true;
+	if(readCookie("C_overlay0")=="true") P_overlay0=true;
+	if(readCookie("C_overlay")=="true") P_overlay=true;
+	if(readCookie("C_claims")=="true") P_claims=true;
+	if(readCookie("C_octomap")=="true")  P_octomap=true;
+	if(readCookie("C_octomap18")=="true") P_octomap18=true;
+	
+	if(urlParams.has('P1')) {var P=urlParams.get('P1');if(P=="1") P_fontsize=true;if(P=="0") P_fontsize=false;}
+	if(urlParams.has('P2')) {var P=urlParams.get('P2');if(P=="1") P_overlay0=true;if(P=="0") P_overlay0=false;}
+	if(urlParams.has('P3')) {var P=urlParams.get('P3');if(P=="1") P_overlay=true;if(P=="0") P_overlay=false;}
+	if(urlParams.has('P4')) {var P=urlParams.get('P4');if(P=="1") P_claims=true;if(P=="0") P_claims=false;}
+	if(urlParams.has('P5')) {var P=urlParams.get('P5');if(P=="1") P_octomap=true;if(P=="0") P_octomap=false;}
+	if(urlParams.has('P6')) {var P=urlParams.get('P6');if(P=="1") P_octomap18=true;if(P=="0") P_octomap18=false;}
+	
+	if(search!="") P_claims=true;
+	
+	document.getElementById("fontsize").checked=P_fontsize;
+	document.getElementById("overlay0").checked=P_overlay0;
+	document.getElementById("overlay").checked=P_overlay;
+	document.getElementById("claims").checked=P_claims;
+	document.getElementById("octomap").checked=P_octomap;
+	document.getElementById("octomap18").checked=P_octomap18;
 	
 	if(readCookie("C_action")!=null) document.getElementById("action").value=readCookie("C_action"); else document.getElementById("action").value=0;
 	buttonvalueupdate(document.getElementById("action"));
@@ -202,13 +229,8 @@ function init()
 	fulllimits[2]=Math.min(fulllimits[2],s[1]);
 	fulllimits[3]=Math.max(fulllimits[3],s[1]);
 	}
+	
 
-	var DX=getURLParameter("DX");
-	if(DX!=null) {drawdecX=DX/density;decX=DX/density;updatecoordinates();}
-	var DZ=getURLParameter("DZ");
-	if(DZ!=null) {drawdecY=DZ/density;decY=DZ/density;updatecoordinates();}
-	var Z=getURLParameter("Z");
-	if(Z!=null) zoom=Z;
 
 	ctx=c.getContext("2d");
 
@@ -339,7 +361,6 @@ function emptyAllClickedList()	{ClickedList=[];updatecoordinates();}
 
 //----------------------------------------------------------------------------------------
 function distance(X1,X2,Z1,Z2) {return Math.sqrt(Math.pow(X1-X2,2)+Math.pow(Z1-Z2,2));}
-function getURLParameter(name) {return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;}
 
 //----------------------------------------------------------------------------------------
 function selectCO() {ClickedList.push([1*document.getElementById("Xcoordsel").value,1*document.getElementById("Zcoordsel").value]);updatecoordinates();draw();}
@@ -358,7 +379,29 @@ function updatecoordinates()
 function hidecoordinateswindow() {document.getElementById("coordinateswindow").style.display="none";}
 function showcoordinateswindow() {document.getElementById("coordinateswindow").style.display="block";}
 function togglecoordinateswindow() {if(document.getElementById("coordinateswindow").style.display!="block") document.getElementById("coordinateswindow").style.display="block"; else document.getElementById("coordinateswindow").style.display="none";}
-function permalink()			{return "?DX="+Math.round(drawdecX*density)+"&DZ="+Math.round(drawdecY*density)+"&Z="+zoom;}
+
+function filterclaim() {
+var promptext = prompt("Filter claims", "");
+if (promptext != null) {search=promptext;}	else	{search="";}
+	document.location=permalink();
+	return false;
+}
+function permalink()			{
+	
+	return "?DX="+Math.round(drawdecX*density)+"&DZ="+Math.round(drawdecY*density)+"&Z="+(Math.round(zoom*1000)/1000)+
+	"&P1="+((document.getElementById("fontsize").checked) ? '1' : '0')+
+	"&P2="+((document.getElementById("overlay0").checked) ? '1' : '0')+
+	"&P3="+((document.getElementById("overlay").checked) ? '1' : '0')+
+	"&P4="+((document.getElementById("claims").checked) ? '1' : '0')+
+	"&P5="+((document.getElementById("octomap").checked) ? '1' : '0')+
+	"&P6="+((document.getElementById("octomap18").checked) ? '1' : '0')+
+	((showmapborder1_16) ? '&showmapborder1_16' : '')+
+	((showmapborder1_1) ? '&showmapborder1_1': '')+
+	((search!="") ? '&q='+search : '')
+	
+	 ;
+	
+}
 function calculateX(val)		{return Math.floor((val+drawdecX*density)*zoom+C_WIDTH/2)-0.5;}
 function reversecalculateX(val)	{return Math.floor((val-C_WIDTH/2)/zoom-drawdecX*density);}
 function calculateY(val)		{return Math.floor((val+drawdecY*density)*zoom+C_HEIGHT/2)-0.5;}

@@ -629,9 +629,17 @@ if((drawoverlay==true || !thisismobile))
 					var im=getFullzoomTile(X,Z);					
 					if(im!=null)
 					{
-
+						if(zoom>=0.2)
+						{
 						ctx.drawImage(getFullzoomTile(X,Z), Math.floor(calculateX(X*128-64)),  Math.floor(calculateY(Z*128-64)), Math.floor(calculateX((X+1)*128-64))- Math.floor(calculateX(X*128-64)),  Math.floor(calculateY((Z+1)*128-64))- Math.floor(calculateY(Z*128-64)));
-
+						}
+						else
+						{
+							ctx.fillStyle="rgba(255,255,255,0.3)";
+							ctx.beginPath();
+							ctx.rect( Math.floor(calculateX(X*128-64)),  Math.floor(calculateY(Z*128-64)), Math.floor(calculateX((X+1)*128-64))- Math.floor(calculateX(X*128-64)),  Math.floor(calculateY((Z+1)*128-64))- Math.floor(calculateY(Z*128-64)));
+							ctx.fill();
+						}
 						tilecount++;
 					}
 				}

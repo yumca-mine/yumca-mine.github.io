@@ -492,7 +492,7 @@ function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER,OWNER)
 		}
 		else
 		{
-			drawtext(calculateX(X)+ Math.floor(W*zoom/2),calculateY(Z),TEXT,"CENTER","TOP",textcolor,textbackClaim); //short title	
+			if(zoom>=0.15) drawtext(calculateX(X)+ Math.floor(W*zoom/2),calculateY(Z),TEXT,"CENTER","TOP",textcolor,textbackClaim); //short title	
 		}
 	}
 }
@@ -570,7 +570,7 @@ if(drawoverlay==undefined) drawoverlay=true; //optional parameter (if false, the
 					var im=getOctomapTile(X,Z+1);					
 					if(im!=null)
 					{
-						ctx.drawImage(getOctomapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048-64))- Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY((Z+1)*2048-64))- Math.floor(calculateY(Z*2048-64)));
+						ctx.drawImage(im, Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048-64))- Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY((Z+1)*2048-64))- Math.floor(calculateY(Z*2048-64)));
 						tilecount++;
 					}
 				}
@@ -598,7 +598,8 @@ if(drawoverlay==undefined) drawoverlay=true; //optional parameter (if false, the
 					var im=getOcto18mapTile(X,Z+1);					
 					if(im!=null)
 					{
-						ctx.drawImage(getOcto18mapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048-64))- Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY((Z+1)*2048-64))- Math.floor(calculateY(Z*2048-64)));
+						
+						ctx.drawImage(im, Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048-64))- Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY((Z+1)*2048-64))- Math.floor(calculateY(Z*2048-64)));
 						tilecount++;
 					}
 				}

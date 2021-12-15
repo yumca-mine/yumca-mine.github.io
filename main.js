@@ -570,7 +570,7 @@ if(drawoverlay==undefined) drawoverlay=true; //optional parameter (if false, the
 					var im=getOctomapTile(X,Z+1);					
 					if(im!=null)
 					{
-						ctx.drawImage(getOctomapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048))- Math.floor(calculateX(X*2048))+1,  Math.floor(calculateY((Z+1)*2048))- Math.floor(calculateY(Z*2048))+1);
+						ctx.drawImage(getOctomapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048-64))- Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY((Z+1)*2048-64))- Math.floor(calculateY(Z*2048-64)));
 						tilecount++;
 					}
 				}
@@ -598,7 +598,7 @@ if(drawoverlay==undefined) drawoverlay=true; //optional parameter (if false, the
 					var im=getOcto18mapTile(X,Z+1);					
 					if(im!=null)
 					{
-						ctx.drawImage(getOcto18mapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048))- Math.floor(calculateX(X*2048))+1,  Math.floor(calculateY((Z+1)*2048))- Math.floor(calculateY(Z*2048))+1);
+						ctx.drawImage(getOcto18mapTile(X,Z+1), Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY(Z*2048-64)), Math.floor(calculateX((X+1)*2048-64))- Math.floor(calculateX(X*2048-64)),  Math.floor(calculateY((Z+1)*2048-64))- Math.floor(calculateY(Z*2048-64)));
 						tilecount++;
 					}
 				}

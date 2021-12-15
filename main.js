@@ -460,7 +460,7 @@ function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER,OWNER)
 		var activeborder="rgb(255, 193, 7)";
 		var inactiveborder="rgb(255, 255, 255)";
 		
-		var claimfill="rgb(255,255,255,0.3)";
+		var claimfill="rgb(255,255,255,0.1)";
 		
 		var textbackcoord="rgb(255,255,255,0.5)";
 		var textbackClaim="rgb(255,255,255,0.7)";
@@ -608,7 +608,7 @@ if(drawoverlay==undefined) drawoverlay=true; //optional parameter (if false, the
 	}
 	
 
-if(drawoverlay==true || !thisismobile)
+if((drawoverlay==true || !thisismobile))
 {
 	if(document.getElementById("overlay0").checked)
 	{
@@ -629,7 +629,9 @@ if(drawoverlay==true || !thisismobile)
 					var im=getFullzoomTile(X,Z);					
 					if(im!=null)
 					{
-						ctx.drawImage(getFullzoomTile(X,Z), Math.floor(calculateX(X*128-64)),  Math.floor(calculateY(Z*128-64)), Math.floor(calculateX((X+1)*128))- Math.floor(calculateX(X*128))+1,  Math.floor(calculateY((Z+1)*128))- Math.floor(calculateY(Z*128))+1);
+
+						ctx.drawImage(getFullzoomTile(X,Z), Math.floor(calculateX(X*128-64)),  Math.floor(calculateY(Z*128-64)), Math.floor(calculateX((X+1)*128-64))- Math.floor(calculateX(X*128-64)),  Math.floor(calculateY((Z+1)*128-64))- Math.floor(calculateY(Z*128-64)));
+
 						tilecount++;
 					}
 				}

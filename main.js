@@ -407,13 +407,9 @@ function reversecalculateX(val)	{return Math.floor((val-C_WIDTH/2)/zoom-drawdecX
 function calculateY(val)		{return Math.floor((val+drawdecY*density)*zoom+C_HEIGHT/2)-0.5;}
 function reversecalculateY(val)	{return Math.floor((val-C_HEIGHT/2)/zoom-drawdecY*density);}
 
-function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
+function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER,OWNER)
 {	
-	if(search!="" && TEXT!=undefined)
-	{
-	position = TEXT.toLowerCase().search(search.toLowerCase());
-	if(position==-1) return
-	}
+
 	
 	if(arguments.length == 1 || arguments.length == 2)
 	{
@@ -422,15 +418,26 @@ function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
 		found = X.match(regex);
 		if(found!=null)
 		{
-			drawClaim(parseInt(found[1]),parseInt(found[2]),parseInt(found[3]),parseInt(found[4]),found[5],Z);
+			drawClaim(parseInt(found[1]),parseInt(found[2]),parseInt(found[3]),parseInt(found[4]),found[5],Z,"");
 		}
 		else
 		{
 			console.log("invalid input");
 		}
 	}
-	else if(arguments.length == 6)
+	else if(arguments.length == 6 ||arguments.length == 7)
 	{
+		if(OWNER==undefined) OWNER="";
+		if(search!="")
+		{
+		var notfound1=false;
+		var notfound2=false;
+		notfound1 = (TEXT.toLowerCase().search(search.toLowerCase())==-1);
+		if(OWNER!="") notfound2 = (OWNER.toLowerCase().search(search.toLowerCase())==-1);
+		
+		if(notfound1 && notfound2) return
+		}
+	
 		//swap coordinates if required
 		if(X>X2){var temp = X;  X = X2;  X2 = temp;}
 		if(Z>Z2){var temp = Z; Z = Z2;  Z2 = temp;}
@@ -440,7 +447,7 @@ function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
 		if(ClickedList.length>0 && ClickedList[ClickedList.length-1][0]>=X && ClickedList[ClickedList.length-1][0]<=X2 && ClickedList[ClickedList.length-1][1]>=Z && ClickedList[ClickedList.length-1][1]<=Z2)
 		{
 			activeClaim=true;
-			if(SelClaim=="") {SelClaim=[X,Z,X2,Z2,TEXT,CLAIMNUMBER]; return;}
+			if(SelClaim=="") {SelClaim=[X,Z,X2,Z2,TEXT,CLAIMNUMBER,OWNER]; return;}
 		}
 		
 		// calculating width and height
@@ -473,7 +480,9 @@ function drawClaim(X,Z,X2,Z2,TEXT,CLAIMNUMBER)
 		//text(s) of the claim		
 		if(activeClaim)
 		{
-			TEXT+=" [ Claim "+CLAIMNUMBER+" ] "+(Math.abs(X-X2)+1)*(Math.abs(Z-Z2)+1)+"m\u00B2";
+			
+			if(OWNER!=undefined) OWNER=" by "+OWNER; else OWNER="?";
+			TEXT+=" [ Claim "+CLAIMNUMBER+" ]"+OWNER+" "+(Math.abs(X-X2)+1)*(Math.abs(Z-Z2)+1)+"m\u00B2";
 			drawtext(calculateX(X)+ Math.floor(W*zoom/2),calculateY(Z),TEXT,"CENTER","TOP",textcolor,activeborder); //complete title of the claim
 			if(zoom>0.25)
 			{
@@ -861,9 +870,9 @@ if(document.getElementById("action").value==1)
 
 
 //-------------------------------------------- CLAIMS --------------------------------------------
-SelClaim="";
+SelClaim=null;
 if(document.getElementById("claims").checked) DrawClaimData();
-if(SelClaim!=null) drawClaim(SelClaim[0],SelClaim[1],SelClaim[2],SelClaim[3],SelClaim[4],SelClaim[5]); //calling once again draclaim to draw the selected one if it exists
+if(SelClaim!=null) drawClaim(SelClaim[0],SelClaim[1],SelClaim[2],SelClaim[3],SelClaim[4],SelClaim[5],SelClaim[6]); //calling once again draclaim to draw the selected one if it exists
 
 }
 

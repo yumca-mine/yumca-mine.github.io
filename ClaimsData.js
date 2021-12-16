@@ -115,4 +115,5 @@ drawClaim(5300,-1920,5500,-1650,"Runtels Isle",185,"Runtels");
 drawClaim(1700,3250,1800,3350,"Yumca's Purple fuzzball",186,"Yumca");
 drawClaim(837,4976,933,5062,"Wandering Trader Kidnapping Platform",187,"Yumca");
 drawClaim(1550,11800,1650,11900,"Yumca's 1.17 Mining Base",188,"Yumca");
+drawClaim(-7081,-4196,-2313,-1118,"Old mining desert",115,"FaRo1");
 }

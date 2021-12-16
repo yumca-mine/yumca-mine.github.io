@@ -12,6 +12,7 @@ var search="";
 var C_WIDTH=C_HEIGHT=0;
 
 var image;
+var image2;
 
 var clickX=clickY="";
 
@@ -162,6 +163,7 @@ function init()
 	var P_fontsize=false;
 	var P_overlay0=false;
 	var P_overlay=false;
+	var P_overlaytrim=false;
 	var P_claims=true;
 	var P_octomap=true;
 	var P_octomap18=false;
@@ -169,6 +171,7 @@ function init()
 	if(readCookie("C_fontsize")=="true") P_fontsize=true;
 	if(readCookie("C_overlay0")=="true") P_overlay0=true;
 	if(readCookie("C_overlay")=="true") P_overlay=true;
+	if(readCookie("C_overlaytrim")=="true") P_overlaytrim=true;
 	if(readCookie("C_claims")=="true") P_claims=true;
 	if(readCookie("C_octomap")=="true")  P_octomap=true;
 	if(readCookie("C_octomap18")=="true") P_octomap18=true;
@@ -179,6 +182,7 @@ function init()
 	if(urlParams.has('P4')) {var P=urlParams.get('P4');if(P=="1") P_claims=true;if(P=="0") P_claims=false;}
 	if(urlParams.has('P5')) {var P=urlParams.get('P5');if(P=="1") P_octomap=true;if(P=="0") P_octomap=false;}
 	if(urlParams.has('P6')) {var P=urlParams.get('P6');if(P=="1") P_octomap18=true;if(P=="0") P_octomap18=false;}
+	if(urlParams.has('P7')) {var P=urlParams.get('P7');if(P=="1") P_overlaytrim=true;if(P=="0") P_overlaytrim=false;}
 	
 	if(search!="") P_claims=true;
 	
@@ -188,6 +192,7 @@ function init()
 	document.getElementById("claims").checked=P_claims;
 	document.getElementById("octomap").checked=P_octomap;
 	document.getElementById("octomap18").checked=P_octomap18;
+	document.getElementById("overlaytrim").checked=P_overlaytrim;
 	
 	if(readCookie("C_action")!=null) document.getElementById("action").value=readCookie("C_action"); else document.getElementById("action").value=0;
 	buttonvalueupdate(document.getElementById("action"));
@@ -233,9 +238,10 @@ function init()
 	ctx=c.getContext("2d");
 
 	image = new Image();
+	image2 = new Image();
 	draw();
-
-	image.src = "s3_biome_map.png";
+	image.onload=function(){requestDraw();}
+	image2.onload=function(){requestDraw();}
 
 }
 //----------------------------------------------------------------------------------------
@@ -435,6 +441,7 @@ function permalink()			{
 	"&P4="+((document.getElementById("claims").checked) ? '1' : '0')+
 	"&P5="+((document.getElementById("octomap").checked) ? '1' : '0')+
 	"&P6="+((document.getElementById("octomap18").checked) ? '1' : '0')+
+	"&P7="+((document.getElementById("overlaytrim").checked) ? '1' : '0')+
 	((showmapborder1_16) ? '&showmapborder1_16' : '')+
 	((showmapborder1_1) ? '&showmapborder1_1': '')+
 	((search!="") ? '&q='+search : '')
@@ -691,7 +698,18 @@ if((drawoverlay==true || !thisismobile))
 
 	try {
 		if(document.getElementById("overlay").checked)
+		{
+			if(image.src=="") image.src = "s3_biome_map.png";
 			ctx.drawImage(image, calculateX(-3584), calculateY(-3072),calculateX(4608+512)-calculateX(-3584), calculateY(1024+512)-calculateY(-3072));
+		}
+		if(document.getElementById("overlaytrim").checked)
+		{
+			if(image2.src=="") image2.src = "trim1.17.png";
+			var scaleofthis=16;
+			var SCRX=(-3432+24)*scaleofthis/2;
+			var SCRY=(-1879+100)*scaleofthis/2;
+			ctx.drawImage(image2, calculateX(SCRX), calculateY(SCRY),calculateX(SCRX+3432*scaleofthis)-calculateX(SCRX), calculateY(SCRY+1879*scaleofthis)-calculateY(SCRY));
+		}
 	} 
 	catch (err) {console.error(err)}
 

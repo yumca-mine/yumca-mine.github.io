@@ -704,11 +704,18 @@ if((drawoverlay==true || !thisismobile))
 		}
 		if(document.getElementById("overlaytrim").checked)
 		{
+			/*
 			if(image2.src=="") image2.src = "trim1.17.png";
 			var scaleofthis=16;
 			var SCRX=(-3432+24)*scaleofthis/2;
 			var SCRY=(-1879+100)*scaleofthis/2;
 			ctx.drawImage(image2, calculateX(SCRX), calculateY(SCRY),calculateX(SCRX+3432*scaleofthis)-calculateX(SCRX), calculateY(SCRY+1879*scaleofthis)-calculateY(SCRY));
+			*/
+			if(image2.src=="") image2.src = "trim1.18.png";
+			var scaleofthis=9.96;
+			var SCRX=(-2560+10)*scaleofthis/2;
+			var SCRY=(-1440+204)*scaleofthis/2;
+			ctx.drawImage(image2, calculateX(SCRX), calculateY(SCRY),calculateX(SCRX+2560*scaleofthis)-calculateX(SCRX), calculateY(SCRY+1440*scaleofthis)-calculateY(SCRY));
 		}
 	} 
 	catch (err) {console.error(err)}

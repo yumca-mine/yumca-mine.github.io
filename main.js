@@ -15,7 +15,7 @@ var image;
 
 var clickX=clickY="";
 
-var decX=decY=0;
+var decNX=decNY=0;
 var drawdecX=drawdecY=0;
 var ClickedList=[];
 
@@ -24,11 +24,9 @@ var SelClaim=null;
 var moving=false;
 
 var density=window.devicePixelRatio;
-
 var tilecount=0;
 
 drawdecY=700/density;
-decY=700/density;
 var zoom=0.15*density;
 
 var octomap=[];
@@ -153,8 +151,8 @@ function init()
 
 	urlParams = new URLSearchParams(new URL(this.location.href).search);
 	
-	if(urlParams.has('DX')) {var DX=urlParams.get('DX');drawdecX=DX/density;decX=DX/density;updatecoordinates();}
-	if(urlParams.has('DZ')) {var DZ=urlParams.get('DZ');drawdecY=DZ/density;decY=DZ/density;updatecoordinates();}
+	if(urlParams.has('DX')) {var DX=urlParams.get('DX');drawdecX=DX/density;updatecoordinates();}
+	if(urlParams.has('DZ')) {var DZ=urlParams.get('DZ');drawdecY=DZ/density;updatecoordinates();}
 	if(urlParams.has('Z')) zoom=urlParams.get('Z');
 
 	if(urlParams.has('showmapborder1_16')) showmapborder1_16=true;
@@ -261,11 +259,15 @@ function Mapmousedown(event)
 	{
 		clickX=event.clientX;
 		clickY=event.clientY;
+		decNX=drawdecX;
+		decNY=drawdecY;
 	}
 	if(event.type=="touchstart")
 	{
 		clickX=event.touches[0].clientX;
 		clickY=event.touches[0].clientY;
+		decNX=drawdecX;
+		decNY=drawdecY;
 	}
 }
 //----------------------------------------------------------------------------------------
@@ -291,10 +293,8 @@ function Mapmouseup(event)
 	{
 	if(clickX!=CX || clickY!=CY)
 	{
-		drawdecX=decX-(clickX-CX)/zoom;
-		drawdecY=decY-(clickY-CY)/zoom;
-		decX=drawdecX;
-		decY=drawdecY;
+		drawdecX=decNX-(clickX-CX)/zoom;
+		drawdecY=decNY-(clickY-CY)/zoom;
 		updatecoordinates();
 		clearTimeout(drawtimeout);
 		draw();
@@ -331,8 +331,8 @@ function Mapmousemove(event)
 	if(clickX!="")
 	{
 		moving=true;
-		drawdecX=decX-(clickX-CX)/zoom;
-		drawdecY=decY-(clickY-CY)/zoom;
+		drawdecX=decNX-(clickX-CX)/zoom;
+		drawdecY=decNY-(clickY-CY)/zoom;
 		updatecoordinates();
 		if(!thisismobile)
 		draw();
@@ -347,15 +347,55 @@ function pan(X,Z)
 {
 		drawdecX=drawdecX-(X*200)/zoom;
 		drawdecY=drawdecY-(Z*200)/zoom;
-		decX=drawdecX;
-		decY=drawdecY;
 		updatecoordinates();
 		draw();	
 }
 
-function changezoom(event)	{if(event.deltaY<0) {zoomin(1);} else {zoomout(1);}}
-function zoomin(num)		{zoom*=Math.pow(1.1,num);draw();}
-function zoomout(num)		{zoom/=Math.pow(1.1,num);draw();}
+function changezoom(event)	{if(event.deltaY<0) {zoomin(1,event);} else {zoomout(1,event);}}
+function zoomin(num,transmitedevent)		{
+	
+	if(transmitedevent!=undefined) //hacky way of centering the zoom on mouse cursor
+	{
+	var CLX=transmitedevent.clientX;
+	var CLY=transmitedevent.clientY;
+	var RCX=reversecalculateX(CLX*density);
+	var RCY=reversecalculateY(CLY*density);
+	}
+	
+	zoom*=Math.pow(1.1,num);
+	
+	if(transmitedevent!=undefined) //hacky way of centering the zoom on mouse cursor
+	{
+	var RCX2=reversecalculateX(CLX*density);
+	var RCY2=reversecalculateY(CLY*density);
+	drawdecX+=(RCX2-RCX)/density;
+	drawdecY+=(RCY2-RCY)/density;
+	}
+	draw();
+
+}
+function zoomout(num,transmitedevent)		{
+	
+	if(transmitedevent!=undefined) //hacky way of centering the zoom on mouse cursor
+	{
+	var CLX=transmitedevent.clientX;
+	var CLY=transmitedevent.clientY;
+	var RCX=reversecalculateX(CLX*density);
+	var RCY=reversecalculateY(CLY*density);
+	}
+	
+	zoom/=Math.pow(1.1,num);
+	
+	if(transmitedevent!=undefined) //hacky way of centering the zoom on mouse cursor
+	{
+	var RCX2=reversecalculateX(CLX*density);
+	var RCY2=reversecalculateY(CLY*density);
+	drawdecX+=(RCX2-RCX)/density;
+	drawdecY+=(RCY2-RCY)/density;
+	}
+	draw();
+	
+}
 function emptyClickedList()	{while(ClickedList.length>1) {ClickedList.shift();updatecoordinates();} /*ClickedList=[];*/}
 function emptyAllClickedList()	{ClickedList=[];updatecoordinates();}
 
@@ -364,10 +404,10 @@ function distance(X1,X2,Z1,Z2) {return Math.sqrt(Math.pow(X1-X2,2)+Math.pow(Z1-Z
 
 //----------------------------------------------------------------------------------------
 function selectCO() {ClickedList.push([1*document.getElementById("Xcoordsel").value,1*document.getElementById("Zcoordsel").value]);updatecoordinates();draw();}
-function centerCO() {drawdecX=-1*document.getElementById("Xcoordcenter").value/density;decX=drawdecX;drawdecY=-1*document.getElementById("Zcoordcenter").value/density;decY=drawdecY;updatecoordinates();draw();}
-function selectcenter() {ClickedList.push([1*document.getElementById("Xcoordcenter").value,1*document.getElementById("Zcoordcenter").value]);drawdecX=-1*document.getElementById("Xcoordcenter").value/density;decX=drawdecX;drawdecY=-1*document.getElementById("Zcoordcenter").value/density;decY=drawdecY;updatecoordinates();draw();}
+function centerCO() {drawdecX=-1*document.getElementById("Xcoordcenter").value/density;drawdecY=-1*document.getElementById("Zcoordcenter").value/density;updatecoordinates();draw();}
+function selectcenter() {ClickedList.push([1*document.getElementById("Xcoordcenter").value,1*document.getElementById("Zcoordcenter").value]);drawdecX=-1*document.getElementById("Xcoordcenter").value/density;drawdecY=-1*document.getElementById("Zcoordcenter").value/density;updatecoordinates();draw();}
 
-function centerselect() {ClickedList.push([1*document.getElementById("Xcoordsel").value,1*document.getElementById("Zcoordsel").value]);drawdecX=-1*document.getElementById("Xcoordsel").value/density;decX=drawdecX;drawdecY=-1*document.getElementById("Zcoordsel").value/density;decY=drawdecY;updatecoordinates();draw();}
+function centerselect() {ClickedList.push([1*document.getElementById("Xcoordsel").value,1*document.getElementById("Zcoordsel").value]);drawdecX=-1*document.getElementById("Xcoordsel").value/density;drawdecY=-1*document.getElementById("Zcoordsel").value/density;updatecoordinates();draw();}
 
 function updatecoordinates()
 {

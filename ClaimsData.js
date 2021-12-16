@@ -67,7 +67,7 @@ drawClaim(6061,-3462,6221,-3328,"ShinyRai's Home",111,"ShinyRai");
 drawClaim(6097,-3274,6101,-3268,"ShinyRai's AFK Raft",112,"ShinyRai");
 drawClaim(5985,-3294,6044,-3160,"ShinyRai's farm Island",113,"ShinyRai");
 drawClaim(-11685,5659,-10590,6642,"Mining mesa",114,"FaRo1");
-drawClaim(-5800,-3390,-2313,-1118,"Mining desert",189,"Octoeen");
+drawClaim(-5800,-3390,-2313,-1118,"Mining desert",189,"Octojen");
 drawClaim(-2313,-3112,-2218,-2836,"Mining desert",116,"FaRo1");
 drawClaim(-10545,5834,-10375,6030,"Bry",118,"BryonyO5");
 drawClaim(-300,-3300,0,-3000,"DElyMyth's claim",119,"DElyMyth");

@@ -67,8 +67,6 @@ drawClaim(6061,-3462,6221,-3328,"ShinyRai's Home",111,"ShinyRai");
 drawClaim(6097,-3274,6101,-3268,"ShinyRai's AFK Raft",112,"ShinyRai");
 drawClaim(5985,-3294,6044,-3160,"ShinyRai's farm Island",113,"ShinyRai");
 drawClaim(-11685,5659,-10590,6642,"Mining mesa",114,"FaRo1");
-drawClaim(-5800,-3390,-2313,-1118,"Mining desert",189,"Octojen");
-drawClaim(-2313,-3112,-2218,-2836,"Mining desert",116,"FaRo1");
 drawClaim(-10545,5834,-10375,6030,"Bry",118,"BryonyO5");
 drawClaim(-300,-3300,0,-3000,"DElyMyth's claim",119,"DElyMyth");
 drawClaim(-2099,-1450,-1980,-1225,"silentrob's base",120,"silentrob");
@@ -114,4 +112,5 @@ drawClaim(3630,-1150,3980,-850,"The Deep",184,"SonOfRalph");
 drawClaim(5300,-1920,5500,-1650,"Runtels Isle",185,"Runtels");
 drawClaim(1700,3250,1800,3350,"Yumca's Purple fuzzball",186,"Yumca");
 drawClaim(837,4976,933,5062,"Wandering Trader Kidnapping Platform",187,"Yumca");
+drawClaim(1550,11800,1650,11900,"Yumca's 1.17 Mining Base",188,"Yumca");
 }

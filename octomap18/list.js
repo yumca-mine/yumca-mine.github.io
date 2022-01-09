@@ -2,7 +2,7 @@ octo18list.push("0,0");
 octo18list.push("1,0");
 octo18list.push("1,1");
 octo18list.push("-1,1");
-octo18list.push("-1.-1");
+octo18list.push("-1,-1");
 octo18list.push("2,0");
 octo18list.push("-2,0");
 octo18list.push("-2,1");

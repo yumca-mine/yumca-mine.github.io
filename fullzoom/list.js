@@ -31,6 +31,8 @@ fulllist.push("36,17");
 fulllist.push("39,-45");
 fulllist.push("39,-46");
 fulllist.push("39,-47");
+fulllist.push("39,-48");
+fulllist.push("39,-49");
 fulllist.push("40,-45");
 fulllist.push("40,-46");
 fulllist.push("40,-47");

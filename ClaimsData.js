@@ -116,4 +116,5 @@ drawClaim(1550,11800,1650,11900,"Yumca's 1.17 Mining Base",188,"Yumca");
 drawClaim(11083,409,12406,1536,"Mining desert",190,"FaRo1");
 drawClaim(-1000,-3200,-600,-2700,"LightningAussie",192,"LightningAussie");
 drawClaim(-2320,580,-2260,640,"KacerCat's claim",193,"KacerCat");
+drawClaim(-3130,230,-3094,281,"Developer_X's claim",194,"Developer X");
 }

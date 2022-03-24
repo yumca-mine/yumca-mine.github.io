@@ -79,7 +79,6 @@ drawClaim(-4263,3897,-4007,4153,"FobBob's claim",131,"FobBob");
 drawClaim(48,784,303,975,"IsleOfRuins",132,"Scottisheep");
 drawClaim(2540,550,2750,975,"FaeWorld",133,"FaeStar_YT");
 drawClaim(5255,2536,5355,2636,"Java's Fortress",135,"JavaMatrix");
-drawClaim(227,-1899,561,-1690,"FaRo's base",137,"FaRo1");
 drawClaim(695,2983,954,3242,"FaRo's public witch farm",142,"FaRo1");
 drawClaim(-8970,-400,-8760,-190,"LumaLand",149,"Lumaluma");
 drawClaim(1030,-50,1150,100,"KoEg82's claim",152,"KoEg82");
@@ -117,4 +116,5 @@ drawClaim(11083,409,12406,1536,"Mining desert",190,"FaRo1");
 drawClaim(-1000,-3200,-600,-2700,"LightningAussie",192,"LightningAussie");
 drawClaim(-2320,580,-2260,640,"KacerCat's claim",193,"KacerCat");
 drawClaim(-3130,230,-3094,281,"Developer_X's claim",194,"Developer X");
+drawClaim(320,-1985,703,-1729,"FaRo's base",195,"FaRo1");
 }

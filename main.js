@@ -889,10 +889,10 @@ if(document.getElementById("action").value==3)
 }
 if(document.getElementById("action").value==2)
 {
-	var LX=	Math.round(calculateX(Math.floor(ClickedList[ClickedList.length-1][0]/16)*16-160));
-	var RX=	Math.round(calculateX(Math.floor(ClickedList[ClickedList.length-1][0]/16)*16+176));
-	var TY= Math.round(calculateY(Math.floor(ClickedList[ClickedList.length-1][1]/16)*16-160));
-	var BY=	Math.round(calculateY(Math.floor(ClickedList[ClickedList.length-1][1]/16)*16+176));
+	var LX=	Math.round(calculateX(Math.floor(ClickedList[ClickedList.length-1][0]/16)*16-(16*24)));
+	var RX=	Math.round(calculateX(Math.floor(ClickedList[ClickedList.length-1][0]/16)*16+(16*(24+1))));
+	var TY= Math.round(calculateY(Math.floor(ClickedList[ClickedList.length-1][1]/16)*16-(16*24)));
+	var BY=	Math.round(calculateY(Math.floor(ClickedList[ClickedList.length-1][1]/16)*16+(16*(24+1))));
 	ctx.strokeStyle="rgba(255,255,255,1)";
 	ctx.fillStyle="rgba(80,80,80,0.3)";
 	ctx.beginPath();

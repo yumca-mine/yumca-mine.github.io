@@ -119,4 +119,5 @@ drawClaim(-3130,230,-3094,281,"Developer_X's claim",194,"Developer X");
 drawClaim(320,-1985,703,-1729,"FaRo's base",195,"FaRo1");
 drawClaim(-10200,2000,-9890,2400,"Deltaflight\’s Base",196,"Deltaflight");
 drawClaim(-9598,3487,-9425,3747,"MarkoTrinpa's cave base",197,"Markotrinpa");
+drawClaim(-2580,3445,-3034,3163,"Sunset City", 198,"jazz_box");
 }

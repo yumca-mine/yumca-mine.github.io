@@ -122,4 +122,5 @@ drawClaim(-9598,3487,-9425,3747,"MarkoTrinpa's cave base",197,"Markotrinpa");
 drawClaim(-2580,3445,-3034,3163,"Sunset City", 198,"jazz_box");
 //drawClaim(13561,-8912,16374,-8822,"JochCool's Outpost",199,"JochCool");
 drawClaim(1764,-3234,1849,-3176,"vegguid's Raid farm",200,"vegguid");
+drawClaim(1165,3956,1225,4019,"seallz' village",201,"seallz");
 }

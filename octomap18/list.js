@@ -24,6 +24,7 @@ octo18list.push("3,0");
 octo18list.push("3,1");
 octo18list.push("3,-1");
 octo18list.push("-3,1");
+octo18list.push("3,-2");
 octo18list.push("-3,2");
 octo18list.push("-3,7");
 octo18list.push("4,0");

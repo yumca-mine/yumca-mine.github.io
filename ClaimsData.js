@@ -126,5 +126,5 @@ drawClaim(1328,1328,1343,1343,"MetalManiacMc's Chunk",203,"MetalManiacMc");
 drawClaim(16375,-8911,16531,-8826,"JochCool's Outpost",204,"JochCool");
 drawClaim(-1834,-2555,-1784,-2478,"Tearlach47",205,"Tearlach47");
 drawClaim(-1860,-1100,-1545,-720,"InquisiCat",206,"InquisiCat");
-drawClaim(10272,-5568,10367,-5489,"Public Raid Farm",206,"JurassicBeast");
+drawClaim(10272,-5568,10367,-5489,"Public Raid Farm",210,"JurassicBeast");
 }

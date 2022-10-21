@@ -109,7 +109,6 @@ drawClaim(450,1500,550,1600,"Octarine Sanctuary",182,"Yumca");
 drawClaim(-1370,-1982,-1127,-1773,"octojen's claim",183,"octojen");
 drawClaim(3630,-1150,3980,-850,"The Deep",184,"SonOfRalph");
 drawClaim(5300,-1920,5500,-1650,"Runtels Isle",185,"Runtels");
-drawClaim(1700,3250,1800,3350,"Yumca's Purple fuzzball",186,"Yumca");
 drawClaim(837,4976,933,5062,"Wandering Trader Kidnapping Platform",187,"Yumca");
 drawClaim(1550,11800,1650,11900,"Yumca's 1.17 Mining Base",188,"Yumca");
 drawClaim(11083,409,12406,1536,"Mining desert",190,"FaRo1");
@@ -127,4 +126,6 @@ drawClaim(16375,-8911,16531,-8826,"JochCool's Outpost",204,"JochCool");
 drawClaim(-1834,-2555,-1784,-2478,"Tearlach47",205,"Tearlach47");
 drawClaim(-1860,-1100,-1545,-720,"InquisiCat",206,"InquisiCat");
 drawClaim(10272,-5568,10367,-5489,"Public Raid Farm",210,"JurassicBeast");
+drawClaim(-980,300,-813,467,"Find Yourself",211,"Yumca");
+drawClaim(1472,3008,1855,3391,"YumOctMapZone",212,"Yumca");
 }

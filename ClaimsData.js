@@ -129,4 +129,5 @@ drawClaim(10272,-5568,10367,-5489,"Public Raid Farm",210,"JurassicBeast");
 drawClaim(-980,300,-813,467,"Find Yourself",211,"Yumca");
 drawClaim(1472,3008,1855,3391,"YumOctMapZone",212,"Yumca");
 drawClaim(10400,-5920,10559,-5777,"Public Pillager Farm",213,"JurassicBeast");
+drawClaim(62,-2382,110,-2341,"Thomas' Temple","ThomasToSpace");
 }

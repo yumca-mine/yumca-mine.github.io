@@ -131,4 +131,5 @@ drawClaim(1472,3008,1855,3391,"YumOctMapZone",212,"Yumca");
 drawClaim(10400,-5920,10559,-5777,"Public Pillager Farm",213,"JurassicBeast");
 drawClaim(62,-2382,110,-2341,"Thomas' Temple",214,"ThomasToSpace");
 drawClaim(-3722,-423,-3599,-284,"SportyPompano's claim",216,"SportyPompano");
+drawclaim(2000,-1200,2300,-1000,"F1000's claim",215,"F1000");
 }

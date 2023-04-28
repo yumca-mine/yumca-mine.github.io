@@ -134,4 +134,5 @@ drawClaim(2000,-1200,2300,-1000,"F1000's claim",215,"F1000");
 drawClaim(-3722,-423,-3599,-284,"SportyPompano's claim",216,"SportyPompano");
 drawClaim(-64,15984,63,16127,"JochCool's claim",217,"JochCool");
 drawClaim(-4020,-3291,-3887,-3160,"Sandy_Coyote's base",218,"Sandy Coyote");
+drawClaim(-6641,-2865,-6560,-2784,"bl4ck's and Redstone's base",219,"Redstone_Dubstep");
 }

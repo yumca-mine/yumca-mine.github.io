@@ -107,7 +107,6 @@ drawClaim(6160,-1960,6555,-1725,"Triagonal’s Flower Forest",179,"triagonal_sig
 drawClaim(700,1350,1050,1750,"Yumca's Atoll",180,"Yumca");
 drawClaim(450,1500,550,1600,"Octarine Sanctuary",182,"Yumca");
 drawClaim(-1370,-1982,-1127,-1773,"octojen's claim",183,"octojen");
-drawClaim(3630,-1150,3980,-850,"The Deep",184,"SonOfRalph");
 drawClaim(5300,-1920,5500,-1650,"Runtels Isle",185,"Runtels");
 drawClaim(837,4976,933,5062,"Wandering Trader Kidnapping Platform",187,"Yumca");
 drawClaim(1550,11800,1650,11900,"Yumca's 1.17 Mining Base",188,"Yumca");
@@ -135,4 +134,5 @@ drawClaim(-3722,-423,-3599,-284,"SportyPompano's claim",216,"SportyPompano");
 drawClaim(-64,15984,63,16127,"JochCool's claim",217,"JochCool");
 drawClaim(-4020,-3291,-3887,-3160,"Sandy_Coyote's base",218,"Sandy Coyote");
 drawClaim(-6641,-2865,-6560,-2784,"bl4ck's and Redstone's base",219,"Redstone_Dubstep");
+drawClaim(3630,-1380,-3980,-800,"The Deep",220,"SonOfRalph");
 }

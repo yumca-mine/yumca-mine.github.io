@@ -135,4 +135,5 @@ drawClaim(-64,15984,63,16127,"JochCool's claim",217,"JochCool");
 drawClaim(-4020,-3291,-3887,-3160,"Sandy_Coyote's base",218,"Sandy Coyote");
 drawClaim(-6641,-2865,-6560,-2784,"bl4ck's and Redstone's base",219,"Redstone_Dubstep");
 drawClaim(3630,-1380,3980,-800,"The Deep",221,"SonOfRalph");
+drawClaim(1763,-2342,2022,-2149,"MagnarIUK's base",222,"MagnarIUK");
 }

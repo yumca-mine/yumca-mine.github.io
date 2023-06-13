@@ -165,8 +165,8 @@ function init()
 	var P_overlay=false;
 	var P_overlaytrim=false;
 	var P_claims=true;
-	var P_octomap=true;
-	var P_octomap18=false;
+	var P_octomap=false;
+	var P_octomap18=true;
 	
 	if(readCookie("C_fontsize")=="true") P_fontsize=true;
 	if(readCookie("C_overlay0")=="true") P_overlay0=true;

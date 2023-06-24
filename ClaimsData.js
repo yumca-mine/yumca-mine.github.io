@@ -98,7 +98,7 @@ drawClaim(-711,1516,-360,1878,"Southpaw1496's Industrial District",166,"CatObses
 drawClaim(1710,664,1835,720,"GianSmile´s base",169,"GianSmile");
 drawClaim(6235,275,6430,410,"Unicorn Mountain",170,"M4ngolicious");
 drawClaim(4544,2112,4671,2239,"Sunny Postcard",171,"Yumca");
-drawClaim(4928,-6336,5567,-5697,"Cookieteers' Map Art Area",173,"MineCrp");
+drawClaim(4928,-6464,5695,-5696,"Cookieteers' Map Art Area",173,"MineCrp");
 drawClaim(-2860,840,-2230,1320,"blufony's mountains",174,"blufony");
 drawClaim(-1250,-1170,-1165,-1070,"Octojen's southern lookout",175,"octojen");
 drawClaim(-10232,5881,-9994,6118,"reserved for future public amethyst farm",176,"FaRo1");

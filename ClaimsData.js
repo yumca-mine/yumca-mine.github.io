@@ -80,7 +80,7 @@ drawClaim(48,784,303,975,"IsleOfRuins",132,"Scottisheep");
 drawClaim(2540,550,2750,975,"FaeWorld",133,"FaeStar_YT");
 drawClaim(5255,2536,5355,2636,"Java's Fortress",135,"JavaMatrix");
 drawClaim(695,2983,954,3242,"FaRo's public witch farm",142,"FaRo1");
-drawClaim(-8970,-400,-8760,-190,"LumaLand",149,"Lumaluma");
+drawClaim(-9150,-690,-8300,116,"LumaLand",228,"Lumaluma");
 drawClaim(1030,-50,1150,100,"KoEg82's claim",152,"KoEg82");
 drawClaim(1501,-983,1547,-934,"Craters",154,"FaRo1");
 drawClaim(2951,-1699,3201,-1419,"LucaREz's aquarium",155,"LucaREz");

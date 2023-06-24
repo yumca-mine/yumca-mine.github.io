@@ -138,4 +138,5 @@ drawClaim(3630,-1380,3980,-800,"The Deep",221,"SonOfRalph");
 drawClaim(1763,-2342,2022,-2149,"MagnarIUK's base",222,"MagnarIUK");
 drawClaim(1650,-2343,1760,-2150,"MagnarIUK's underwater base",223,"MagnarIUK");
 drawClaim(-8700,11290,-8365,11500,"pewet's claim",225,"pewet");
+drawClaim(-6175,-5240,-5925,-5500,"Community Mangrove Swamp House",226,"Lumaluma");
 }

@@ -139,5 +139,5 @@ drawClaim(1650,-2343,1760,-2150,"MagnarIUK's underwater base",223,"MagnarIUK");
 drawClaim(-8700,11290,-8365,11500,"pewet's claim",225,"pewet");
 drawClaim(-5500,-6175,-5240,-5925,"Community Mangrove Swamp plus House",227,"Lumaluma");
 drawClaim(4000,5200,4600,5800,"Niar's base",229,"niar314");
-drawClaim(6605,-2430,6625,-2403,"Hellession's Abode",232,"Hellession");
+drawClaim(6595,-2443,6627,-2392,"Hellession's Abode",231,"Hellession");
 }

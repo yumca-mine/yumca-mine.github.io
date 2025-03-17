@@ -140,4 +140,5 @@ drawClaim(-5500,-6175,-5240,-5925,"Community Mangrove Swamp plus House",227,"Lum
 drawClaim(4000,5200,4600,5800,"Niar's base",229,"niar314");
 drawClaim(6595,-2443,6627,-2392,"Hellession's Abode",231,"Hellession");
 drawClaim(-2500,450,-2222,750,"The Sunset Valley",235,"Kacer__");
+drawClaim(-3200,-1900,-2800,-1500,"Epic's Meadow Mountain",236,"EpicGamerX125");
 }

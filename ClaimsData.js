@@ -142,4 +142,5 @@ drawClaim(6595,-2443,6627,-2392,"Hellession's Abode",231,"Hellession");
 drawClaim(-2500,450,-2222,750,"The Sunset Valley",235,"Kacer__");
 drawClaim(-3200,-1900,-2800,-1500,"Epic's Meadow Mountain",236,"EpicGamerX125");
 drawClaim(-6300,7000,-6000,7400,"Martian Meadows",237,"EnderMars21");
+drawClaim(-6097,6912,-6017,6992,"EnderMars' Pillager Farm",238,"EnderMars21");
 }
